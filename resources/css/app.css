@@ -1,3 +1,135 @@
+@import url('https://unpkg.com/boxicons@latest/css/boxicons.min.css');
+:root {
+    --light: #edf2f9;
+    --dark: #454D55;
+    --darker: #343A40;
+    /*  */
+    --color-primary: var(--color-cyan);
+    --color-primary-50: var(--color-cyan-50);
+    --color-primary-100: var(--color-cyan-100);
+    --color-primary-light: var(--color-cyan-light);
+    --color-primary-lighter: var(--color-cyan-lighter);
+    --color-primary-dark: var(--color-cyan-dark);
+    --color-primary-darker: var(--color-cyan-darker);
+    /*  */
+    --color-green: #16a34a;
+    --color-green-50: #f0fdf4;
+    --color-green-100: #dcfce7;
+    --color-green-light: #22c55e;
+    --color-green-lighter: #4ade80;
+    --color-green-dark: #15803d;
+    --color-green-darker: #166534;
+    /*  */
+    --color-blue: #2563eb;
+    --color-blue-50: #eff6ff;
+    --color-blue-100: #dbeafe;
+    --color-blue-light: #3b82f6;
+    --color-blue-lighter: #60a5fa;
+    --color-blue-dark: #1d4ed8;
+    --color-blue-darker: #1e40af;
+    /*  */
+    --color-cyan: #0891b2;
+    --color-cyan-50: #ecfeff;
+    --color-cyan-100: #cffafe;
+    --color-cyan-light: #06b6d4;
+    --color-cyan-lighter: #22d3ee;
+    --color-cyan-dark: #0e7490;
+    --color-cyan-darker: #155e75;
+    /*  */
+    --color-teal: #0d9488;
+    --color-teal-50: #f0fdfa;
+    --color-teal-100: #ccfbf1;
+    --color-teal-light: #14b8a6;
+    --color-teal-lighter: #2dd4bf;
+    --color-teal-dark: #0f766e;
+    --color-teal-darker: #115e59;
+    /*  */
+    --color-fuchsia: #c026d3;
+    --color-fuchsia-50: #fdf4ff;
+    --color-fuchsia-100: #fae8ff;
+    --color-fuchsia-light: #d946ef;
+    --color-fuchsia-lighter: #e879f9;
+    --color-fuchsia-dark: #a21caf;
+    --color-fuchsia-darker: #86198f;
+    /*  */
+    --color-violet: #b91725;
+    --color-violet-50: #f5f3ff;
+    --color-violet-100: #ede9fe;
+    --color-violet-light: #8b5cf6;
+    --color-violet-lighter: #a78bfa;
+    --color-violet-dark: #6d28d9;
+    --color-violet-darker: #5b21b6;
+
+    --color-red: red;
+    --color-red-50: #796063;
+    --color-red-100: #917070;
+    --color-red-light: #ad4b4d;
+    --color-red-lighter: #915257;
+    --color-red-dark: #b91725;
+    --color-red-darker: #6c0509;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+    .navMenuLink {
+        @apply m-2 px-3 py-2 flex justify-start rounded-md gap-2  text-gray-600 dark:text-gray-200 hover:bg-purple-600 hover:text-white;
+    }
+    .subNavMenuLink {
+        @apply mx-2 pl-5 py-2 flex justify-start rounded-md gap-2 hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-gray-100;
+    }
+    .navActive {
+        @apply bg-purple-600 text-white;
+    }
+    .navInactive {
+        @apply text-gray-700 dark:text-gray-200;
+    }
+    .subNavActive {
+        @apply bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-100;
+    }
+    .subNavInactive {
+        @apply text-gray-500 dark:text-gray-300;
+    }
+    .active-submenu {
+        @apply text-gray-800 dark:text-white;
+    }
+    .submenu-link {
+        @apply inline-flex items-center w-full font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-white;
+    }
+    .active {
+        @apply text-purple-700 dark:text-purple-400;
+    }
+    .sidebar-link {
+        @apply inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-purple-700 dark:hover:text-purple-400;
+    }
+    .sidebar-button {
+        @apply inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200;
+    }
+}
+@layer base {
+    .py-navbar-item {
+        @apply py-6
+    }
+
+    .pt-navbar-item {
+        @apply pt-6
+    }
+
+    .pb-navbar-item {
+        @apply pb-6
+    }
+
+    .px-navbar-item {
+        @apply px-3
+    }
+
+    .pl-navbar-item {
+        @apply pl-3
+    }
+
+    .pr-navbar-item {
+        @apply pr-3
+    }
+}
+
