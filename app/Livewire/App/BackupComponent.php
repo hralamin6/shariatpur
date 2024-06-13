@@ -12,6 +12,7 @@ use function Laravel\Prompts\alert;
 class BackupComponent extends Component
 {
     use LivewireAlert;
+    public $output;
 
     public function bytesToHumanReadable($bytes, $decimalPlaces = 2) {
         if ($bytes < 0) {
@@ -39,7 +40,8 @@ class BackupComponent extends Component
 
     public function backupCreate()
     {
-        Artisan::call('migrate');
+        Artisan::call('backup:run');
+       $this->output = Artisan::output();
         $this->alert('success', __('Backup created successfully!'));
 
     }

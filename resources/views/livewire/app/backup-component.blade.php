@@ -2,6 +2,7 @@
     <button wire:click="backupCreate()" class="capitalize text-center mx-auto my-8 rounded-full px-6 py-3 bg-blue-500 text-white">
         @lang('create backup')
     </button>
+    <code>{{$output}}</code>
     <div class="w-full overflow-x-auto">
         <table class="w-full whitespace-no-wrap">
             <thead>
