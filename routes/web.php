@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 Route::get('backup' , function (){
-    \Illuminate\Support\Facades\Artisan::call('icons:clear');
+    \Illuminate\Support\Facades\Artisan::call('backup:run');
     return \Illuminate\Support\Facades\Artisan::output();
 });
 Route::get('put', function() {
