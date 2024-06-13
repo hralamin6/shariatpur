@@ -9,6 +9,7 @@ class DashboardComponent extends Component
 {
     public function render()
     {
+        $this->authorize('app.dashboard');
         $users = User::all();
 
         return view('livewire.app.dashboard-component', compact('users'));

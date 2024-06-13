@@ -106,7 +106,7 @@
         }
     </script>
 </head>
-<body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none">
+<body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="">
 
 @yield('body')
 <script src="{{ asset('js/sa.js') }}"></script>

@@ -133,3 +133,42 @@
     }
 }
 
+@page {
+    size: auto;
+    margin: 0;
+}
+@font-face {
+    font-family: MyFont;
+    /*src: url("../../public/font/a.t");*/
+}
+[x-cloak] {
+    display: none;
+}
+.scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+@media print {
+    @page {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    body {
+        padding-top: 72px;
+        padding-bottom: 72px ;
+    }
+}
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 50vh;
+    background: #f7f4ed;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 50vh;
+    border: 1px solid #f6f7ed;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
+}

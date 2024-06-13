@@ -20,11 +20,17 @@
         <div class="capitalize">
 
 
-                <a href="{{route('app.dashboard')}}" wire:navigate class="navMenuLink {{Route::is('app.dashboard')?'navActive':'navInactive'}}">
-                    <x-h-o-home class="w-6"/><span class="">@lang('dashboard')</span>
+                <a href="{{route('app.dashboard')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.dashboard')?'navActive':'navInactive'}}">
+                    <i class='bx bx-home text-xl'></i><span class="">@lang('dashboard')</span>
                 </a>
-                <a href="{{route('app.roles')}}" wire:navigate class="navMenuLink {{Route::is('app.roles')?'navActive':'navInactive'}}">
-                    <x-h-o-users class="w-6"/><span class="">@lang('roles')</span>
+                <a href="{{route('app.roles')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.roles')?'navActive':'navInactive'}}">
+                    <i class='bx bx-shield text-xl'></i><span class="">@lang('roles')</span>
+                </a>
+                <a href="{{route('app.users')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.users')?'navActive':'navInactive'}}">
+                    <i class='bx bx-user text-xl'></i><span class="">@lang('users')</span>
+                </a>
+                <a href="{{route('app.backups')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.backups')?'navActive':'navInactive'}}">
+                    <i class='bx bx-setting text-xl'></i><span class="">@lang('backups')</span>
                 </a>
 {{--                <a href="{{route('categories')}}" class="navMenuLink {{Route::is('categories')?'navActive':'navInactive'}}">--}}
 {{--                    <x-h-o-cube-transparent class="w-6"/><span class="">@lang('categories')</span>--}}

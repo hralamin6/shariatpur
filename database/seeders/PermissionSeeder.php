@@ -20,6 +20,7 @@ class PermissionSeeder extends Seeder
             'name' => 'access dashboard',
             'slug' => 'app.dashboard',
         ]);
+
         $moduleAppRole = Module::updateOrCreate(['name' => 'Role Management']);
         Permission::updateOrCreate([
             'module_id' => $moduleAppRole->id,
@@ -41,6 +42,7 @@ class PermissionSeeder extends Seeder
             'name' => 'delete role',
             'slug' => 'app.roles.delete',
         ]);
+
         $moduleAppUser = Module::updateOrCreate(['name' => 'User Management']);
         Permission::updateOrCreate([
             'module_id' => $moduleAppUser->id,

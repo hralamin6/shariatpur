@@ -1,8 +1,10 @@
-@props(['disabled' => false, 'error'])
+@props(['disabled' => false, 'errorName'=>null])
 
-@if($errors->has($error))
-    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => "text-red-400 border border-red-500 focus:border-red-500 block  focus:outline-none w-full mt-1 text-sm  dark:bg-gray-700 form-input"]) !!}>
+@if($errors->has($errorName  ))
+    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => "text-red-400 border border-red-500 focus:border-red-500 block rounded-md focus:outline-none w-full mt-1 text-sm  dark:bg-dark dark:text-gray-300 form-input"]) !!}>
+    @error($errorName)<p class="text-sm text-red-500 font-medium">{{ $message }}</p>@enderror
+
 @else
 
-    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => "dark:text-gray-300 dark:border-gray-600 focus:border-purple-400 block  focus:outline-none w-full mt-1 text-sm  dark:bg-gray-700 form-input"]) !!}>
+    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => "dark:bg-dark dark:text-gray-300 focus:border-purple-400 block rounded-md focus:outline-none w-full mt-1 text-sm  dark:bg-gray-700 form-input"]) !!}>
 @endif
