@@ -1,8 +1,43 @@
 <div class="mb-1 overflow-y-scroll scrollbar-none">
-    <button wire:click="backupCreate()" class="capitalize text-center mx-auto my-8 rounded-full px-6 py-3 bg-blue-500 text-white">
-        @lang('create backup')
-    </button>
-    <code>{{$output}}</code>
+    <div class="flex justify-between gap-4 mb-2 capitalize">
+        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">@lang("all backups")</p>
+        <div class="flex text-sm gap-1">
+            <a href="{{route('app.backups')}}" wire:navigate class="text-blue-500 dark:text-blue-400">@lang("dashboard")</a>
+            <span class="text-gray-500 dark:text-gray-200">/</span>
+            <span class="text-gray-500 dark:text-gray-300">@lang("backups")</span>
+        </div>
+    </div>
+    <div class="mx-auto my-2 text-center flex justify-between">
+        @can("app.backups.create")
+            <x-secondary-button
+                wire:click="backupCreate()">
+                <!-- Button text -->
+                <span class="block" wire:loading.remove wire:target="backupCreate">@lang('create backup')</span>
+
+                <!-- Loading spinner -->
+                <svg
+                    class="w-5 h-5 mx-auto text-white animate-spin block"
+                    wire:loading wire:target="backupCreate"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 00-6 6h2a4 4 0 01-4-4z"></path>
+                </svg>
+            </x-secondary-button>
+        @endcan
+
+        @can("app.backups.delete")
+            <x-secondary-button wire:click.prevent="backupClean">
+                @lang('clear backup')
+            </x-secondary-button>
+        @endcan
+
+    </div>
+
+
+{{--    <code>{{$output}}</code>--}}
     <div class="w-full overflow-x-auto">
         <table class="w-full whitespace-no-wrap">
             <thead>
@@ -22,19 +57,24 @@
             @foreach($backups as $i => $backup)
                 <tr wire:key="{{$i}}" class="text-gray-700 dark:text-gray-400 capitalize">
                     <td class="px-4 py-3 text-xs">{{$i+1}}</td>
-                    <td class="px-4 py-3 text-xs"> <code>{{$backup['file_name']}}</code> </td>
+                    <td class="px-4 py-3 text-xs text-purple-500"> <code>{{$backup['file_name']}}</code> </td>
                     <td class="px-4 py-3 text-xs">{{$backup['file_size']}}</td>
                     <td class="px-4 py-3 text-xs">{{$backup['created_at']}}</td>
                     <td  class="px-4 py-3 text-sm">
-                        <button @click="editModal('{{$backup['file_name']}}')"
-                                class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-                            <x-h-o-pencil-square class="text-green-400"/>
-                        </button>
-                        <button
-                            @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'It is not revertable', icon: 'error',actionName: 'diskDelete', itemId: '{{$backup['file_name']}}' })"
-                            class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
-                            <x-h-o-trash class="text-red-400"/>
-                        </button>
+                        @can("app.backups.download")
+                            <button wire:click.prevent="backupDownload('{{$backup['file_name']}}')"
+                                    class="text-green-500 transition-colors duration-200 dark:hover:text-green-600 dark:text-green-500 hover:text-green-600 focus:outline-none">
+                                <i class='bx bx-download text-2xl'></i>
+                            </button>
+                        @endcan
+
+                        @can("app.backups.delete")
+                            <button
+                                @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'It is not revertable', icon: 'error',actionName: 'diskDelete', itemId: '{{$backup['file_name']}}' })"
+                                class="text-red-500 transition-colors duration-200 dark:hover:text-red-600 dark:text-red-300 hover:text-red-600 focus:outline-none">
+                                <i class='bx bx-trash text-2xl'></i>
+                            </button>
+                        @endcan
                     </td>
                 </tr>
 

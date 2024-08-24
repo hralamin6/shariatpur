@@ -45,10 +45,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @laravelPWA
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.8/push.min.js" integrity="sha512-eiqtDDb4GUVCSqOSOTz/s/eiU4B31GrdSb17aPAA4Lv/Cjc8o+hnDvuNkgXhSI5yHuDvYkuojMaQmrB5JB31XQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--}}
-
-
     <script>
         const setup = () => {
+
             const getTheme = () => {
                 if (window.localStorage.getItem('dark')) {
                     return JSON.parse(window.localStorage.getItem('dark'))
@@ -62,13 +61,16 @@
             }
 
             const getColor = () => {
+
                 if (window.localStorage.getItem('color')) {
                     return window.localStorage.getItem('color')
                 }
-                return 'cyan'
+
+                return 'green'
             }
 
             const setColors = (color) => {
+                console.log(color)
                 const root = document.documentElement
                 root.style.setProperty('--color-primary', `var(--color-${color})`)
                 root.style.setProperty('--color-primary-50', `var(--color-${color}-50)`)
@@ -91,20 +93,21 @@
                     this.isDark = !this.isDark
                     setTheme(this.isDark)
                 },
-                setLightTheme() {
-                    this.isDark = false
-                    setTheme(this.isDark)
-                },
-                setDarkTheme() {
-                    this.isDark = true
-                    setTheme(this.isDark)
-                },
+
                 color: getColor(),
-                selectedColor: 'cyan',
+                selectedColor: 'green',
                 setColors,
+                init(){
+                    setColors(this.color)
+                }
+
+
+
             }
         }
     </script>
+
+
 </head>
 <body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="">
 

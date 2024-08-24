@@ -64,5 +64,29 @@ class PermissionSeeder extends Seeder
             'name' => 'delete user',
             'slug' => 'app.users.delete',
         ]);
+
+
+
+        $moduleAppBackup = Module::updateOrCreate(['name' => 'Backup Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppBackup->id,
+            'name' => 'access backup',
+            'slug' => 'app.backups.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppBackup->id,
+            'name' => 'create backup',
+            'slug' => 'app.backups.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppBackup->id,
+            'name' => 'download backup',
+            'slug' => 'app.backups.download',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppBackup->id,
+            'name' => 'delete backup',
+            'slug' => 'app.backups.delete',
+        ]);
     }
 }

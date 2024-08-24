@@ -27,6 +27,8 @@ class BackupComponent extends Component
 
     public function diskDelete($file_name)
     {
+        $this->authorize('app.backups.delete');
+
         $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
         if ($disk->exists(config('backup.backup.name'). '/'.$file_name)) {
             $disk->delete(config('backup.backup.name'). '/'.$file_name);
@@ -40,13 +42,46 @@ class BackupComponent extends Component
 
     public function backupCreate()
     {
+        $this->authorize('app.backups.create');
+
         Artisan::call('backup:run');
        $this->output = Artisan::output();
         $this->alert('success', __('Backup created successfully!'));
 
     }
+    public function backupClean()
+    {
+        $this->authorize('app.backups.delete');
+
+        Artisan::call('backup:clean');
+       $this->output = Artisan::output();
+        $this->alert('success', __('Backup cleaned successfully!'));
+
+    }
+
+    public function backupDownload($file_name)
+    {
+        $this->authorize('app.backups.download');
+
+        $file = config('backup.backup.name'). '/'.$file_name;
+        $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
+        if ($disk->exists($file)) {
+            return response()->stream(
+                function () use ($file) {
+                    echo Storage::get($file);
+                },
+                200,
+                [
+                    'Content-Type' => Storage::mimeType($file),
+                    'Content-Disposition' => 'attachment; filename="' . basename($file) . '"',
+                ]
+            );
+        }
+    }
     public function render()
     {
+        $this->authorize('app.backups.index');
+
         $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
         $files = $disk->files(config('backup.backup.name'));
         $backups = [];
@@ -65,4 +100,5 @@ class BackupComponent extends Component
         }
         return view('livewire.app.backup-component', compact('backups'));
     }
+
 }

@@ -1,12 +1,20 @@
 <div  class="m-0 md:m-2 capitalize" x-data="user()">
+    <div class="flex justify-between gap-4 mb-2 capitalize">
+        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">@lang("all users")</p>
+        <div class="flex text-sm gap-1">
+            <a href="{{route('app.dashboard')}}" wire:navigate class="text-blue-500 dark:text-blue-400">@lang("dashboard")</a>
+            <span class="text-gray-500 dark:text-gray-200">/</span>
+            <span class="text-gray-500 dark:text-gray-300">@lang("users")</span>
+        </div>
+    </div>
     <main class="h-full">
+        @can("app.users.create")
         <div class="sm:flex sm:items-center sm:justify-between">
             <div>
                 <div class="flex items-center gap-x-3">
                     <h2 class="text-lg font-medium text-gray-800 dark:text-white">@lang('users')</h2>
 
-                    <span
-                        class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">@lang('total'): {{ $items->total() }}</span>
+                    <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">@lang('total'): {{ $items->total() }}</span>
                 </div>
             </div>
 
@@ -24,6 +32,7 @@
                 </button>
             </div>
         </div>
+        @endcan
 
         <div class="mt-6 md:flex md:items-center md:justify-between capitalize">
             <div
@@ -47,15 +56,15 @@
 
             <div class="flex items-center justify-between space-x-2 capitalize">
                 <div class=" mt-4 md:mt-0 w-24 md:w-48">
-                    <x-text-input wire:model.blur="itemPerPage" type="number" class="appearance-hidden dark:bg-darker"/>
+                    <input wire:model.live.debounce.500ms="itemPerPage" type="number" class="block w-full py-1.5 text-gray-500 bg-white border border-gray-200 rounded-lg md:w-40 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-darker dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
                 </div>
                 <div class="relative flex items-center mt-4 md:mt-0">
             <span class="absolute">
                 <x-h-o-magnifying-glass class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"/>
             </span>
-                    <input wire:model.blur="search" type="text" placeholder="Search"
-                           class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-darker dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
-                    <select id="searchBy" wire:model.live="searchBy" class="dark:bg-darker capitalize">
+                    <input wire:model.live.debounce.500ms="search" type="text" placeholder="Search"
+                           class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-1/2 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-darker dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+                    <select id="searchBy" wire:model.live="searchBy" class="block w-full py-1.5 pr-5 text-gray-500 bg-white border border-gray-200 rounded-lg md:w-1/2 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-darker dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
                         <option value="name">@lang('name')</option>
                         <option value="email">@lang('email')</option>
                         <option value="address">@lang('address')</option>
@@ -72,12 +81,14 @@
                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                         <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <table class="border border-collapse min-w-full">
                                 <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr class="text-center object-cover items-center h-10 text-nowrap">
                                     <th class="pl-2 flex items-center justify-between mt-4">
-                                        <input x-model="selectPage" type="checkbox"
-                                               class="justify-between text-blue-500 border-gray-300 rounded dark:bg-darker dark:ring-offset-gray-900 dark:border-gray-700">
+                                        @can("app.users.delete")
+                                            <input x-model="selectPage" type="checkbox"
+                                                   class="justify-between text-blue-500 border-gray-300 rounded dark:bg-darker dark:ring-offset-gray-900 dark:border-gray-500">
+                                        @endcan
                                         <div x-cloak x-show="rows.length > 0 " class="flex items-center justify-center"
                                              x-data="{bulk: false}">
                                             <div class="relative inline-block">
@@ -112,8 +123,7 @@
                                              :field="'phone'">@lang('phone')</x-field>
                                     <x-field :OB="$orderBy" :OD="$orderDirection"
                                              :field="'address'">@lang('address')</x-field>
-                                    <x-field :OB="$orderBy" :OD="$orderDirection"
-                                             :field="'type'">@lang('type')</x-field>
+                                    <x-field>@lang('type')</x-field>
                                     <x-field :OB="$orderBy" :OD="$orderDirection"
                                              :field="'last_seen'">@lang('last seen')</x-field>
                                     <x-field>@lang('action')</x-field>
@@ -124,9 +134,12 @@
                                 <tbody class="bg-white truncate divide-y divide-gray-200 dark:divide-gray-700 dark:bg-darker">
                                 @forelse($items as $i => $item)
 
-                                    <tr @if($loadId==$item->id) wire:scroll @endif id="item-id-{{$item->id}}" class="@if($loadId==$item->id) dark:bg-gray-500 bg-green-100 animate-pulse @endif text-gray-700 dark:text-gray-300 capitalize" :class="{'bg-gray-200 dark:bg-gray-600': rows.includes('{{$item->id}}') }">
+                                    <tr id="item-id-{{$item->id}}" class="text-gray-700 dark:text-gray-300 capitalize text-center object-cover items-center" :class="{'bg-gray-200 dark:bg-gray-600': rows.includes('{{$item->id}}') }">
                                         <td class="max-w-48 truncate pl-2">
-                                            <input x-model="rows" value="{{$item->id}}" id="{{ $item->id }}" type="checkbox" class="justify-between text-blue-500 border-gray-300 rounded dark:bg-darker dark:ring-offset-gray-900 dark:border-gray-700">
+                                            @can("app.users.delete")
+                                                <input x-model="rows" value="{{$item->id}}" id="{{ $item->id }}" type="checkbox" class="justify-between text-blue-500 border-gray-300 rounded dark:bg-darker dark:ring-offset-gray-900 dark:border-gray-500">
+                                            @endcan
+
                                         </td>
 
                                         <td class="max-w-48 truncate px-4 text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -156,18 +169,23 @@
                                         <td class="max-w-48 truncate text-sm font-normal {{ $item->type=='blogger'?'text-emerald-500':($item->role->name=='admin'?'text-pink-500':'text-green-500')}} ">{{ $item->role->name}}</td>
                                         <td class="max-w-48 truncate px-4 py-3 text-sm">{{\Carbon\Carbon::parse($item->last_seen)->diffForHumans(null, true, true)}}</td>
 
-                                        <td class="max-w-48 truncate px-4 text-sm whitespace-nowrap">
-                                            <div class="flex items-center gap-x-6">
-                                                <button @click="editModal('{{$item->id}}')"
-                                                        class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-                                                    <x-h-o-pencil-square class="text-green-400"/>
-                                                </button>
-
-                                                <button
-                                                    @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'It is not revertable', icon: 'error',actionName: 'deleteSingle', itemId: {{$item->id}} })"
-                                                    class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
-                                                    <x-h-o-trash class="text-red-400"/>
-                                                </button>
+                                        <td class="max-w-48  truncate px-4 text-sm whitespace-nowrap">
+                                            <div class="flex justify-between text-center gap-x-6">
+                                                @can("app.users.edit")
+                                                    <button @click="editModal('{{$item->id}}')"
+                                                            class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+                                                        <x-h-o-pencil-square class="text-green-400"/>
+                                                    </button>
+                                                @endcan
+                                                    @can("app.users.delete")
+                                                        @if($item->role->id!=1)
+                                                            <button
+                                                                @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'It is not revertable', icon: 'error',actionName: 'deleteSingle', itemId: {{$item->id}} })"
+                                                                class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
+                                                                <x-h-o-trash class="text-red-400"/>
+                                                            </button>
+                                                        @endif
+                                                    @endcan
                                             </div>
                                         </td>
                                     </tr>
@@ -276,9 +294,12 @@
                     if (element) {
                         console.log(element)
                         element.scrollIntoView({ behavior: 'smooth' });
+                        $nextTick(() => {
+                            element.classList.add('animate-pulse');
+                        });
                     }
                     setTimeout(() => {
-                    @this.set('loadId', 0);
+                        element.classList.remove('animate-pulse');
                     }, 5000)
                 })
             },

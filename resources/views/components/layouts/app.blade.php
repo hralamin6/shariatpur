@@ -1,7 +1,7 @@
 @extends('components.layouts.base')
 
 @section('body')
-    <div class="dark:bg-darkBg flex  "
+    <div class="dark:bg-darkBg flex bg-lightBg  "
          :class="{ 'overflow-hidden': nav }"
     >
         <div x-cloak

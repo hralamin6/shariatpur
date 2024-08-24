@@ -1,4 +1,4 @@
-<header class="w-full h-14 bg-lightHeader dark:bg-darkSidebar border-b dark:border-gray-600" x-data="{search: false}">
+<header class="w-full h-14 bg-white dark:bg-darkSidebar border-b dark:border-gray-600" x-data="{search: false}">
     <div class="flex justify-between gap-6 px-4 pt-4 relative inline-block">
         <div class="flex justify-start space-x-4 md:space-x-7 text-gray-500 dark:text-gray-200 text-sm z-0" :class="{'hidden': search}">
             <a class="md:hidden" @click="nav= !nav" x-on:click.stop>
@@ -42,7 +42,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </a>
-            <a @click="isDark=!isDark">
+            <a @click="toggleTheme()">
                 <svg x-cloak="" x-show="isDark"  xmlns="http://www.w3.org/2000/svg" class="w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>

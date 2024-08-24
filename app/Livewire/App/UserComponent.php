@@ -19,7 +19,6 @@ class UserComponent extends Component
     use LivewireAlert;
     public $selectedRows = [];
     public $selectPageRows = false;
-    public $loadId = 0;
     public $itemPerPage=200;
     public $orderBy = 'id';
     public $searchBy = 'name';
@@ -32,7 +31,7 @@ class UserComponent extends Component
     ];
 
     public $user;
-    public $name,$email,  $phone, $address, $bio, $status='active', $type='user', $facebook, $twitter, $instagram, $password, $confirmPassword;
+    public $name,$email,  $phone, $address, $bio, $status='active', $type, $facebook, $twitter, $instagram, $password, $confirmPassword;
     public function updatedSearch()
     {
         $this->resetPage();
@@ -53,6 +52,8 @@ class UserComponent extends Component
     }
     public function changeStatus(User $user)
     {
+        $this->authorize('app.users.edit');
+
         $user->status=='active'?$user->update(['status'=>'inactive']):$user->update(['status'=>'active']);
         $this->alert('success', __('Data updated successfully'));
     }
@@ -63,6 +64,8 @@ class UserComponent extends Component
 
     public function saveData()
     {
+        $this->authorize('app.users.create');
+
         $data = $this->validate([
             'name' => ['required', 'min:2', 'max:33'],
             'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
@@ -80,7 +83,6 @@ class UserComponent extends Component
 
         $data = User::create($data);
         $var = $data->id -2  ;
-        $this->loadId = $data->id;
         $this->dispatch('dataAdded', dataId: "item-id-$var");
         $this->goToPage($this->getDataProperty()->lastPage());
         $this->alert('success', __('Data updated successfully'));
@@ -96,7 +98,7 @@ class UserComponent extends Component
         $this->bio = $user->bio;
         $this->address = $user->address;
         $this->status = $user->status;
-        $this->type = $user->type;
+        $this->type = $user->role_id;
         $this->facebook = $user->facebook;
         $this->instagram = $user->instagram;
         $this->twitter = $user->twitter;
@@ -104,6 +106,8 @@ class UserComponent extends Component
     }
     public function editData()
     {
+        $this->authorize('app.users.edit');
+
         $data = $this->validate([
             'name' => ['required', 'min:2', 'max:33'],
             'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
@@ -122,7 +126,6 @@ class UserComponent extends Component
 
         $this->user->update($data);
         $var = $this->user->id;
-        $this->loadId = $this->user->id;
         $this->dispatch('dataAdded', dataId: "item-id-$var");
         $this->alert('success', __('Data updated successfully'));
         $this->resetData();
@@ -147,24 +150,34 @@ class UserComponent extends Component
     }
     public function deleteMultiple()
     {
-        User::whereIn('id', $this->selectedRows)->delete();
+        $this->authorize('app.users.delete');
+
+        User::whereIn('id', $this->selectedRows)->where('role_id', '!=', 1)->delete();
         $this->selectPageRows = false;
         $this->selectedRows = [];
         $this->alert('success', __('Data deleted successfully'));
     }
     public function deleteSingle(User $user)
     {
+        $this->authorize('app.users.delete');
+
         $user->delete();
         $this->alert('success', __('Data deleted successfully'));
     }
     public function orderByDirection($field)
     {
-        $this->orderBy = $field;
-        $this->orderDirection==='asc'? $this->orderDirection='desc': $this->orderDirection='asc';
+        if ($this->orderBy == $field){
+
+            $this->orderDirection==='asc'? $this->orderDirection='desc': $this->orderDirection='asc';
+        }else{
+            $this->orderBy = $field;
+            $this->orderDirection==='asc';
+
+        }
     }
     public function render()
     {
-//        $this->authorize('isAdmin');
+        $this->authorize('app.users.index');
         $items = $this->data;
 
         return view('livewire.app.user-component', compact('items'));

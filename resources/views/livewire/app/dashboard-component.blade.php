@@ -1,12 +1,4 @@
 <div class="m-2">
-    <div class="flex justify-between gap-4 mb-2">
-        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">Dashboard v2</p>
-        <div class="flex text-sm gap-1">
-            <span class="text-blue-500 dark:text-blue-400">Home</span>
-            <span class="text-gray-500 dark:text-gray-200">/</span>
-            <span class="text-gray-500 dark:text-gray-300">Dashboard v2</span>
-        </div>
-    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 capitalize">
         <a href="{{route('users')}}?search=customer&searchBy=type" class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
             <div class="rounded-md bg-purple-500 px-4 py-3 text-white">

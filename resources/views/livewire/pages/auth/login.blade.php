@@ -9,7 +9,6 @@ use function Livewire\Volt\layout;
 layout('layouts.guest');
 
 form(LoginForm::class);
-
 $login = function () {
     $this->validate();
 
@@ -17,16 +16,16 @@ $login = function () {
 
     Session::regenerate();
 
-    $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+    $this->redirectIntended(default: route('app.dashboard', absolute: false), navigate: true);
 };
 
 ?>
 
-<div>
+<div x-data>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="login">
+    <form wire:submit="login" >
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
@@ -66,4 +65,17 @@ $login = function () {
             </x-primary-button>
         </div>
     </form>
+    <div class="flex justify-between space-x-2">
+        <x-secondary-button
+            @click="$wire.form.email='admin@mail.com', $wire.form.password='000000', $wire.login()"
+            class="capitalize mx-auto my-2 text-base">
+            @lang('admin')
+        </x-secondary-button>
+        <x-secondary-button
+            @click="$wire.form.email='user@mail.com', $wire.form.password='000000', $wire.login()"
+            class="capitalize mx-auto my-2 text-base">
+            @lang('user')
+        </x-secondary-button>
+
+    </div>
 </div>

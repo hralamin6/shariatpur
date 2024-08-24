@@ -19,15 +19,17 @@ class DatabaseSeeder extends Seeder
 
         User::updateOrCreate([
             'name' => 'admin',
-            'email' => 'admin@mail.com',
+            'email' => 'admin@mail.com'],[
+            'email_verified_at' => now(),
             'password' => bcrypt('000000'),
-            'role_id' => Role::where('slug', 'admin')->first()->id,
+            'role_id' => Role::where('slug', 'admin')->first()->id
         ]);
         User::updateOrCreate([
             'name' => 'user',
-            'email' => 'user@mail.com',
+            'email' => 'user@mail.com'],[
+            'email_verified_at' => now(),
             'password' => bcrypt('000000'),
-            'role_id' => Role::where('slug', 'user')->first()->id,
+            'role_id' => Role::where('slug', 'user')->first()->id
         ]);
     }
 }

@@ -12,19 +12,20 @@ Route::get('put', function() {
     \Illuminate\Support\Facades\Storage::disk('google')->put($filename, $fileData);
     return 'File was saved to Google Drive';
 });
-Route::view('/', 'welcome')->name('home');
+//Route::view('/', 'welcome')->name('home');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app', \App\Livewire\App\DashboardComponent::class)->name('app.dashboard');
     Route::get('app/roles', \App\Livewire\App\RoleComponent::class)->name('app.roles');
     Route::get('app/backups', \App\Livewire\App\BackupComponent::class)->name('app.backups');
     Route::get('app/users', \App\Livewire\App\UserComponent::class)->name('app.users');
+    Route::get('app/profile', \App\Livewire\App\ProfileComponent::class)->name('app.profile');
 
 });
 
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+//Route::view('dashboard', 'dashboard')
+//    ->middleware(['auth', 'verified'])
+//    ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

@@ -35,14 +35,22 @@ class RoleComponent extends Component
         // Fetch modules with permissions
         $this->modules = Module::with('permissions')->get();
     }
+    public function getDataProperty()
+    {
+        return Role::paginate(10)->withQueryString();
+    }
     public function render()
     {
-        $items = Role::all();
+        $this->authorize('app.roles.index');
+
+        $items = $this->data;
         return view('livewire.app.role-component', compact('items'));
     }
 
     public function createRole()
     {
+        $this->authorize('app.roles.create');
+
         $this->validate();
         Role::create(['name' => $this->name, 'slug'=> Str::slug($this->name)])->permissions()->sync($this->permissions);
         $this->reset('permissions', 'name', 'allCheckBox');
@@ -50,11 +58,16 @@ class RoleComponent extends Component
     }
     public function updateRole()
     {
+        $this->authorize('app.roles.edit');
+
         $this->validate([
             'name' => ['required', 'min:2', 'max:44', Rule::unique('roles', 'name')->ignore($this->role['id'])]
         ]);
         $this->role->update(['name' => $this->name, 'slug'=> Str::slug($this->name)]);
             $this->role->permissions()->sync($this->permissions);
+        $var = $this->role->id;
+        $this->dispatch('dataAdded', dataId: "item-id-$var");
+
         $this->reset('permissions', 'name', 'role', 'allCheckBox');
         $this->alert('success', __('Data updated successfully!'));
     }
@@ -87,4 +100,10 @@ class RoleComponent extends Component
         $this->name = $role->name;
         $this->permissions = $role->permissions->pluck('id')->toArray();
 }
+    public function deleteSingle(Role $user)
+    {
+        $this->authorize('app.roles.delete');
+        $user->delete();
+        $this->alert('success', __('Data deleted successfully'));
+    }
 }

@@ -1,19 +1,24 @@
-<div class="m-0 md:m-2">
-    <div class="flex justify-between gap-4 mb-2">
-        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">Dashboard v2</p>
+<div class="m-0 md:m-2" x-data="role()">
+    <div class="flex justify-between gap-4 mb-2 capitalize">
+        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">@lang("all roles")</p>
         <div class="flex text-sm gap-1">
-            <span class="text-blue-500 dark:text-blue-400">Home</span>
+            <a href="{{route('app.roles')}}" wire:navigate class="text-blue-500 dark:text-blue-400">@lang("dashboard")</a>
             <span class="text-gray-500 dark:text-gray-200">/</span>
-            <span class="text-gray-500 dark:text-gray-300">Dashboard v2</span>
+            <span class="text-gray-500 dark:text-gray-300">@lang("roles")</span>
         </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    </div>    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <div class=" rounded-xl mt-4" x-data="{openTable: $persist(true)}">
-            <aside class="border dark:border-gray-600 row-span-4 bg-white dark:bg-darkSidebar">
+            <aside class="border dark:border-gray-600 row-span-4 bg-white dark:bg-darkSidebar capitalize">
                 <div class="flex justify-between gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2">
                     <p class="text-gray-600 dark:text-gray-200">@lang('roles table')</p>
                     <div class="flex justify-center gap-4 text-gray-500 dark:text-gray-300">
-                        <span class="px-1 mt-1 mb-0.5 text-white pb-0.5 font-semibold text-xs bg-pink-400 rounded-lg">10 New Members</span>
+                        @can("app.roles.create")
+                            <a  @click="isOpen=!isOpen" class="cursor-pointer">
+                                <span x-show="!isOpen" class="bg-primary text-white text-xs px-2 py-1 rounded-full">@lang('add new')</span>
+                                <span x-show="isOpen" class="bg-secondary text-white text-xs px-2 py-1 rounded-full">@lang('close')</span>
+                            </a>
+                        @endcan
+                        <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">@lang('total'): {{ $items->total() }}</span>
                         <button class="" @click="openTable = !openTable">
                             <svg x-show="openTable" xmlns="http://www.w3.org/2000/svg" class="h-4" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -48,12 +53,33 @@
                                     class="bg-white divide-y dark:divide-gray-700 dark:bg-darkSidebar"
                                 >
                                 @foreach($items as $i => $item)
-                                    <tr wire:key="{{$i}}" class="text-gray-700 dark:text-gray-400 capitalize">
+                                    <tr  wire:key="{{$i}}" id="item-id-{{$item->id}}" class="text-gray-700 dark:text-gray-400 capitalize">
                                         <td class="px-4 py-3 text-xs">{{$i+1}}</td>
                                         <td class="px-4 py-3 text-xs">{{$item->name}}</td>
                                         <td class="px-4 py-3 text-sm">{{$item->permissions->count()}}</td>
                                         <td class="px-4 py-3 text-sm">{{$item->updated_at->diffForHumans(null, true, true)}}</td>
-                                        <td wire:click="editRole({{$item->id}})" class="px-4 py-3 text-sm">edit</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <div class="flex items-center gap-x-6">
+                                                @can("app.roles.edit")
+                                                    <button @click="editModal('{{$item->id}}')"
+                                                            class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+                                                        <x-h-o-pencil-square class="text-green-400"/>
+                                                    </button>
+                                                @endcan
+
+                                                @if($item->deletable)
+                                                    @can("app.roles.delete")
+                                                        <button
+                                                            @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'you will loss this data forever', icon: 'error',actionName: 'deleteSingle', itemId: {{$item->id}} })"
+                                                            class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
+                                                            <x-h-o-trash class="text-red-400"/>
+                                                        </button>
+                                                    @endcan
+
+                                                @endif
+
+                                            </div>
+                                        </td>
                                     </tr>
 
                                 @endforeach
@@ -63,30 +89,21 @@
 
                     </div>
                 </div>
-                <div class="text-center flex justify-between bg-white border dark:border-gray-600 dark:bg-darkSidebar py-2 bg-gray-50 px-4">
-                    <a href="" class="rounded-md px-2 py-1 bg-purple-600 text-sm text-white">Place New Order</a>
-                    <a href="" class="rounded-md px-2 py-1 bg-indigo-600 text-sm text-white">View All Users</a>
-                </div>
             </aside>
         </div>
 
-        <div class=" rounded-xl mt-4" x-data="{formTable: $persist(true)}">
-            <aside class="border dark:border-gray-600 row-span-4 bg-white dark:bg-darkSidebar">
+        <div x-show="isOpen" class=" rounded-xl mt-4" x-data="{formTable: $persist(true)}">
+            <aside class="border dark:border-gray-600 row-span-4 bg-white dark:bg-darkSidebar capitalize">
                 <div class="flex justify-between gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2">
-                    <p class="text-gray-600 dark:text-gray-200">Products Table</p>
+                    <p x-show="!editMode" class="text-gray-600 dark:text-gray-200">@lang("add new role")</p>
+                    <p x-show="editMode" class="text-gray-600 dark:text-gray-200">@lang("edit role")</p>
                     <div class="flex justify-center gap-4 text-gray-500 dark:text-gray-300">
-                        <span class="px-1 mt-1 mb-0.5 text-white pb-0.5 font-semibold text-xs bg-pink-400 rounded-lg">10 New Members</span>
                         <button class="" @click="formTable = !formTable">
                             <svg x-show="formTable" xmlns="http://www.w3.org/2000/svg" class="h-4" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                             </svg>
                             <svg x-show="!formTable" xmlns="http://www.w3.org/2000/svg" class="h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                        <button class="">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
                     </div>
@@ -98,7 +115,7 @@
                                 <label  class="block text-sm">
                                     <span class="text-gray-700 dark:text-gray-400">@lang('role name')</span>
                                     <x-text-input wire:model="name" :error="'name'" class=""/>
-                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+{{--                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />--}}
 
                                 </label>
                                 <label class="flex items-center ml-4 items-center text-center m-2 text-md">
@@ -110,7 +127,7 @@
 
                                     @forelse($modules as $i => $module)
                                         <div wire:key="{{$i}}" x-data="{ moduleChecked: false}"
-                                             class="flex flex-col p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md transition-transform transform hover:scale-105">
+                                             class="flex flex-col p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 shadow-md transition-transform transform hover:scale-105">
                                             <div>
                                                 <h3 class="text-gray-600 dark:text-gray-200 text-md font-semibold">
                                                     <label class="flex items-center">
@@ -134,13 +151,13 @@
                                                     </label>
                                                     <x-input-error :messages="$errors->get('permissions.'.$j)" class="mt-2" />
                                                 @empty
-                                                    <p class="text-gray-500 dark:text-gray-300">No permissions found</p>
+                                                    <p class="text-gray-500 dark:text-gray-300"> @lang("No permissions found") </p>
                                                 @endforelse
                                             </div>
                                         </div>
                                     @empty
                                         <div class="col-span-2 text-center">
-                                            <p class="text-gray-500 dark:text-gray-300">No modules found</p>
+                                            <p class="text-gray-500 dark:text-gray-300">@lang("No modules found")</p>
                                         </div>
                                     @endforelse
 
@@ -157,12 +174,70 @@
 
                     </div>
                 </div>
-                <div class="text-center flex justify-between bg-white border dark:border-gray-600 dark:bg-darkSidebar py-2 bg-gray-50 px-4">
-                    <a href="" class="rounded-md px-2 py-1 bg-purple-600 text-sm text-white">Place New Order</a>
-                    <a href="" class="rounded-md px-2 py-1 bg-indigo-600 text-sm text-white">View All Users</a>
-                </div>
             </aside>
         </div>
     </div>
+    @script
+    <script>
+        Alpine.data('role', () => ({
+            init() {
+                $wire.on('dataAdded', (e) => {
+                    this.isOpen = false
+                    this.editMode = false
+                    element = document.getElementById(e.dataId)
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                        $nextTick(() => {
+                            element.classList.add('animate-pulse');
+                        });
+
+                    }
+                    setTimeout(() => {
+
+                        element.classList.remove('animate-pulse');
+
+                    }, 4000)
+                })
+            },
+            isOpen: false,
+            editMode: false,
+            {{--rows: @entangle('selectedRows'),--}}
+            {{--selectPage: @entangle('selectPageRows').live,--}}
+            toggleModal() {
+                this.isOpen = !this.isOpen;
+                this.$nextTick(() => {
+                    this.$refs.inputName.focus()
+                })
+            },
+            closeModal() {
+                this.isOpen = false;
+                this.editMode = false;
+                $wire.resetData()
+            },
+            editModal(id) {
+                this.$wire.editRole(id);
+                this.isOpen = true;
+                this.editMode = true;
+            }
+        }))
+        document.addEventListener('delete', function (event) {
+            itemId = event.detail.itemId
+            actionName = event.detail.actionName
+            Swal.fire({
+                title: event.detail.title,
+                text: event.detail.text,
+                icon: event.detail.icon,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire[actionName](itemId)
+                }
+            })
+        });
+    </script>
+    @endscript
 </div>
 

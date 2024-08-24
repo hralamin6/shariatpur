@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+ use Illuminate\Support\Facades\Storage;
+ use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable
+ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
     use HasFactory, Notifiable;
-
+    use Notifiable, InteractsWithMedia;
     /**
      * The attributes that are mass assignable.
      *
@@ -18,9 +22,26 @@ class User extends Authenticatable
      */
     protected $guarded = ['id'];
 
-    public function role()
+
+    public function registerMediaCollections(): void
     {
-        return $this->belongsTo(Role::class);
+        $this->addMediaCollection('profile')->singleFile()->registerMediaConversions(function (Media $media = null) {
+            $this->addMediaConversion('thumb')->quality('10')->nonQueued();
+
+        });;
+    }
+//     public function registerMediaConversions(Media $media = null): void
+//     {
+//
+//                 $this->addMediaConversion('thumb')
+//                     ->width(300)
+//                     ->height(100)->quality('50')->nonQueued();
+//
+//     }
+
+     public function role()
+    {
+        return $this->belongsTo(Role::class)->withDefault();
     }
     public function hasPermission($permission): bool
     {
