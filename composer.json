@@ -7,8 +7,10 @@
     "require": {
         "php": "^8.2",
         "blade-ui-kit/blade-heroicons": "^2.3",
+        "browner12/helpers": "^3.6",
         "jantinnerezo/livewire-alert": "^3.0",
         "laravel/framework": "^11.9",
+        "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",

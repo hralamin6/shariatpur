@@ -49,6 +49,15 @@ class BackupComponent extends Component
         $this->alert('success', __('Backup created successfully!'));
 
     }
+    public function backupCreateDb()
+    {
+        $this->authorize('app.backups.create');
+
+        Artisan::call('backup:run --only-db');
+       $this->output = Artisan::output();
+        $this->alert('success', __('Backup created successfully!'));
+
+    }
     public function backupClean()
     {
         $this->authorize('app.backups.delete');

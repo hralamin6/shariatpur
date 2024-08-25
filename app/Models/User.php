@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\InteractsWithMedia;
  use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
- class User extends Authenticatable implements MustVerifyEmail, HasMedia
+ class User extends Authenticatable implements HasMedia
 {
     use HasFactory, Notifiable;
     use Notifiable, InteractsWithMedia;
@@ -28,7 +28,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
         $this->addMediaCollection('profile')->singleFile()->registerMediaConversions(function (Media $media = null) {
             $this->addMediaConversion('thumb')->quality('10')->nonQueued();
 
-        });;
+        });
     }
 //     public function registerMediaConversions(Media $media = null): void
 //     {

@@ -29,10 +29,29 @@
         @endcan
 
         @can("app.backups.delete")
-            <x-secondary-button wire:click.prevent="backupClean">
+            <x-secondary-button wire:click.prevent="backupClean" class="!bg-red-500">
                 @lang('clear backup')
             </x-secondary-button>
         @endcan
+            @can("app.backups.create")
+                <x-secondary-button
+                    wire:click="backupCreateDb()">
+                    <!-- Button text -->
+                    <span class="block" wire:loading.remove wire:target="backupCreateDb">@lang('create db backup')</span>
+
+                    <!-- Loading spinner -->
+                    <svg
+                        class="w-5 h-5 mx-auto text-white animate-spin block"
+                        wire:loading wire:target="backupCreate"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 00-6 6h2a4 4 0 01-4-4z"></path>
+                    </svg>
+                </x-secondary-button>
+            @endcan
 
     </div>
 

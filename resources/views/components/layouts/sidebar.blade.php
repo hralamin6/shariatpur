@@ -1,18 +1,33 @@
 <nav x-cloak @click.outside="nav = false" class="md:block shadow-2xl bg-white overflow-y-hidden overflow-x-hidden inset-y-0 z-10 fixed md:relative flex-shrink-0 w-64 overflow-y-auto bg-white dark:bg-darkSidebar"
      :class="{'hidden': nav == false}">
-    <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3">
-        <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl"></span>
-        <span class="my-auto text-xl text-gray-500 font-mono dark:text-gray-300">Adminlte</span>
+    <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3 items-center">
+    <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
+        <img
+            src="{{ \App\Models\Setting::where('key', 'IconImage')->first()->getFirstMediaUrl('icon', 'thumb') ?: setup('placeHolder', 'https://placehold.co/400') }}"
+            alt=""
+            onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
+            class="w-full h-full object-cover"
+        >
+    </span>
+        <span class="text-xl text-gray-500 font-mono dark:text-gray-300">{{ setup('name', 'laravel') }}</span>
     </div>
+
     <div class="h-screen  overflow-y-auto scrollbar-none">
         <div class="h-16 border-b dark:border-gray-600 flex px-4 py-2 gap-3">
-            <span class="w-10 h-10 rounded-full bg-indigo-600 border dark:border-gray-600 shadow-xl"></span>
+    <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
+                <img
+                    src="{{ auth()->user()->getFirstMediaUrl('profile', 'thumb') ?: 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name)  }}"
+                    alt=""
+                    onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
+                    class="w-full h-full object-cover"
+                >
+            </span>
             <span class="my-auto text-sm text-gray-600 font-medium dark:text-gray-300">{{auth()->user()->name}}</span>
         </div>
         <div class="m-2 mt-4 flex">
             <input type="search"  class="border dark:border-gray-500 dark:bg-gray-600 dark:placeholder-gray-300 text-gray-200 text-sm border-gray-300 bg-gray-100 px-2 w-48 h-9 rounded-md rounded-r-none" placeholder="Search">
             <a href="" class="border  dark:bg-gray-600 border-gray-300 dark:border-gray-500 bg-gray-100 rounded-l-none p-2 h-9 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 text-gray-600 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http'https://ui-avatars.com/api/?name={{auth()->user()->name}}'://www.w3.org/2000/svg" class="w-5 text-gray-600 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </a>
@@ -34,6 +49,9 @@
                 </a>
                 <a href="{{route('app.profile')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.profile')?'navActive':'navInactive'}}">
                     <i class='bx bxl-product-hunt text-xl'></i><span class="">@lang('profile')</span>
+                </a>
+                <a href="{{route('app.setting')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.setting')?'navActive':'navInactive'}}">
+                    <i class='bx bx-cog text-xl'></i><span class="">@lang('setting')</span>
                 </a>
 {{--                <a href="{{route('categories')}}" class="navMenuLink {{Route::is('categories')?'navActive':'navInactive'}}">--}}
 {{--                    <x-h-o-cube-transparent class="w-6"/><span class="">@lang('categories')</span>--}}

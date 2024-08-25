@@ -145,11 +145,16 @@
                                         <td class="max-w-48 truncate px-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                             <div class="inline-flex items-center gap-x-3">
                                                 <div class="flex items-center gap-x-2">
-                                                    <img class="object-cover w-10 h-10 rounded-full"
-                                                         src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                                                         alt="">
-                                                    <div>
-                                                        <h2 class="font-medium text-gray-800 dark:text-white ">{{ $item->name }}</h2>
+                                                        <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
+                <img
+                    src="{{ $item->getFirstMediaUrl('profile', 'thumb') ?: 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name)  }}"
+                    alt=""
+                    onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
+                    class="w-full h-full object-cover"
+                >
+            </span>
+
+                                                    <h2 class="font-medium text-gray-800 dark:text-white ">{{ $item->name }}</h2>
                                                         <p class="text-sm font-normal text-gray-600 dark:text-gray-400">{{ $item->email }}</p>
                                                     </div>
                                                 </div>
