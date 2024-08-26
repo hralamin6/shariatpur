@@ -2,12 +2,7 @@
      :class="{'hidden': nav == false}">
     <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3 items-center">
     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
-        <img
-            src="{{ \App\Models\Setting::where('key', 'IconImage')->first()->getFirstMediaUrl('icon', 'thumb') ?: setup('placeHolder', 'https://placehold.co/400') }}"
-            alt=""
-            onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
-            class="w-full h-full object-cover"
-        >
+        <img src="{{ getSettingImage('IconImage') }}" alt="" onerror="{{ getErrorImage() }}" class="w-full h-full object-cover">
     </span>
         <span class="text-xl text-gray-500 font-mono dark:text-gray-300">{{ setup('name', 'laravel') }}</span>
     </div>
@@ -15,12 +10,7 @@
     <div class="h-screen  overflow-y-auto scrollbar-none">
         <div class="h-16 border-b dark:border-gray-600 flex px-4 py-2 gap-3">
     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
-                <img
-                    src="{{ auth()->user()->getFirstMediaUrl('profile', 'thumb') ?: 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name)  }}"
-                    alt=""
-                    onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
-                    class="w-full h-full object-cover"
-                >
+                <img src="{{ getUserProfileImage(auth()->user()) }}" alt="" onerror="{{ getErrorProfile(auth()->user()) }}" class="w-full h-full object-cover">
             </span>
             <span class="my-auto text-sm text-gray-600 font-medium dark:text-gray-300">{{auth()->user()->name}}</span>
         </div>

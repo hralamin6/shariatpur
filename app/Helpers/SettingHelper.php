@@ -13,3 +13,34 @@ if (!function_exists('setup')) {
         return \App\Models\Setting::getByKey($key, $default);
     }
 }
+if (!function_exists('getUserProfileImage')) {
+    function getUserProfileImage($user, $collection = 'profile', $conversion = 'thumb')
+    {
+        return $user->getFirstMediaUrl($collection, $conversion)
+            ?: 'https://ui-avatars.com/api/?name=' . urlencode($user->name);
+    }
+}
+if (!function_exists('getSettingImage')) {
+    function getSettingImage($key = 'IconImage', $collection = 'icon', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
+    {
+        $setting = \App\Models\Setting::where('key', $key)->first();
+        return $setting?->getFirstMediaUrl($collection, $conversion) ?? setup('placeHolder', $defaultUrl);
+    }
+}
+if (!function_exists('getErrorImage')) {
+    function getErrorImage($defaultUrl = 'https://placehold.co/400')
+    {
+        $placeholderUrl = setup('placeHolder') != '' ? setup('placeHolder') : $defaultUrl;
+        return "this.onerror=null; this.src='{$placeholderUrl}';";
+
+    }
+}
+if (!function_exists('getErrorProfile')) {
+
+    function getErrorProfile($user, $defaultUrl = 'https://placehold.co/400')
+    {
+            $placeholderUrl = 'https://ui-avatars.com/api/?name=' . urlencode($user->name);
+            return "this.onerror=null; this.src='{$placeholderUrl}';";
+
+    }
+}

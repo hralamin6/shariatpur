@@ -72,8 +72,8 @@ class SettingComponent extends Component
     public function updateImage()
     {
         $this->validate([
-            'logoImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'iconImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logoImage' => 'nullable|image|max:2048',
+            'iconImage' => 'nullable|image|max:2048',
             'logo_url' => 'nullable|url', // 2MB Max
             'icon_url' => 'nullable|url', // 2MB Max
 
@@ -102,7 +102,7 @@ class SettingComponent extends Component
 
         if ($this->icon_url) {
             $extension = pathinfo(parse_url($this->icon_url, PHP_URL_PATH), PATHINFO_EXTENSION);
-            $media =  $icon->addMediaFromUrl($this->icon_url)->usingFileName($icon->key. '.' . $extension)->toMediaCollection('logo');
+            $media =  $icon->addMediaFromUrl($this->icon_url)->usingFileName($icon->key. '.' . $extension)->toMediaCollection('icon');
             $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
             if (file_exists($path)) {
                 unlink($path);

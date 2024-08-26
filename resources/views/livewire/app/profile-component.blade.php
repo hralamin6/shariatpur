@@ -8,16 +8,46 @@
         </div>
     </div>
     <main class="h-full capitalize">
-        <div class="max-w-4xl mx-auto bg-white dark:bg-darker shadow-lg border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
+        <div class="max-w-4xl mx-auto mb-6">
+            <!-- Tabs Container -->
+            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden">
+                <!-- Profile Tab -->
+                <button
+                    @click="activeTab = 'profile'"
+                    :class="{'bg-primary text-white': activeTab === 'profile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'profile'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Profile')
+                </button>
+                <!-- Update Profile Tab -->
+                <button
+                    @click="activeTab = 'updateProfile'"
+                    :class="{'bg-primary text-white': activeTab === 'updateProfile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updateProfile'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Update Profile')
+                </button>
+                <!-- Change Password Tab -->
+                <button
+                    @click="activeTab = 'changePassword'"
+                    :class="{'bg-primary text-white': activeTab === 'changePassword', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'changePassword'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Change Password')
+                </button>
+                <!-- Update Photo Tab -->
+                <button
+                    @click="activeTab = 'updatePhoto'"
+                    :class="{'bg-primary text-white': activeTab === 'updatePhoto', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updatePhoto'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Update Photo')
+                </button>
+            </div>
+        </div>
+
+        <div x-show="activeTab === 'profile'" class="max-w-4xl mx-auto bg-white dark:bg-darker shadow-lg border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
             <!-- Profile Header -->
             <div class="flex flex-col items-center p-6 bg-white dark:bg-darker">
                 <!-- Profile Avatar -->
-                <img
-                    src="{{ auth()->user()->getFirstMediaUrl('profile', 'thumb') ?: 'https://ui-avatars.com/api/?name=' . urlencode($item->name) }}"
-                    alt="Profile Avatar"                  onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{$item->name}}';"
-                    class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4"
-                >
-
+                <img src="{{ getUserProfileImage($item) }}" alt="Profile Avatar"  onerror="{{getErrorProfile($item)}}"
+                    class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
                 <!-- Profile Information -->
                 <div class="text-center">
                     <h2 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{{ $item->name }}</h2>
@@ -34,7 +64,7 @@
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- User Details -->
-                    <div class="bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-dark shadow-lg rounded-lg p-4">
+                    <div class="bg-white border border-slate-300 dark:border-slate-600 dark:bg-dark shadow-lg rounded-lg p-4">
                         <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang("Contact Information")</h3>
                         <div class="space-y-4">
                             <div class="flex items-center">
@@ -53,7 +83,7 @@
                     </div>
 
                     <!-- Bio and Status -->
-                    <div class="bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-dark shadow-lg rounded-lg p-4">
+                    <div class="bg-white border border-slate-300 dark:border-slate-600 dark:bg-dark shadow-lg rounded-lg p-4">
                         <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Additional Information')</h3>
                         <div class="space-y-4">
                             <div class="flex items-center">
@@ -73,7 +103,7 @@
                 </div>
             </div>
         </div>
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="activeTab === 'updateProfile'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update Profile Information')</h3>
             <form wire:submit.prevent="updateProfile" class="space-y-4">
                 <div>
@@ -102,7 +132,7 @@
             </form>
         </div>
 
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="activeTab === 'changePassword'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl  text-center text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Change Password')</h3>
             <form wire:submit.prevent="updatePassword" class="space-y-4 ">
                 <div>
@@ -127,16 +157,20 @@
         </div>
 
 
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="activeTab === 'updatePhoto'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100 items-center">@lang('Update Profile Photo')</h3>
 
 {{--            @foreach(auth()->user()->getMedia('profile') as $k => $media)--}}
 {{--                <div><img style="height: 55px; width: 66px;" src="{{$media->getAvailableUrl(['thumb'])}}" onerror="this.onerror=null;this.src='https://picsum.photos/id/10/600/300';"></div>--}}
 {{--            @endforeach--}}
-
-            <img src="{{ auth()->user()->getFirstMediaUrl('profile', 'thumb') ?: 'https://ui-avatars.com/api/?name=' . urlencode($item->name) }}"
-                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{$item->name}}';"
-                 alt="Profile Avatar" class="w-32 mx-auto h-32 rounded-full border-4 border-white dark:border-darkBg shadow-lg mb-4">
+            <center>
+                @if($photo)
+                    <img src="{{ $photo->temporaryUrl() }}" alt="icon Preview" class="mt-2 w-32 h-32 object-cover"/>
+                @else
+                    <img src="{{ getUserProfileImage($item) }}" alt="Profile Avatar"  onerror="{{getErrorProfile($item)}}"
+                         class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
+                @endif
+            </center>
             <div>
                 <x-text-input placeholder="image link" errorName="image_url"  id="image_url" wire:model="image_url" type="url"/>
             </div>
@@ -192,7 +226,7 @@
             },
             isOpen: false,
             editMode: false,
-
+            activeTab: $persist('profile'),
             toggleModal() {
                 this.isOpen = !this.isOpen;
                 this.$nextTick(() => {

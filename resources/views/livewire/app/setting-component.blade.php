@@ -8,8 +8,40 @@
         </div>
     </div>
     <main class="h-full capitalize">
+        <div class="max-w-4xl mx-auto mb-6">
+            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden">
+                <!-- General Settings Tab -->
+                <button
+                    @click="tab = 'general'"
+                    :class="{'bg-primary text-white': tab === 'general', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'general'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('General Settings')
+                </button>
+                <!-- Mail Settings Tab -->
+                <button
+                    @click="tab = 'mail'"
+                    :class="{'bg-primary text-white': tab === 'mail', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'mail'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Mail Settings')
+                </button>
+                <!-- OAuth Settings Tab -->
+                <button
+                    @click="tab = 'oauth'"
+                    :class="{'bg-primary text-white': tab === 'oauth', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'oauth'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('OAuth Settings')
+                </button>
+                <!-- Update Image Tab -->
+                <button
+                    @click="tab = 'image'"
+                    :class="{'bg-primary text-white': tab === 'image', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'image'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Update Image')
+                </button>
+            </div>
+        </div>
 
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="tab === 'general'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update general setting')</h3>
             <form wire:submit.prevent="updateGeneral" class="space-y-4">
                 <div>
@@ -41,7 +73,7 @@
                 </div>
             </form>
         </div>
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="tab === 'mail'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update mail information')</h3>
             <form wire:submit.prevent="updateMail" class="space-y-4">
                 <div>
@@ -83,7 +115,7 @@
             </form>
         </div>
 
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="tab === 'oauth'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update OAuth Settings')</h3>
             <form wire:submit.prevent="updateOAuth" class="space-y-4">
                 <div>
@@ -109,7 +141,7 @@
         </div>
 
 
-        <div class="max-w-4xl mx-auto my-2 bg-lightBg border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+        <div x-show="tab === 'image'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100 items-center">@lang('Update image')</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 justify-between items-center-center gap-2">
 
@@ -120,12 +152,8 @@
                         @else
 
                             @if ($logoImageUrl)
-                                <img
-                                    src="{{ $logoImageUrl->getFirstMediaUrl('logo', 'thumb')?: setup('placeHolder', 'https://placehold.co/400') }}"
-                                    alt="Profile Avatar"
-                                    onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
-                                    class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4"
-                                >
+                                <img src="{{ getSettingImage('logoImage') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
+                                     class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
                             @endif
                         @endif
                     </center>
@@ -157,16 +185,12 @@
                 <div class="items-center text-center">
                     <center>
                         @if($iconImage)
-                            <img src="{{ $iconImage->temporaryUrl() }}" alt="Logo Preview" class="mt-2 w-32 h-32 object-cover"/>
+                            <img src="{{ $iconImage->temporaryUrl() }}" alt="icon Preview" class="mt-2 w-32 h-32 object-cover"/>
                         @else
 
                             @if ($iconImageUrl)
-                                <img
-                                    src="{{ $iconImageUrl->getFirstMediaUrl('icon', 'thumb')?: setup('placeHolder', 'https://placehold.co/400') }}"
-                                    alt="Profile Avatar"
-                                    onerror="this.onerror=null; this.src=setup('placeHolder', 'https://placehold.co/400');"
-                                    class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4"
-                                >
+                                <img src="{{ getSettingImage('iconImage') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
+                                     class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
                             @endif
                         @endif
                     </center>
@@ -225,6 +249,7 @@
             },
             isOpen: false,
             editMode: false,
+            tab: $persist('general'),
 
             toggleModal() {
                 this.isOpen = !this.isOpen;
