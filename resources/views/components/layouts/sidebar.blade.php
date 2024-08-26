@@ -2,7 +2,7 @@
      :class="{'hidden': nav == false}">
     <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3 items-center">
     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
-        <img src="{{ getSettingImage('IconImage') }}" alt="" onerror="{{ getErrorImage() }}" class="w-full h-full object-cover">
+        <img src="{{ getSettingImage('iconImage') }}" alt="" onerror="{{ getErrorImage() }}" class="w-full h-full object-cover">
     </span>
         <span class="text-xl text-gray-500 font-mono dark:text-gray-300">{{ setup('name', 'laravel') }}</span>
     </div>

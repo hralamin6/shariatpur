@@ -14,7 +14,6 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
-        "masbug/flysystem-google-drive-ext": "^2.3",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-backup": "^8.8",
         "spatie/laravel-medialibrary": "^11.9"
@@ -47,7 +46,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=livewire:assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
