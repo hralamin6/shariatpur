@@ -82,8 +82,8 @@ class SettingComponent extends Component
        $logo= Setting::updateOrCreate(['key' => 'logoImage'], ['value' => 'logoImage']);
        $icon= Setting::updateOrCreate(['key' => 'iconImage'], ['value' => 'iconImage']);
         if ($this->logo_url) {
-
             $extension = pathinfo(parse_url($this->logo_url, PHP_URL_PATH), PATHINFO_EXTENSION);
+//            $logo->clearMediaCollection('logo');
             $media =  $logo->addMediaFromUrl($this->logo_url)->usingFileName($logo->key. '.' . $extension)->toMediaCollection('logo');
             $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
             if (file_exists($path)) {
@@ -91,7 +91,8 @@ class SettingComponent extends Component
             }
             $this->alert('success', __('Profile photo updated successfully.'));
         }elseif ($this->logoImage) {
-           $media = $logo->addMedia($this->logoImage->getRealPath())
+//            $logo->clearMediaCollection('logo');
+            $media = $logo->addMedia($this->logoImage->getRealPath())->usingFileName($logo->key. '.' . $this->logoImage->getClientOriginalExtension())
                 ->toMediaCollection('logo');
             $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
             if (file_exists($path)) {
@@ -109,7 +110,7 @@ class SettingComponent extends Component
             }
             $this->alert('success', __('Profile photo updated successfully.'));
         }elseif ($this->iconImage) {
-            $media = $icon->addMedia($this->iconImage->getRealPath())
+            $media = $icon->addMedia($this->iconImage->getRealPath())->usingFileName($icon->key. '.' . $this->iconImage->getClientOriginalExtension())
                 ->toMediaCollection('icon');
             $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
             if (file_exists($path)) {

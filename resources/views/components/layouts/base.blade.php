@@ -87,15 +87,63 @@
 
             }
         }
+
     </script>
 
 
 </head>
 <body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="">
-
+{{--<button id="installButton"--}}
+{{--        style="display:none;"--}}
+{{-->Install App</button>--}}
 @yield('body')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{--<script src="{{ asset('js/sa.js') }}"> </script>--}}
 <x-livewire-alert::scripts />
+<button id="installButton" style="display:none;">Install App</button>
+
+<script>
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (event) => {
+
+
+        // event.preventDefault();
+        // Stash the event so it can be triggered later
+        deferredPrompt = event;
+
+        // Show your custom install prompt (e.g., show a button)
+        showInstallButton(); // Define this function to show your install button or popup
+        console.log(`'beforeinstallprompt' event was fired.`);
+    });
+
+    document.getElementById('installButton').addEventListener('click', () => {
+        // Hide the custom install prompt (e.g., hide the button)
+        hideInstallButton(); // Define this function to hide your install button or popup
+
+        // Show the install prompt
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
+        }
+    });
+    function showInstallButton() {
+        // Implement this function to show the install button or popup
+        document.getElementById('installButton').style.display = 'block';
+
+    }
+    function hideInstallButton() {
+        // Implement this function to hide the install button or popup
+        document.getElementById('installButton').style.display = 'none';
+
+    }
+</script>
 </body>
 </html>

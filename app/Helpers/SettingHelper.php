@@ -21,7 +21,7 @@ if (!function_exists('getUserProfileImage')) {
     }
 }
 if (!function_exists('getSettingImage')) {
-    function getSettingImage($key = 'IconImage', $collection = 'icon', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
+    function getSettingImage($key = 'iconImage', $collection = 'icon', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
     {
         $setting = \App\Models\Setting::where('key', $key)->first();
         return $setting?->getFirstMediaUrl($collection, $conversion) ?? setup('placeHolder', $defaultUrl);

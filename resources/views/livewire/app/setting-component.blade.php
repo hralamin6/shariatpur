@@ -152,7 +152,7 @@
                         @else
 
                             @if ($logoImageUrl)
-                                <img src="{{ getSettingImage('logoImage') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
+                                <img src="{{ getSettingImage('logoImage', 'logo') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
                                      class="w-32 h-32 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
                             @endif
                         @endif

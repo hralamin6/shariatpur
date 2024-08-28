@@ -16,6 +16,10 @@ Route::middleware('guest')->group(function () {
 
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
+
+    Route::get('auth/{provider}/redirect', [\App\Http\Controllers\SocialiteController::class, 'loginSocial'])->name('socialite.auth');
+    Route::get('auth/{provider}/callback', [\App\Http\Controllers\SocialiteController::class, 'callbackSocial'])->name('socialite.callback');
+
 });
 
 Route::middleware('auth')->group(function () {

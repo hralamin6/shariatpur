@@ -2,7 +2,7 @@
      :class="{'hidden': nav == false}">
     <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3 items-center">
     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
-        <img src="{{ getSettingImage('iconImage') }}" alt="" onerror="{{ getErrorImage() }}" class="w-full h-full object-cover">
+        <img src="{{ getSettingImage('iconImage', 'icon') }}" alt="" onerror="{{ getErrorImage() }}" class="w-full h-full object-cover">
     </span>
         <span class="text-xl text-gray-500 font-mono dark:text-gray-300">{{ setup('name', 'laravel') }}</span>
     </div>
@@ -43,39 +43,7 @@
                 <a href="{{route('app.setting')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.setting')?'navActive':'navInactive'}}">
                     <i class='bx bx-cog text-xl'></i><span class="">@lang('setting')</span>
                 </a>
-{{--                <a href="{{route('categories')}}" class="navMenuLink {{Route::is('categories')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-cube-transparent class="w-6"/><span class="">@lang('categories')</span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('brands')}}" class="navMenuLink {{Route::is('brands')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-cube class="w-6"/><span class="">@lang('brands')</span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('groups')}}" class="navMenuLink {{Route::is('groups')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-server class="w-6"/><span class="">@lang('groups')</span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('units')}}" class="navMenuLink {{Route::is('units')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-funnel class="w-6"/><span class="">@lang('units')</span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('products')}}" class="navMenuLink {{Route::is('products')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-circle-stack class="w-6"/><span class="">@lang('products')</span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('purchases')}}" class="navMenuLink {{Route::is('purchases')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-shopping-cart class="w-6"/><span class="">@lang('purchase')</span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('invoices')}}" class="navMenuLink {{Route::is('invoices')?'navActive':'navInactive'}}">--}}
-{{--                    <x-h-o-shopping-bag class="w-6"/><span class="">@lang('invoices')</span>--}}
-{{--                </a>--}}
-                {{--                <a href="{{route('dashboard.attribute')}}" class="navMenuLink {{Route::is('dashboard.attribute')?'navActive':'navInactive'}}">--}}
-                {{--                    <x-h-o-shopping-bag class="w-6"/><span class="">@lang('attributes')</span>--}}
-                {{--                </a>--}}
-                {{--                <a href="{{route('dashboard.chatbot')}}" class="navMenuLink {{Route::is('dashboard.chatbot')?'navActive':'navInactive'}}">--}}
-                {{--                    <x-h-o-shopping-bag class="w-6"/><span class="">@lang('chatbot')</span>--}}
-                {{--                </a>--}}
-                {{--                <a href="{{route('setup')}}" class="navMenuLink {{Route::is('setup')?'navActive':'navInactive'}}">--}}
-                {{--                    <x-h-o-server class="w-6"/><span class="">@lang('setup')</span>--}}
-                {{--                </a>--}}
-            {{--                <a href="{{route('units')}}" class="navMenuLink {{Route::is('units')?'navActive':'navInactive'}}">--}}
-            {{--                    <x-h-o-funnel class="w-6"/><span class="">units</span>--}}
-            {{--                </a>--}}
+
 
             <div  x-data="{setup: false}">
                 <div @click="setup= !setup"  class="navMenuLink dark:text-gray-300">
