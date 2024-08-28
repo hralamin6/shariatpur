@@ -27,8 +27,52 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @laravelPWA
+
     <script>
+
         const setup = () => {
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (event) => {
+
+
+                // event.preventDefault();
+                // Stash the event so it can be triggered later
+                deferredPrompt = event;
+
+                  // Show your custom install prompt (e.g., show a button)
+                showInstallButton(); // Define this function to show your install button or popup
+                console.log(`'beforeinstallprompt' event was fired.`);
+            });
+
+            document.getElementById('installButton').addEventListener('click', () => {
+                // Hide the custom install prompt (e.g., hide the button)
+                hideInstallButton(); // Define this function to hide your install button or popup
+
+                // Show the install prompt
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the A2HS prompt');
+                        } else {
+                            console.log('User dismissed the A2HS prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            });
+            function showInstallButton() {
+                // Implement this function to show the install button or popup
+                document.getElementById('installButton').style.display = 'block';
+
+            }
+            function hideInstallButton() {
+                // Implement this function to hide the install button or popup
+                document.getElementById('installButton').style.display = 'none';
+
+            }
+
+
 
             const getTheme = () => {
                 if (window.localStorage.getItem('dark')) {
@@ -78,14 +122,43 @@
 
                 color: getColor(),
                 selectedColor: 'green',
+
                 setColors,
-                init(){
+                isVisible: false,
+                deferredPrompt: null,
+                init() {
                     setColors(this.color)
+
+                    window.addEventListener('beforeinstallprompt', (e) => {
+                        e.preventDefault();
+                        this.deferredPrompt = e;
+                        this.isVisible = true;
+                    });
+
+                    // Optionally hide the popup after some time
+                    setTimeout(() => {
+                        this.isVisible = false;
+                    }, 10000); // Hide after 10 seconds
+                },
+                installPWA() {
+                    if (this.deferredPrompt) {
+                        this.deferredPrompt.prompt();
+                        this.deferredPrompt.userChoice.then((result) => {
+                            if (result.outcome === 'accepted') {
+                                console.log('User accepted the A2HS prompt');
+                            } else {
+                                console.log('User dismissed the A2HS prompt');
+                            }
+                            this.deferredPrompt = null;
+                            this.isVisible = false;
+                        });
+                    }
+                },
+                closePopup() {
+                    this.isVisible = false;
                 }
-
-
-
             }
+
         }
 
     </script>
@@ -100,50 +173,22 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{--<script src="{{ asset('js/sa.js') }}"> </script>--}}
 <x-livewire-alert::scripts />
-<button id="installButton" style="display:none;">Install App</button>
 
+<button id="installButton" style="display:none;">Install App</button>
+<div x-show="isVisible" x-transition.opacity class="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90 transition-opacity duration-300 ease-in-out z-50">
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 max-w-sm mx-auto w-full">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Install Our App</h2>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">For the best experience, install our app on your device.</p>
+        <div class="mt-4 flex justify-between">
+            <button @click="installPWA" class="bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">Install</button>
+            <button @click="closePopup" class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-2 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400">Close</button>
+        </div>
+    </div>
+</div>
 <script>
 
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (event) => {
 
-
-        // event.preventDefault();
-        // Stash the event so it can be triggered later
-        deferredPrompt = event;
-
-        // Show your custom install prompt (e.g., show a button)
-        showInstallButton(); // Define this function to show your install button or popup
-        console.log(`'beforeinstallprompt' event was fired.`);
-    });
-
-    document.getElementById('installButton').addEventListener('click', () => {
-        // Hide the custom install prompt (e.g., hide the button)
-        hideInstallButton(); // Define this function to hide your install button or popup
-
-        // Show the install prompt
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                } else {
-                    console.log('User dismissed the A2HS prompt');
-                }
-                deferredPrompt = null;
-            });
-        }
-    });
-    function showInstallButton() {
-        // Implement this function to show the install button or popup
-        document.getElementById('installButton').style.display = 'block';
-
-    }
-    function hideInstallButton() {
-        // Implement this function to hide the install button or popup
-        document.getElementById('installButton').style.display = 'none';
-
-    }
 </script>
+
 </body>
 </html>
