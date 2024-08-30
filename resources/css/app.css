@@ -173,3 +173,43 @@
 .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #c0a0b9;
 }
+
+@layer utilities {
+    /* Custom scrollbar for light mode */
+    .scrollbar-thin-light {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e0 transparent; /* scrollbar thumb and track colors */
+    }
+
+    .scrollbar-thin-light::-webkit-scrollbar {
+        width: 8px; /* width of the scrollbar */
+    }
+
+    .scrollbar-thin-light::-webkit-scrollbar-thumb {
+        background-color: #cbd5e0; /* scrollbar thumb color */
+        border-radius: 10px; /* rounded corners for scrollbar thumb */
+    }
+
+    .scrollbar-thin-light::-webkit-scrollbar-track {
+        background: transparent; /* scrollbar track color */
+    }
+
+    /* Custom scrollbar for dark mode */
+    .dark .scrollbar-thin-dark {
+        scrollbar-width: thin;
+        scrollbar-color: #4a5568 transparent; /* scrollbar thumb and track colors for dark mode */
+    }
+
+    .dark .scrollbar-thin-dark::-webkit-scrollbar {
+        width: 8px; /* width of the scrollbar */
+    }
+
+    .dark .scrollbar-thin-dark::-webkit-scrollbar-thumb {
+        background-color: #4a5568; /* scrollbar thumb color for dark mode */
+        border-radius: 10px; /* rounded corners for scrollbar thumb */
+    }
+
+    .dark .scrollbar-thin-dark::-webkit-scrollbar-track {
+        background: transparent; /* scrollbar track color for dark mode */
+    }
+}

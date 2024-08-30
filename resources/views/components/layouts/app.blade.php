@@ -26,6 +26,7 @@
                 <livewire:app.header-component />
             <main class="h-full overflow-y-auto overflow-x-hidden  @if($routePrefix == "newsfeed") bg-gray-100 h-screen @endif dark:bg-darkBg">
                 <div class="m-2">
+                    @yield('content')
 
                     @isset($slot)
                         {{ $slot }}

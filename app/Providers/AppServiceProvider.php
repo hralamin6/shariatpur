@@ -26,6 +26,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        URL::forceScheme('https');
+        $url = env('APP_URL', 'http://localhost:8000');
+
+// Parse the URL to get its components
+        $parsedUrl = parse_url($url);
+
+// Check if the scheme is 'https'
+        if (isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https') {
+            // Force HTTPS if the scheme is 'https'
+            URL::forceScheme('https');
+        }
     }
 }

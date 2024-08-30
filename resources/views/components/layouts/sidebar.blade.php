@@ -1,4 +1,4 @@
-<nav x-cloak @click.outside="nav = false" class="md:block shadow-2xl bg-white overflow-y-hidden overflow-x-hidden inset-y-0 z-10 fixed md:relative flex-shrink-0 w-64 overflow-y-auto bg-white dark:bg-darkSidebar"
+<nav x-cloak @click.outside="nav = false" class="md:block shadow-2xl bg-white overflow-y-hidden overflow-x-hidden inset-y-0 z-10 fixed md:relative flex-shrink-0 w-64 overflow-y-auto bg-white dark:bg-darkSidebar dark:scrollbar-thin-dark scrollbar-thin-light"
      :class="{'hidden': nav == false}">
     <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3 items-center">
     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
@@ -41,6 +41,12 @@
                     <i class='bx bxl-product-hunt text-xl'></i><span class="">@lang('profile')</span>
                 </a>
                 <a href="{{route('app.setting')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.setting')?'navActive':'navInactive'}}">
+                    <i class='bx bx-cog text-xl'></i><span class="">@lang('setting')</span>
+                </a>
+                <a href="{{route('app.chat')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.chat')?'navActive':'navInactive'}}">
+                    <i class='bx bx-chat text-xl'></i><span class="">@lang('chat')</span>
+                </a>
+                <a href="{{url('/translations')}}" wire:navigate class="navMenuLink items-center {{Route::is('translation')?'navActive':'navInactive'}}">
                     <i class='bx bx-cog text-xl'></i><span class="">@lang('setting')</span>
                 </a>
 

@@ -25,6 +25,7 @@
         }
     </style>
 
+    @vite(['resources/js/bootstrap.js'])
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @laravelPWA
 

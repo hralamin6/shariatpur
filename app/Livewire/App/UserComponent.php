@@ -2,6 +2,7 @@
 
 namespace App\Livewire\App;
 
+use App\Models\Conversation;
 use App\Models\Setup;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -174,6 +175,26 @@ class UserComponent extends Component
             $this->orderDirection==='asc';
 
         }
+    }
+    public function pdfGenerate()
+    {
+        return response()->streamDownload(function () {
+            $items= $this->data;
+//            $setup = Setup::first();
+            $pdf = Pdf::loadView('pdf.users', compact('items'));
+            return $pdf->stream('users.pdf');
+        }, 'users.pdf');
+    }
+    public function createConversation($receiverId)
+    {
+        $checkedConversation = Conversation::where('receiver_id', auth()->user()->id)->where('sender_id', $receiverId)->orWhere('receiver_id', $receiverId)->where('sender_id', auth()->user()->id)->first();
+        if ($checkedConversation) {
+            $checkedConversation->update(['last_time_message'=> now()]);
+        } else {
+            Conversation::create(['receiver_id'=>$receiverId,'sender_id'=>auth()->user()->id,'last_time_message'=>now()]);
+            $this->dispatch('receiveOpponentId', $receiverId);
+        }
+        return redirect()->route('app.chat');
     }
     public function render()
     {

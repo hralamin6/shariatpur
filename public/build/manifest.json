@@ -1,13 +1,22 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-C_0kTdvd.css",
+    "file": "assets/app-xpuJeedi.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BmrwFrBv.js",
+    "file": "assets/app-DCJZmHds.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/bootstrap.js"
+    ]
+  },
+  "resources/js/bootstrap.js": {
+    "file": "assets/bootstrap-CdJwHwlj.js",
+    "name": "bootstrap",
+    "src": "resources/js/bootstrap.js",
     "isEntry": true
   }
 }
