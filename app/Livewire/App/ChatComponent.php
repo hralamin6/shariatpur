@@ -141,7 +141,7 @@ class ChatComponent extends Component
             broadcast(new MessageSent(auth()->id(), $this->selectedConversation->id, $this->receiver, $body))->toOthers();
         }
         $user = User::find($this->receiver);
-        $user->notify(new UserApproved($user->name, $body));
+        $user->notify(new UserApproved($user->name, $body, $user));
 
     }
     public function getDataProperty()
