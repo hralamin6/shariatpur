@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Notifications\UserApproved;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Events\MessageRead;
@@ -27,12 +28,9 @@ class HeaderComponent extends Component
     public function broadcastedMessageReceived($e)
     {
         $this->dispatch('broadcastedMessageReceived', sentEvent: $e);
-        if (\Route::is('app.chat'))
-        {
 
-        }else{
             $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: route('app.chat'));
-        }
+
 
 
     }
@@ -44,7 +42,7 @@ class HeaderComponent extends Component
     public function logout()
     {
         Auth::logout();
-        return redirect(route('home'));
+        return redirect(route('login'));
 
     }
     public function updatedLocale()

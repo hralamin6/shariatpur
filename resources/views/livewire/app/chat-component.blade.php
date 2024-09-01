@@ -1,4 +1,4 @@
-<div class="m-2" x-data="chat({{ $messages->isNotEmpty() ? $messages->last()->id : 'null' }})">
+<div class="m-2" x-data="chat({{ $messages && $messages->isNotEmpty() ? $messages->last()->id : 'null' }})">
     <div class="grid grid-cols-1 md:grid-cols-3">
         <div class="col-span-3 lg:col-span-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-darkSidebar {{$selectedConversation?'hidden lg:block':''}}">
             <div class="h-16 border-b border-gray-300 flex justify-between gap-2 items-center capitalize px-2">
@@ -44,6 +44,7 @@
                             </li>
                         @empty
                             <p class="text-center text-sm text-gray-500 dark:text-gray-400">No conversation found</p>
+                            <a href="{{route('app.users')}}" wire:navigate class="text-center text-lg text-green-600 dark:text-gray-400">@lang('select user to start conversation')</a>
                         @endforelse
                     </ul>
                 </div>

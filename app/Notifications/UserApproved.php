@@ -9,19 +9,21 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
 
-class UserApproved extends Notification
+class UserApproved extends Notification Implements ShouldQueue
 {
-//    use Queueable;
+    use Queueable;
 
     /**
      * Create a new notification instance.
      */
     public $userName;
     public $body;
-    public function __construct($userName, $body)
+    public $user;
+    public function __construct($userName, $body, $user)
     {
         $this->userName = $userName;
         $this->body = $body;
+        $this->user = $user;
     }
 
     /**
@@ -35,8 +37,12 @@ class UserApproved extends Notification
 //    }
     public function via($notifiable)
     {
-        return [WebPushChannel::class];
-    }
+        try {
+            return [WebPushChannel::class];
+        } catch (\Exception $e) {
+            \Log::error('Notification Error: ' . $e->getMessage());
+            throw $e;
+        }    }
     /**
      * Get the mail representation of the notification.
      */
@@ -49,9 +55,11 @@ class UserApproved extends Notification
 //    }
     public function toWebPush($notifiable, $notification)
     {
+//        $user = User::find($this->user);
         return (new WebPushMessage())
             ->title('New message from: ' . $this->userName)
-            ->icon(getUserProfileImage(auth()->user()))
+//            ->icon('https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name))
+            ->icon(getUserProfileImage($this->user))
             ->body($this->body)
             ->action('View account', 'view_account')
             ->options(['TTL' => 1000])

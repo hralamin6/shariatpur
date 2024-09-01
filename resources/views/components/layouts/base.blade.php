@@ -163,9 +163,10 @@
 
         document.addEventListener('livewire:init', () => {
             Livewire.on('browserMessage', (e) => {
-                console.log(e)
-                    // Create the notification
-                    console.log(e)
+
+                if (window.location.pathname === '/app/chat') {
+                   console.log('chat')
+                } else {
                     const notification = new Notification(e.userName, {
                         body: e.messageBody,
                         icon: 'https://unmeshbd.com/media/Images/Unmesh/logo.png',
@@ -190,6 +191,7 @@
                     if ("vibrate" in navigator) {
                         navigator.vibrate([200, 100]); // Vibration pattern
                     }
+                }
 
             });
         });

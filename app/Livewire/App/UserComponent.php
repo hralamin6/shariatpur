@@ -57,7 +57,7 @@ class UserComponent extends Component
         $this->authorize('app.users.edit');
 
         $user->status=='active'?$user->update(['status'=>'inactive']):$user->update(['status'=>'active']);
-        $user->notify(new UserApproved($user->name, $user->status));
+        $user->notify(new UserApproved($user->name, $user->status, $user));
 
         $this->alert('success', __('Data updated successfully'));
     }
