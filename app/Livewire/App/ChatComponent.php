@@ -8,6 +8,7 @@ use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\User;
+use App\Notifications\UserApproved;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -55,7 +56,6 @@ class ChatComponent extends Component
             Message::where('conversation_id',$this->selectedConversation->id)
                 ->where('receiver_id',auth()->user()->id)->update(['read'=> 1]);
             broadcast(new MessageRead($this->selectedConversation->id, $this->getChatUserInstance($this->selectedConversation, $name = 'id')))->toOthers();
-            $this->dispatch('browserMessage', ['messageBody'=>$sentEvent['message'],'userName' => User::find($sentEvent['sender_id'])->name, 'link'=> route('app.dashboard')]);
             $this->alert('success', __('New message from '.User::find($sentEvent['sender_id'])->name).' '.$sentEvent['message']);
 
 
@@ -140,6 +140,8 @@ class ChatComponent extends Component
 
             broadcast(new MessageSent(auth()->id(), $this->selectedConversation->id, $this->receiver, $body))->toOthers();
         }
+        $user = User::find($this->receiver);
+        $user->notify(new UserApproved($user->name, $body));
 
     }
     public function getDataProperty()

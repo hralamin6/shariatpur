@@ -3,6 +3,8 @@
 namespace App\Livewire\App;
 
 use App\Models\Message;
+use App\Models\User;
+use App\Notifications\UserApproved;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -25,6 +27,14 @@ class HeaderComponent extends Component
     public function broadcastedMessageReceived($e)
     {
         $this->dispatch('broadcastedMessageReceived', sentEvent: $e);
+        if (\Route::is('app.chat'))
+        {
+
+        }else{
+            $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: route('app.chat'));
+        }
+
+
     }
     public function broadcastedMessageRead($e)
     {

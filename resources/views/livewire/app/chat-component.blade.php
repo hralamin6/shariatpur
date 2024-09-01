@@ -153,13 +153,6 @@
 {{--                @if($messages && $messages->isNotEmpty())--}}
                     this.scrollToLast(this.lastId);
 {{--                @endif--}}
-
-
-                // Echo.private(`chat.${this.receivingId}`)
-                //     .listen('MessageSent', (e) => {
-                //         console.log(e);
-                //     });
-                // this.whisperTypingEnd();
                 Echo.private(`chat.${this.receivingId}`)
                     .listenForWhisper('typing', (e) => {
                         if (e.typing) {
@@ -171,7 +164,6 @@
                         setTimeout(() => { this.typing = false; }, 5000)
                     });
                 $wire.on('scrollBottom', (e) => {
-                    console.log('ads')
                     $nextTick(() => {
                         element = document.getElementById(e.message_id)
                         element.scrollIntoView({behavior: 'smooth'})
@@ -194,22 +186,7 @@
                         // element.scrollTop = element.scrollTop + 620;
                     });
                 });
-                // $wire.on('browserMessage', (e) => {
-                //     Push.create(e.userName), {
-                //         body: e.messageBody,
-                //         icon: 'https://unmeshbd.com/media/Images/Unmesh/logo.png',
-                //         timeout: 10000,
-                //         requireInteraction: true,
-                //         vibrate: [200, 100],
-                //         link: e.link,
-                //         onClick: function () {
-                //
-                //             window.location.href = e.link;
-                //             window.focus();
-                //             this.close();
-                //         }
-                //     }
-                // });
+
             },
             lastId:last,
             sending:0,
@@ -255,6 +232,7 @@
                     element.classList.remove('animate-pulse');
                 }, 3000)
             },
+
         }))
     </script>
     @endscript

@@ -11,6 +11,7 @@
         "browner12/helpers": "^3.6",
         "jantinnerezo/livewire-alert": "^3.0",
         "larasocket/larasocket-driver": "^1.0",
+        "laravel-notification-channels/webpush": "^9.0",
         "laravel/framework": "^11.9",
         "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.9",

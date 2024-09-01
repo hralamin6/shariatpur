@@ -10,6 +10,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Masbug\Flysystem\GoogleDriveAdapter;
+use Pusher\PushNotifications\PushNotifications;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,17 @@ class AppServiceProvider extends ServiceProvider
         if (isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https') {
             // Force HTTPS if the scheme is 'https'
             URL::forceScheme('https');
+        }
+        $instanceId = config('services.pusher_beams.instance_id');
+        $secretKey = config('services.pusher_beams.secret_key');
+
+        if ($instanceId && $secretKey) {
+            app()->singleton('PusherBeams', function () use ($instanceId, $secretKey) {
+                return new PushNotifications([
+                    'instanceId' => $instanceId,
+                    'secretKey' => $secretKey,
+                ]);
+            });
         }
     }
 }

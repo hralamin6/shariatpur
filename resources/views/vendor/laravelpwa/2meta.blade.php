@@ -1,7 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="@yield('description', 'Easily make and customize your class note according to subject and chapter wise') - {{config('app.name')}}">
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <meta property="og:title" content="@yield('title', 'Home Page') - {{config('app.name')}}" />
 <meta property="og:description" content="@yield('description', 'Easily make and customize your class note according to subject and chapter wise') - {{config('app.name')}}" />
@@ -54,49 +53,50 @@
 
 <script type="text/javascript">
     // Initialize the service worker
-    const publicVapidKey = 'BMd5P4XcEt9LqKKu3tf5CdBfu2WKwYRu18iS2vU5UwL65SCIzWqqX81hdFh3ncQdWOiC2IjlJ2sUdmJ127tf3U0';
-
-    // Register Service Worker
     if ('serviceWorker' in navigator) {
-        send().catch(err => console.error(err));
+        const register = async () => {
+            const reg = navigator.serviceWorker.register('/serviceworker.js');
+            return reg;
+
+        }
+       navigator.serviceWorker.register('/serviceworker.js', {
+            scope: '.'
+        }).then(function (registration) {
+            // Registration was successful
+            console.log('Laravel PWA: ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+            // registration failed :(
+            console.log('Laravel PWA: ServiceWorker registration failed: ', err);
+        });
+       // console.log(reg)
+        const main = async () => {
+            const r = await register();
+            r.showNotification('asdf');
+
+        }
+        main()
     }
-
-    async function send() {
-        const register = await navigator.serviceWorker.register('/serviceworker.js', {
-            // scope: '/'
-        });
-
-        const subscription = await register.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-        });
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        console.log(subscription)
-        await fetch('/subscribe', {
-            method: 'POST',  // Ensure this is POST
-            body: JSON.stringify(subscription),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': token
-
-            }
-        });
-    }
-
+    Notification.requestPermission();
     function urlBase64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
         const base64 = (base64String + padding)
-            .replace(/-/g, '+')
+            .replace(/\-/g, '+')
             .replace(/_/g, '/');
-
         const rawData = window.atob(base64);
         const outputArray = new Uint8Array(rawData.length);
-
         for (let i = 0; i < rawData.length; ++i) {
             outputArray[i] = rawData.charCodeAt(i);
         }
         return outputArray;
     }
-    Notification.requestPermission();
-
+    const saveSubscription = async (subscription) =>{
+        const response = await fetch('http://127.0.0.1:8000/save-subscription', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(subscription)
+        })
+        return response.json()
+    }
 </script>

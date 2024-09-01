@@ -24,11 +24,9 @@
             }
         }
     </style>
-
     @vite(['resources/js/bootstrap.js'])
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @laravelPWA
-
     <script>
 
         const setup = () => {
@@ -140,6 +138,7 @@
                     setTimeout(() => {
                         this.isVisible = false;
                     }, 10000); // Hide after 10 seconds
+
                 },
                 installPWA() {
                     if (this.deferredPrompt) {
@@ -162,6 +161,38 @@
 
         }
 
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('browserMessage', (e) => {
+                console.log(e)
+                    // Create the notification
+                    console.log(e)
+                    const notification = new Notification(e.userName, {
+                        body: e.messageBody,
+                        icon: 'https://unmeshbd.com/media/Images/Unmesh/logo.png',
+                        requireInteraction: true // Keeps the notification until the user interacts
+                    });
+
+                    // Set a timeout to close the notification after a specific time
+                    setTimeout(() => {
+                        notification.close();
+                    }, 20000); // 10 seconds
+
+                    // Handle click event
+                    notification.onclick = function (e) {
+                        console.log(e)
+                        e.preventDefault(); // Prevent the default action
+                        window.location.href = '/app/chat'; // Navigate to the link
+                        window.focus();
+                        this.close(); // Close the notification
+                    };
+
+                    // Handle vibration (works on mobile devices with proper permissions)
+                    if ("vibrate" in navigator) {
+                        navigator.vibrate([200, 100]); // Vibration pattern
+                    }
+
+            });
+        });
     </script>
 
 

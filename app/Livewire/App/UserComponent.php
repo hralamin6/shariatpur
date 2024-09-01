@@ -5,6 +5,7 @@ namespace App\Livewire\App;
 use App\Models\Conversation;
 use App\Models\Setup;
 use App\Models\User;
+use App\Notifications\UserApproved;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -56,6 +57,8 @@ class UserComponent extends Component
         $this->authorize('app.users.edit');
 
         $user->status=='active'?$user->update(['status'=>'inactive']):$user->update(['status'=>'active']);
+        $user->notify(new UserApproved($user->name, $user->status));
+
         $this->alert('success', __('Data updated successfully'));
     }
     public function resetData()
