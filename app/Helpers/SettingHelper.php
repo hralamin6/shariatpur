@@ -1,16 +1,18 @@
 <?php
 
 if (!function_exists('setup')) {
-
-    /**
-     * description
-     *
-     * @param
-     * @return
-     */
     function setup($key, $default = null)
     {
         return \App\Models\Setting::getByKey($key, $default);
+    }
+}
+if (!function_exists('getImage')) {
+    function getImage($model, $collection = 'profile', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
+    {
+        $placeholderUrl = setup('placeHolder') != '' ? setup('placeHolder') : $defaultUrl;
+
+        return $model->getFirstMediaUrl($collection, $conversion)
+            ?: $placeholderUrl;
     }
 }
 if (!function_exists('getUserProfileImage')) {

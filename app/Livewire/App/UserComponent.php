@@ -86,7 +86,7 @@ class UserComponent extends Component
         $data['password'] = Hash::make($this->password);
 
         $data = User::create($data);
-        $var = $data->id -2  ;
+        $var = $data->id;
         $this->dispatch('dataAdded', dataId: "item-id-$var");
         $this->goToPage($this->getDataProperty()->lastPage());
         $this->alert('success', __('Data updated successfully'));
@@ -147,8 +147,7 @@ class UserComponent extends Component
     {
         return response()->streamDownload(function () {
             $items= $this->data;
-            $setup = Setup::first();
-            $pdf = Pdf::loadView('pdf.users', compact('items', 'setup'));
+            $pdf = Pdf::loadView('pdf.users', compact('items'));
             return $pdf->stream('users.pdf');
         }, 'users.pdf');
     }

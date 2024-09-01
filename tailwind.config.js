@@ -90,5 +90,7 @@ export default {
             overflow: ['hover'],
         },
     },
-    plugins: [forms],
+    plugins: [forms,
+        require('@tailwindcss/typography')
+    ],
 };

@@ -58,12 +58,10 @@
                 <thead>
                 <tr style="background-color: #f2f2f2;">
                     <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('ID')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Name')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Email')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Type')</th>
+                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Title')</th>
+                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Slug')</th>
                     <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Status')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('phone')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('address')</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -71,12 +69,9 @@
 
                     <tr style="border: 1px solid #ddd;">
                         <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->id}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->name}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->email}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->role->name}}</td>
+                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->slug}}</td>
+                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->title}}</td>
                         <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->status}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$item->phone}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{str($item->address)->words(5)}}</td>
                     </tr>
                 @empty
 

@@ -1,7 +1,7 @@
 <div class="m-2" x-data="chat({{ $messages && $messages->isNotEmpty() ? $messages->last()->id : 'null' }})">
-    <div class="grid grid-cols-1 md:grid-cols-3">
-        <div class="col-span-3 lg:col-span-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-darkSidebar {{$selectedConversation?'hidden lg:block':''}}">
-            <div class="h-16 border-b border-gray-300 flex justify-between gap-2 items-center capitalize px-2">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div class="col-span-3 lg:col-span-1 rounded-xl border border-gray-300 dark:border-gray-500 bg-white dark:bg-darkSidebar {{$selectedConversation?'hidden lg:block':''}}">
+            <div class="h-16 border-b border-gray-300 dark:border-gray-500 flex justify-between gap-2 items-center capitalize px-2">
                 <p class="text-2xl text-gray-700 dark:text-gray-300 font-medium">@lang('chat list')</p>
             </div>
             <div class="flex flex-col row-span-4">
@@ -54,19 +54,21 @@
         </div>
         @if ($selectedConversation)
             <div class="col-span-3 lg:col-span-2" x-data="{openChat: $persist(true)}">
-                <aside class="rounded-xl border border-gray-300 bg-white dark:bg-darkSidebar">
-                    <div class="h-16 border-b border-gray-300 flex justify-between gap-2 items-center capitalize px-6">
+                <aside class="rounded-xl border border-gray-300 dark:border-gray-500 bg-white dark:bg-darkSidebar">
+                    <div class="h-16 border-b dark:border-gray-500 flex justify-between gap-2 items-center capitalize px-6">
                         <button wire:click.prevent="resetComponent" class="text-gray-500 dark:text-gray-300">
-                            <x-h-o-arrow-long-left class="h-6 w-6"/>
+                            <i class='bx bx-arrow-back text-2xl font-medium'></i>
+
                         </button>
                         <div class="flex gap-2 items-center justify-start">
                             <img class="rounded-full p-2 h-16" src="https://ui-avatars.com/api/?name={{$this->getChatUserInstance($selectedConversation, $name = 'name')}}" alt="">
-                            <h2 class="text-lg font-medium text-gray-900 truncate"> {{ $this->getChatUserInstance($selectedConversation, $name = 'name') }}</h2>
+                            <h2 class="text-lg font-medium text-gray-700 dark:text-gray-300 truncate"> {{ $this->getChatUserInstance($selectedConversation, $name = 'name') }}</h2>
                         </div>
                         <div class="flex justify-center gap-4 text-gray-500 dark:text-gray-300">
                             <button class="" @click="openChat = !openChat">
-                                <x-h-o-minus x-show="openChat"  class="h-6 w-6"/>
-                                <x-h-o-x-mark x-show="!openChat" class="h-6 w-6"/>
+
+                                <i x-show="openChat" class='bx bx-minus text-2xl font-medium'></i>
+                                <i x-show="!openChat"class='bx bx-plus text-2xl font-medium'></i>
                             </button>
 
 
@@ -115,9 +117,9 @@
                             @endforeach
                                     @if($messages && $messages->isNotEmpty())
                                     @if($messages->last()->sender_id == auth()->id()&& $messages->last()->read == 1)
-                                        <p class="text-xs text-green-500 dark:text-green-300 float-right"><x-h-o-eye class="h-4"/></p>
+                                        <p class="text-xs text-green-500 dark:text-green-300 float-right"><i class='bx bx-show text-2xl font-medium'></i></p>
                                     @elseif($messages->last()->sender_id == auth()->id()&& $messages->last()->read == 0)
-                                        <p class="text-xs text-red-500 dark:text-red-300 float-right"><x-h-o-eye-slash class="h-4"/></p>
+                                        <p class="text-xs text-red-500 dark:text-red-300 float-right"><i class='bx bx-low-vision text-2xl font-medium'></i></p>
                                     @endif
                                     @endif
                         </div>

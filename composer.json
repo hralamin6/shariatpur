@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-translation-manager": "^0.6.6",
-        "blade-ui-kit/blade-heroicons": "^2.3",
         "browner12/helpers": "^3.6",
         "jantinnerezo/livewire-alert": "^3.0",
         "larasocket/larasocket-driver": "^1.0",

@@ -29,7 +29,7 @@ class HeaderComponent extends Component
     {
         $this->dispatch('broadcastedMessageReceived', sentEvent: $e);
 
-            $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: route('app.chat'));
+//            $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: route('app.chat'));
 
 
 

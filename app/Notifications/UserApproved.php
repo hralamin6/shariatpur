@@ -65,7 +65,7 @@ class UserApproved extends Notification Implements ShouldQueue
             ->options(['TTL' => 1000])
             ->data([
                 'url' => 'https://example.com/your-page' // Add the URL you want to redirect to
-            ]);
+            ])->vibrate([200, 100, 200])->requireInteraction(true)->badge(10);
         // ->badge()
         // ->dir()
         // ->image()

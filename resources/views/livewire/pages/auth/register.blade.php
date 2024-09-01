@@ -88,4 +88,15 @@ $register = function () {
             </x-primary-button>
         </div>
     </form>
+    <a href="{{ route('socialite.auth', 'google') }}" class="flex items-center justify-center px-4 py-2 space-x-2 text-white transition-all duration-200 bg-black rounded-md hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 dark:focus:ring-offset-darker"
+    >
+        <i class='bx bxl-google bx-tada text-2xl text-white' ></i>
+        <span> @lang('Login with google') </span>
+    </a>
+    <a href="{{ route('socialite.auth', 'github') }}" class="flex items-center justify-center px-4 py-2 space-x-2 text-white transition-all duration-200 bg-black rounded-md hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 dark:focus:ring-offset-darker"
+    >
+        <i class='bx bxl-github bx-tada text-2xl text-white' ></i>
+
+        <span> @lang(" Login with github") </span>
+    </a>
 </div>

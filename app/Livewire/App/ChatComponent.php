@@ -56,7 +56,7 @@ class ChatComponent extends Component
             Message::where('conversation_id',$this->selectedConversation->id)
                 ->where('receiver_id',auth()->user()->id)->update(['read'=> 1]);
             broadcast(new MessageRead($this->selectedConversation->id, $this->getChatUserInstance($this->selectedConversation, $name = 'id')))->toOthers();
-            $this->alert('success', __('New message from '.User::find($sentEvent['sender_id'])->name).' '.$sentEvent['message']);
+//            $this->alert('success', __('New message from '.User::find($sentEvent['sender_id'])->name).' '.$sentEvent['message']);
 
 
         }
@@ -137,11 +137,10 @@ class ChatComponent extends Component
             $this->messages = $this->data;
             $this->scrollBottom(true);
             $this->reset('body');
-
             broadcast(new MessageSent(auth()->id(), $this->selectedConversation->id, $this->receiver, $body))->toOthers();
+            $user = User::find($this->receiver);
+            $user->notify(new UserApproved($user->name, $body, $user));
         }
-        $user = User::find($this->receiver);
-        $user->notify(new UserApproved($user->name, $body, $user));
 
     }
     public function getDataProperty()

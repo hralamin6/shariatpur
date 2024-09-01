@@ -61,18 +61,16 @@
                                         <td class="px-4 py-3 text-sm">
                                             <div class="flex items-center gap-x-6">
                                                 @can("app.roles.edit")
-                                                    <button @click="editModal('{{$item->id}}')"
-                                                            class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-                                                        <x-h-o-pencil-square class="text-green-400"/>
+                                                    <button @click="editModal('{{$item->id}}')" class="">
+                                                        <i class='bx bx-pencil text-2xl font-medium text-yellow-700 transition-colors duration-200 dark:hover:text-yellow-300 hover:text-yellow-500'></i>
                                                     </button>
                                                 @endcan
 
                                                 @if($item->deletable)
                                                     @can("app.roles.delete")
-                                                        <button
-                                                            @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'you will loss this data forever', icon: 'error',actionName: 'deleteSingle', itemId: {{$item->id}} })"
-                                                            class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
-                                                            <x-h-o-trash class="text-red-400"/>
+                                                        <button @click.prevent="$dispatch('delete', { title: 'Are you sure to delete', text: 'you will loss this data forever', icon: 'error',actionName: 'deleteSingle', itemId: {{$item->id}} })">
+                                                            <i class='bx bx-trash text-2xl font-medium text-red-700 transition-colors duration-200 dark:hover:text-red-300 hover:text-red-500'></i>
+
                                                         </button>
                                                     @endcan
 

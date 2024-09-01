@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class NotificationComponent extends Component
 {
+    public $page;
     public function sendNotification()
     {
         $pusherBeams = app('PusherBeams');
@@ -19,6 +20,12 @@ class NotificationComponent extends Component
         );
 
         session()->flash('message', 'Notification sent successfully.');
+    }
+
+    public function mount($slug=null)
+    {
+        $this->page = \App\Models\Page::where('slug', $slug)->firstOrFail();
+
     }
 
     public function render()

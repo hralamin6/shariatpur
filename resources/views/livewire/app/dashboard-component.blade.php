@@ -1,52 +1,5 @@
 <div class="m-2">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 capitalize">
-        <a href="{{route('app.users')}}?search=customer&searchBy=type" class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
-            <div class="rounded-md bg-purple-500 px-4 py-3 text-white">
-                <x-h-o-users class="h-8 w-8"/>
-            </div>
-            <div class="flex flex-col gap-2 text-sm text-gray-500 font-semibold dark:text-gray-200">
-                <p class="">@lang('total customers')</p>
-                <p class="">{{$users->where('type', 'customer')->count()}}</p>
-            </div>
-        </a>
-        <a href="{{route('app.users')}}?search=supplier&searchBy=type" class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
-            <div class="rounded-md bg-pink-500 px-4 py-3 text-white">
-                <x-h-o-user-group class="h-8 w-8"/>
-            </div>
-            <div class="flex flex-col gap-2 text-sm text-gray-500 font-semibold dark:text-gray-200">
-                <p class="">@lang('total suppliers')</p>
-                <p class="">{{$users->where('type', 'supplier')->count()}}</p>
-            </div>
-        </a>
-        <a href="{{route('app.users')}}" class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
-            <div class="rounded-md bg-pink-500 px-4 py-3 text-white">
-                <x-h-o-bars-4 class="h-8 w-8"/>
-            </div>
-            <div class="flex flex-col gap-2 text-sm text-gray-500 font-semibold dark:text-gray-200">
-                <p class="">@lang('total medicines')</p>
-                <p class="">12</p>
-            </div>
-        </a>
-        <a href="{{route('app.users')}}?search=0&searchBy=quantity" class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
-            <div class="rounded-md bg-pink-500 px-4 py-3 text-white">
-                <x-h-o-bars-4 class="h-8 w-8"/>
-            </div>
-            <div class="flex flex-col gap-2 text-sm text-gray-500 font-semibold dark:text-gray-200">
-                <p class="">@lang('total medicines')</p>
-                <p class="">00</p>
-            </div>
-        </a>
-        <div class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
-            <div class="rounded-md bg-green-500 px-4 py-3 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-            </div>
-            <div class="flex flex-col gap-2 text-sm text-gray-500 font-semibold dark:text-gray-200">
-                <p class="">Sales</p>
-                <p class="">25</p>
-            </div>
-        </div>
         <div class=" flex gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2 rounded-md">
             <div class="rounded-md bg-yellow-500 px-4 py-3 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -28,13 +28,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $url = env('APP_URL', 'http://localhost:8000');
-
-// Parse the URL to get its components
         $parsedUrl = parse_url($url);
-
-// Check if the scheme is 'https'
         if (isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https') {
-            // Force HTTPS if the scheme is 'https'
             URL::forceScheme('https');
         }
         $instanceId = config('services.pusher_beams.instance_id');
@@ -48,5 +43,8 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             });
         }
+        \Blade::if('role', function ($role) {
+            return \Auth::user()->role->slug === $role;
+        });
     }
 }

@@ -26,25 +26,28 @@
 
 
                 <a href="{{route('app.dashboard')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.dashboard')?'navActive':'navInactive'}}">
-                    <i class='bx bx-home text-xl'></i><span class="">@lang('dashboard')</span>
+                    <i class='bx bx-home text-xl {{Route::is('app.dashboard')?'bx-tada':''}}'></i><span class="">@lang('dashboard')</span>
                 </a>
                 <a href="{{route('app.roles')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.roles')?'navActive':'navInactive'}}">
-                    <i class='bx bx-shield text-xl'></i><span class="">@lang('roles')</span>
+                    <i class='bx bx-shield text-xl {{Route::is('app.roles')?'bx-tada':''}}'></i><span class="">@lang('roles')</span>
                 </a>
                 <a href="{{route('app.users')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.users')?'navActive':'navInactive'}}">
-                    <i class='bx bx-user text-xl'></i><span class="">@lang('users')</span>
+                    <i class='bx bx-user text-xl {{Route::is('app.users')?'bx-tada':''}}'></i><span class="">@lang('users')</span>
                 </a>
                 <a href="{{route('app.backups')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.backups')?'navActive':'navInactive'}}">
-                    <i class='bx bx-cloud-download text-xl'></i><span class="">@lang('backups')</span>
+                    <i class='bx bx-cloud-download text-xl {{Route::is('app.backups')?'bx-tada':''}}'></i><span class="">@lang('backups')</span>
                 </a>
                 <a href="{{route('app.profile')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.profile')?'navActive':'navInactive'}}">
-                    <i class='bx bxl-product-hunt text-xl'></i><span class="">@lang('profile')</span>
+                    <i class='bx bxl-product-hunt text-xl {{Route::is('app.profile')?'bx-tada':''}}'></i><span class="">@lang('profile')</span>
                 </a>
                 <a href="{{route('app.setting')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.setting')?'navActive':'navInactive'}}">
-                    <i class='bx bx-cog text-xl'></i><span class="">@lang('setting')</span>
+                    <i class='bx bx-cog text-xl {{Route::is('app.setting')?'bx-tada':''}}'></i><span class="">@lang('setting')</span>
                 </a>
                 <a href="{{route('app.chat')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.chat')?'navActive':'navInactive'}}">
-                    <i class='bx bx-chat text-xl'></i><span class="">@lang('chat')</span>
+                    <i class='bx bx-chat text-xl {{Route::is('app.chat')?'bx-tada':''}}'></i><span class="">@lang('chat')</span>
+                </a>
+                <a href="{{route('app.pages')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.pages')?'navActive':'navInactive'}}">
+                    <i class='bx bxs-book text-xl {{Route::is('app.pages')?'bx-tada':''}}'></i><span class="">@lang('pages')</span>
                 </a>
                 <a href="{{url('/translations')}}" wire:navigate class="navMenuLink items-center {{Route::is('translation')?'navActive':'navInactive'}}">
                     <i class='bx bx-cog text-xl'></i><span class="">@lang('setting')</span>

@@ -8,8 +8,8 @@
     @else
         <title>{{ setup('name', 'starter') }}</title>
     @endif
-{{--    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js" ></script>--}}
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 {{--    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">--}}
     <style>
         [x-cloak] {
@@ -27,6 +27,26 @@
     @vite(['resources/js/bootstrap.js'])
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @laravelPWA
+        <style>
+            .trix-content p,
+            .trix-content h1,
+            .trix-content h2,
+            .trix-content h3,
+            .trix-content a,
+            .trix-content ul,
+            .trix-content ol {
+                @apply text-gray-800 dark:text-gray-100;
+            }
+
+            .trix-content a {
+                @apply text-blue-600 dark:text-blue-400;
+            }
+
+            .trix-content blockquote {
+                @apply bg-gray-100 dark:bg-gray-800;
+                @apply border-l-4 border-gray-300 dark:border-gray-600;
+            }
+        </style>
     <script>
 
         const setup = () => {
