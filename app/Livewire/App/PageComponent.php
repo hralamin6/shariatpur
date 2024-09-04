@@ -4,6 +4,10 @@ namespace App\Livewire\App;
 
 use App\Models\Conversation;
 use App\Models\Page;
+use App\Models\Role;
+use App\Models\User;
+use App\Notifications\DeleteNotification;
+use App\Notifications\UserApproved;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -75,7 +79,7 @@ class PageComponent extends Component
             'status' => 'required|in:published,draft', // Assuming 'published' and 'draft' are valid statuses
         ]);
         $data = Page::create($data);
-        $var = $data->id  ;
+        $var = $data->id;
         $this->dispatch('dataAdded', dataId: "item-id-$var");
         $this->goToPage($this->getDataProperty()->lastPage());
         $this->alert('success', __('Data updated successfully'));
@@ -133,7 +137,13 @@ class PageComponent extends Component
     {
         $this->authorize('app.pages.delete');
 
-        Page::whereIn('id', $this->selectedRows)->where('role_id', '!=', 1)->delete();
+        Page::whereIn('id', $this->selectedRows)->get();
+        $pages = Page::whereIn('id', $this->selectedRows)->get();  // Retrieve models
+
+        foreach ($pages as $page) {
+            $page->delete();  // Delete each model individually, triggering the deleting event
+        }
+
         $this->selectPageRows = false;
         $this->selectedRows = [];
         $this->alert('success', __('Data deleted successfully'));
@@ -141,7 +151,6 @@ class PageComponent extends Component
     public function deleteSingle(Page $page)
     {
         $this->authorize('app.pages.delete');
-
         $page->delete();
         $this->alert('success', __('Data deleted successfully'));
     }

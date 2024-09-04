@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\NotifiesAdminsOnDelete;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -10,7 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Page extends Model implements HasMedia
 {
-    use  InteractsWithMedia;
+    use  InteractsWithMedia, NotifiesAdminsOnDelete;
     protected $guarded = ['id'];
     public function registerMediaCollections(): void
     {

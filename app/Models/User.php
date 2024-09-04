@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+ use App\NotifiesAdminsOnDelete;
  use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 {
     use HasFactory, Notifiable;
     use Notifiable, InteractsWithMedia;
-     use HasPushSubscriptions;
+     use HasPushSubscriptions, NotifiesAdminsOnDelete;
     /**
      * The attributes that are mass assignable.
      *

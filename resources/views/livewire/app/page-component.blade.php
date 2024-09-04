@@ -143,11 +143,14 @@
 
                                         <td class="max-w-48 truncate px-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                             <a href="{{route('page', $item->slug)}}" wire:navigate class="flex justify-start gap-x-3">
-                                                    <div class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl">
-                                                        <img src="{{ getImage($item, 'profile', 'thumb') }}" alt="" onerror="{{getErrorImage()}}" class="w-full h-full rounded-full object-cover">
-                                                    </div>
+                                                <div class="flex items-center gap-x-2">
+                                                    <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
+                                                        <img src="{{ getImage($item, 'profile', 'thumb') }}" alt="" onerror="{{getErrorImage()}}" class="w-full h-full object-cover">
+                                                    </span>
                                                     <h2 class="font-medium text-gray-800 dark:text-white ">{{ $item->title }}</h2>
+                                                </div>
                                             </a>
+
                                         </td>
                                         <td class="max-w-48 truncate px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ str($item->slug)->words(5) }}</td>
 
@@ -260,13 +263,12 @@
                 $wire.on('dataAdded', (e) => {
                     this.isOpen = false
                     this.editMode = false
-                    element = document.getElementById(e.dataId)
-                    if (element) {
+                    $nextTick(() => {
+                        element = document.getElementById(e.dataId)
                         element.scrollIntoView({ behavior: 'smooth' });
-                        $nextTick(() => {
-                            element.classList.add('animate-pulse');
+                        console.log(element)
+                        element.classList.add('animate-pulse');
                         });
-                    }
                     setTimeout(() => {
                         element.classList.remove('animate-pulse');
                     }, 5000)

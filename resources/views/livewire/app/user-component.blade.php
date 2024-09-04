@@ -288,14 +288,12 @@
                 $wire.on('dataAdded', (e) => {
                     this.isOpen = false
                     this.editMode = false
-                    element = document.getElementById(e.dataId)
-                    if (element) {
-                        console.log(element)
+                    $nextTick(() => {
+                        element = document.getElementById(e.dataId)
                         element.scrollIntoView({ behavior: 'smooth' });
-                        $nextTick(() => {
-                            element.classList.add('animate-pulse');
-                        });
-                    }
+                        console.log(element)
+                        element.classList.add('animate-pulse');
+                    });
                     setTimeout(() => {
                         element.classList.remove('animate-pulse');
                     }, 5000)
