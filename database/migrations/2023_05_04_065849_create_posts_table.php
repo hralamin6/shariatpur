@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->longText('title')->nullable();
-            $table->longText('body')->nullable();
-            $table->integer('view')->nullable()->default(0);
-            $table->string('status')->default('active');
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->string('title');  // Blog title
+            $table->string('slug')->unique();  // Slug for SEO-friendly URL
+            $table->text('content');  // Blog content
+            $table->text('excerpt')->nullable();  // Blog excerpt/summary
+            $table->json('tags')->nullable();  // Tags (stored as JSON)
+            $table->enum('status', ['draft', 'published'])->default('draft');  // Status (draft/published)
+            $table->string('meta_title')->nullable();  // SEO: Meta title
+            $table->string('meta_description')->nullable();  // SEO: Meta description
+            $table->timestamp('published_at')->nullable();  // Publish date/time
             $table->timestamps();
         });
     }

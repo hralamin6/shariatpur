@@ -12,16 +12,12 @@ class Post extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id')->withDefault();
-    }
-    public function comments()
-    {
-        return $this->hasMany(Comment::class)->orderBy('id', 'desc');
-    }
+//    public function comments()
+//    {
+//        return $this->hasMany(Comment::class)->orderBy('id', 'desc');
+//    }
 
     public function registerMediaConversions(Media $media = null) : void
     {
@@ -29,5 +25,33 @@ class Post extends Model implements HasMedia
             ->width(600)
             ->height(300)
             ->sharpen(10);
+    }
+    protected $casts = [
+        'tags' => 'array',  // Cast tags field to array
+        'published_at' => 'datetime',
+    ];
+
+    // Relationship with Category
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    // Relationship with User (Author)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Scopes for published posts
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    // Mutator to ensure slug is URL-friendly
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = \Str::slug($value);
     }
 }

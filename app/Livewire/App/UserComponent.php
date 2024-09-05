@@ -21,7 +21,7 @@ class UserComponent extends Component
     use LivewireAlert;
     public $selectedRows = [];
     public $selectPageRows = false;
-    public $itemPerPage=200;
+    public $itemPerPage=20;
     public $orderBy = 'id';
     public $searchBy = 'name';
     public $orderDirection = 'asc';

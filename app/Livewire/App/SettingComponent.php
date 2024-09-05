@@ -46,6 +46,96 @@ class SettingComponent extends Component
     public $googleClientId;
     public $googleClientSecret;
 
+
+
+    public $appName;
+    public $appEnv;
+    public $appDebug;
+    public $appUrl;
+    public $appLocale;
+    public $queueConnection;
+    public $appTimezone;
+
+    public $pusherAppId;
+    public $pusherAppKey;
+    public $pusherAppSecret;
+    public $pusherAppCluster;
+    public $pusherHost;
+    public $pusherPort;
+    public $pusherScheme;
+    public $vapidPublicKey;
+    public $vapidPrivateKey;
+
+    public function updatePusherAndVapidSettings()
+    {
+        $this->validate([
+            'pusherAppId' => 'required|string|max:255',
+            'pusherAppKey' => 'required|string|max:255',
+            'pusherAppSecret' => 'required|string|max:255',
+            'pusherAppCluster' => 'required|string|max:255',
+            'pusherHost' => 'nullable|string|max:255',
+            'pusherPort' => 'nullable|numeric',
+            'pusherScheme' => 'nullable|string|max:10',
+            'vapidPublicKey' => 'required|string|max:255',
+            'vapidPrivateKey' => 'required|string|max:255',
+        ]);
+
+        // Update Pusher settings in the database or environment file
+        Setting::updateOrCreate(['key' => 'pusherAppId'], ['value' => str_replace(' ', '_', $this->pusherAppId)]);
+        Setting::updateOrCreate(['key' => 'pusherAppKey'], ['value' => str_replace(' ', '_', $this->pusherAppKey)]);
+        Setting::updateOrCreate(['key' => 'pusherAppSecret'], ['value' => str_replace(' ', '_', $this->pusherAppSecret)]);
+        Setting::updateOrCreate(['key' => 'pusherAppCluster'], ['value' => str_replace(' ', '_', $this->pusherAppCluster)]);
+        Setting::updateOrCreate(['key' => 'pusherHost'], ['value' => str_replace(' ', '_', $this->pusherHost)]);
+        Setting::updateOrCreate(['key' => 'pusherPort'], ['value' => str_replace(' ', '_', $this->pusherPort)]);
+        Setting::updateOrCreate(['key' => 'pusherScheme'], ['value' => str_replace(' ', '_', $this->pusherScheme)]);
+        Setting::updateOrCreate(['key' => 'vapidPublicKey'], ['value' => str_replace(' ', '_', $this->vapidPublicKey)]);
+        Setting::updateOrCreate(['key' => 'vapidPrivateKey'], ['value' => str_replace(' ', '_', $this->vapidPrivateKey)]);
+
+        // Update environment variables
+        $this->updateEnv('PUSHER_APP_ID', str_replace(' ', '_', $this->pusherAppId));
+        $this->updateEnv('PUSHER_APP_KEY', str_replace(' ', '_', $this->pusherAppKey));
+        $this->updateEnv('PUSHER_APP_SECRET', str_replace(' ', '_', $this->pusherAppSecret));
+        $this->updateEnv('PUSHER_APP_CLUSTER', str_replace(' ', '_', $this->pusherAppCluster));
+        $this->updateEnv('PUSHER_HOST', str_replace(' ', '_', $this->pusherHost));
+        $this->updateEnv('PUSHER_PORT', str_replace(' ', '_', $this->pusherPort));
+        $this->updateEnv('PUSHER_SCHEME', str_replace(' ', '_', $this->pusherScheme));
+        $this->updateEnv('VAPID_PUBLIC_KEY', str_replace(' ', '_', $this->vapidPublicKey));
+        $this->updateEnv('VAPID_PRIVATE_KEY', str_replace(' ', '_', $this->vapidPrivateKey));
+
+        $this->alert('success', __('Pusher and VAPID settings updated successfully!'));
+    }
+    public function updateAppSettings()
+    {
+        $this->validate([
+            'appName' => 'required|string|max:255',
+            'appTimezone' => 'required|string|max:255',
+            'appEnv' => 'required|string|max:255',
+            'appDebug' => 'required',
+            'appUrl' => 'required|url|max:255',
+            'appLocale' => 'required|string|max:5',
+            'queueConnection' => 'required|string|max:255',
+        ]);
+
+//        dd($this->appDebug);
+        Setting::updateOrCreate(['key' => 'appName'], ['value' => str_replace(' ', '_', $this->appName)]);
+        Setting::updateOrCreate(['key' => 'appEnv'], ['value' => str_replace(' ', '_', $this->appEnv)]);
+        Setting::updateOrCreate(['key' => 'appDebug'], ['value' => str_replace(' ', '_', $this->appDebug)]);
+        Setting::updateOrCreate(['key' => 'appTimezone'], ['value' => str_replace(' ', '_', $this->appTimezone)]);
+        Setting::updateOrCreate(['key' => 'appUrl'], ['value' => str_replace(' ', '_', $this->appUrl)]);
+        Setting::updateOrCreate(['key' => 'appLocale'], ['value' => str_replace(' ', '_', $this->appLocale)]);
+        Setting::updateOrCreate(['key' => 'queueConnection'], ['value' => str_replace(' ', '_', $this->queueConnection)]);
+
+        // Update environment variables
+        $this->updateEnv('APP_NAME', str_replace(' ', '_', $this->appName));
+        $this->updateEnv('APP_ENV', str_replace(' ', '_', $this->appEnv));
+        $this->updateEnv('APP_DEBUG', str_replace(' ', '_', $this->appDebug));
+        $this->updateEnv('APP_TIMEZONE', str_replace(' ', '_', $this->appTimezone));
+        $this->updateEnv('APP_URL', str_replace(' ', '_', $this->appUrl));
+        $this->updateEnv('APP_LOCALE', str_replace(' ', '_', $this->appLocale));
+        $this->updateEnv('QUEUE_CONNECTION', str_replace(' ', '_', $this->queueConnection));
+
+        $this->alert('success', __('App settings updated successfully!'));
+    }
     public function updateOAuth()
     {
         $this->validate([
@@ -178,28 +268,47 @@ class SettingComponent extends Component
     public function mount()
     {
         $this->name = setup('name', 'laravel');
-        $this->email = setup('email', 'laravel');
-        $this->phone = setup('phone', 'laravel');
-        $this->address = setup('address', 'laravel');
-        $this->details = setup('details', 'laravel');
-        $this->placeHolder = setup('placeHolder', 'laravel');
-
-        $this->mailMailer = setup('mailMailer', 'default_Mailer');
-        $this->mailHost = setup('mailHost', 'default_host');
-        $this->mailPort = setup('mailPort', '1025');
-        $this->mailUsername = setup('mailUsername', 'default_username');
-        $this->mailPassword = setup('mailPassword', 'default_password');
-        $this->mailEncryption = setup('mailEncryption', 'null');
-        $this->mailFromAddress = setup('mailFromAddress', 'default@example.com');
-        $this->mailFromName = setup('mailFromName', 'default_name');
+        $this->email = setup('email', 'example@mail.com');
+        $this->phone = setup('phone', '12345678903');
+        $this->address = setup('address', '');
+        $this->details = setup('details', '');
+        $this->placeHolder = setup('placeHolder', '');
 
         $this->logoImageUrl = Setting::where('key', 'logoImage')->first();
         $this->iconImageUrl = Setting::where('key', 'iconImage')->first();
 
-        $this->githubClientId = setup('githubClientId', '');
-        $this->githubClientSecret = setup('githubClientSecret', '');
-        $this->googleClientId = setup('googleClientId', '');
-        $this->googleClientSecret = setup('googleClientSecret', '');
+
+        $this->mailMailer = setup('mailMailer', env('MAIL_MAILER', 'default_Mailer'));
+        $this->mailHost = setup('mailHost', env('MAIL_HOST', 'default_host'));
+        $this->mailPort = setup('mailPort', env('MAIL_PORT', '1025'));
+        $this->mailUsername = setup('mailUsername', env('MAIL_USERNAME', 'default_username'));
+        $this->mailPassword = setup('mailPassword', env('MAIL_PASSWORD', 'default_password'));
+        $this->mailEncryption = setup('mailEncryption', env('MAIL_ENCRYPTION', 'null'));
+        $this->mailFromAddress = setup('mailFromAddress', env('MAIL_FROM_ADDRESS', 'default@example.com'));
+        $this->mailFromName = setup('mailFromName', env('MAIL_FROM_NAME', 'default_name'));
+
+        $this->githubClientId = setup('githubClientId', env('GITHUB_CLIENT_ID', ''));
+        $this->githubClientSecret = setup('githubClientSecret', env('GITHUB_CLIENT_SECRET', ''));
+        $this->googleClientId = setup('googleClientId', env('GOOGLE_CLIENT_ID', ''));
+        $this->googleClientSecret = setup('googleClientSecret', env('GOOGLE_CLIENT_SECRET', ''));
+
+        $this->appName = setup('appName', env('APP_NAME', 'Laravel'));
+        $this->appEnv = setup('appEnv', env('APP_ENV', 'local'));
+        $this->appDebug = (bool) setup('appDebug', env('APP_DEBUG', true));
+        $this->appTimezone = setup('appTimezone', env('APP_TIMEZONE', 'UTC'));
+        $this->appUrl = setup('appUrl', env('APP_URL', 'http://localhost'));
+        $this->appLocale = setup('appLocale', env('APP_LOCALE', 'en'));
+        $this->queueConnection = setup('queueConnection', env('QUEUE_CONNECTION', 'database'));
+
+        $this->pusherAppId = setup('pusherAppId', env('PUSHER_APP_ID', 'default_pusher_app_id'));
+        $this->pusherAppKey = setup('pusherAppKey', env('PUSHER_APP_KEY', 'default_pusher_app_key'));
+        $this->pusherAppSecret = setup('pusherAppSecret', env('PUSHER_APP_SECRET', 'default_pusher_app_secret'));
+        $this->pusherAppCluster = setup('pusherAppCluster', env('PUSHER_APP_CLUSTER', 'mt1'));
+        $this->pusherHost = setup('pusherHost', env('PUSHER_HOST', null));
+        $this->pusherPort = setup('pusherPort', env('PUSHER_PORT', null));
+        $this->pusherScheme = setup('pusherScheme', env('PUSHER_SCHEME', 'https'));
+        $this->vapidPublicKey = setup('vapidPublicKey', env('VAPID_PUBLIC_KEY', 'default_vapid_public_key'));
+        $this->vapidPrivateKey = setup('vapidPrivateKey', env('VAPID_PRIVATE_KEY', 'default_vapid_private_key'));
 
     }
 

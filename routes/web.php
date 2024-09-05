@@ -17,6 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app/setting', \App\Livewire\App\SettingComponent::class)->name('app.setting');
     Route::get('app/chat', \App\Livewire\App\ChatComponent::class)->name('app.chat');
     Route::get('app/pages', \App\Livewire\App\PageComponent::class)->name('app.pages');
+    Route::get('app/categories', \App\Livewire\App\CategoryComponent::class)->name('app.categories');
+    Route::get('app/posts', \App\Livewire\App\PostComponent::class)->name('app.posts');
     Route::get('app/notifications', \App\Livewire\App\NotificationComponent::class)->name('app.notifications');
 
 });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\NotifiesAdminsOnDelete;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -13,7 +14,7 @@ class Setting extends Model implements HasMedia
     use InteractsWithMedia;
     protected $guarded = ['id'];
 
-    use HasFactory;
+    use NotifiesAdminsOnDelete;
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('logo')->singleFile()->registerMediaConversions(function (Media $media = null) {

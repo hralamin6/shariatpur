@@ -49,6 +49,12 @@
                 <a href="{{route('app.pages')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.pages')?'navActive':'navInactive'}}">
                     <i class='bx bxs-book text-xl {{Route::is('app.pages')?'bx-tada':''}}'></i><span class="">@lang('pages')</span>
                 </a>
+                <a href="{{route('app.categories')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.categories')?'navActive':'navInactive'}}">
+                    <i class='bx bxs-book text-xl {{Route::is('app.categories')?'bx-tada':''}}'></i><span class="">@lang('categories')</span>
+                </a>
+                <a href="{{route('app.posts')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.posts')?'navActive':'navInactive'}}">
+                    <i class='bx bxs-book text-xl {{Route::is('app.posts')?'bx-tada':''}}'></i><span class="">@lang('posts')</span>
+                </a>
                 <a href="{{route('app.notifications')}}" wire:navigate class="navMenuLink items-center {{Route::is('app.notifications')?'navActive':'navInactive'}}">
                     <i class='bx bx-bell text-xl {{Route::is('app.notifications')?'bx-tada':''}}'></i><span class="">@lang('notifications')</span>
                 </a>

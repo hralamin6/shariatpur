@@ -9,34 +9,46 @@
     </div>
     <main class="h-full capitalize">
         <div class="max-w-4xl mx-auto mb-6">
-            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden">
+            <div class="flex justify-center space-x-2 bg-white dark:bg-darker shadow-lg rounded-lg overflow-x-scroll dark:scrollbar-thin-dark scrollbar-thin-light">
                 <!-- General Settings Tab -->
                 <button
                     @click="tab = 'general'"
                     :class="{'bg-primary text-white': tab === 'general', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'general'}"
                     class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('General Settings')
+                    @lang('General')
                 </button>
-                <!-- Mail Settings Tab -->
+                <!-- Mail Tab -->
+                <button
+                    @click="tab = 'app_settings'"
+                    :class="{'bg-primary text-white': tab === 'app_settings', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'app_settings'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('App')
+                </button>
                 <button
                     @click="tab = 'mail'"
                     :class="{'bg-primary text-white': tab === 'mail', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'mail'}"
                     class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Mail Settings')
+                    @lang('Mail')
                 </button>
-                <!-- OAuth Settings Tab -->
+                <!-- OAuth Tab -->
                 <button
                     @click="tab = 'oauth'"
                     :class="{'bg-primary text-white': tab === 'oauth', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'oauth'}"
                     class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('OAuth Settings')
+                    @lang('OAuth')
+                </button>
+                <button
+                    @click="tab = 'pusher'"
+                    :class="{'bg-primary text-white': tab === 'pusher', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'pusher'}"
+                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
+                    @lang('Pusher')
                 </button>
                 <!-- Update Image Tab -->
                 <button
                     @click="tab = 'image'"
                     :class="{'bg-primary text-white': tab === 'image', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': tab !== 'image'}"
                     class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Update Image')
+                    @lang('Image')
                 </button>
             </div>
         </div>
@@ -73,6 +85,44 @@
                 </div>
             </form>
         </div>
+        <div x-show="tab === 'app_settings'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+            <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update App Setting')</h3>
+            <form wire:submit.prevent="updateAppSettings" class="space-y-4">
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="appName">@lang('App Name')</label>
+                    <x-text-input errorName="appName" wire:model="appName" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="appEnv">@lang('App Environment')</label>
+                    <x-text-input errorName="appEnv" wire:model="appEnv" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="appEnv">@lang('App TimeZone')</label>
+                    <x-text-input errorName="appTimezone" wire:model="appTimezone" type="text"/>
+                </div>
+
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="appUrl">@lang('App URL')</label>
+                    <x-text-input errorName="appUrl" wire:model="appUrl" type="url"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="appLocale">@lang('App Locale')</label>
+                    <x-text-input errorName="appLocale" wire:model="appLocale" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="queueConnection">@lang('Queue Connection')</label>
+                    <x-text-input errorName="queueConnection" wire:model="queueConnection" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="appDebug">@lang('App Debug')</label>
+                    <input errorName="appDebug" wire:model="appDebug" type="checkbox" value="1"/>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">@lang('Update App Settings')</button>
+                </div>
+            </form>
+        </div>
+
         <div x-show="tab === 'mail'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
             <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update mail information')</h3>
             <form wire:submit.prevent="updateMail" class="space-y-4">
@@ -94,7 +144,7 @@
                 </div>
                 <div>
                     <label class="text-gray-700 dark:text-gray-200" for="mailPassword">@lang('Mail Password')</label>
-                    <x-text-input errorName="mailPassword" wire:model="mailPassword" type="password"/>
+                    <x-text-input errorName="mailPassword" wire:model="mailPassword" type="text"/>
                 </div>
                 <div>
                     <label class="text-gray-700 dark:text-gray-200" for="mailEncryption">@lang('Mail Encryption')</label>
@@ -136,6 +186,51 @@
                 </div>
                 <div class="text-center">
                     <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">@lang('Update OAuth Settings')</button>
+                </div>
+            </form>
+        </div>
+        <div x-show="tab === 'pusher'" class="max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+            <h3 class="text-xl text-center font-semibold mb-4 text-gray-800 dark:text-gray-100">@lang('Update Pusher and VAPID Settings')</h3>
+            <form wire:submit.prevent="updatePusherAndVapidSettings" class="space-y-4">
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherAppId">@lang('Pusher App ID')</label>
+                    <x-text-input errorName="pusherAppId" wire:model="pusherAppId" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherAppKey">@lang('Pusher App Key')</label>
+                    <x-text-input errorName="pusherAppKey" wire:model="pusherAppKey" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherAppSecret">@lang('Pusher App Secret')</label>
+                    <x-text-input errorName="pusherAppSecret" wire:model="pusherAppSecret" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherAppCluster">@lang('Pusher App Cluster')</label>
+                    <x-text-input errorName="pusherAppCluster" wire:model="pusherAppCluster" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherHost">@lang('Pusher Host')</label>
+                    <x-text-input errorName="pusherHost" wire:model="pusherHost" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherPort">@lang('Pusher Port')</label>
+                    <x-text-input errorName="pusherPort" wire:model="pusherPort" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="pusherScheme">@lang('Pusher Scheme')</label>
+                    <x-text-input errorName="pusherScheme" wire:model="pusherScheme" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="vapidPublicKey">@lang('VAPID Public Key')</label>
+                    <x-text-input errorName="vapidPublicKey" wire:model="vapidPublicKey" type="text"/>
+                </div>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="vapidPrivateKey">@lang('VAPID Private Key')</label>
+                    <x-text-input errorName="vapidPrivateKey" wire:model="vapidPrivateKey" type="text"/>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">@lang('Update Pusher and VAPID Settings')</button>
                 </div>
             </form>
         </div>

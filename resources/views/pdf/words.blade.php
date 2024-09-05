@@ -3,89 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@lang('Words Table')</title>
+    <title>Post List PDF</title>
     <style>
+        /* Inline CSS for PDF Styling */
         body {
-            /*font-family: 'examplefont', sans-serif;*/
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: #fff;
+        }
+        .status.published {
+            background-color: #28a745;
+        }
+        .status.draft {
+            background-color: #dc3545;
+        }
+        .tags span {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .excerpt {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
         }
     </style>
 </head>
 <body>
-
-<div style="">
-    <div style="border: 2px solid #007bff; padding: 10px; border-radius: 10px; background-color: #f8f9fa; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-        <div style="">
-
-                <div style="text-align: center; align-items: center;">
-                    <a href="{{$setup->site_url}}" style="flex: 1; ">
-                        <img src="{{$setup->logo}}" alt="Company Logo" style="max-width: 100px; height: auto; align-items: center">
-                    </a>
-                    <center><a href="{{$setup->site_url}}" style="font-size: 18px; font-weight: bold;">{{$setup->site_name}}</a></center>
-
-{{--                    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">--}}
-{{--                        <table style="border-collapse: collapse; width: 600px; border: 1px solid #ccc;">--}}
-{{--                            <tr>--}}
-{{--                                <td colspan="2" style="background-color: #f0f0f0; padding: 20px; border: 1px solid #ccc;">--}}
-{{--                                    <h2 style="margin: 0;">@lang('users table')</h2>--}}
-{{--                                </td>--}}
-{{--                            </tr>--}}
-{{--                            <tr>--}}
-{{--                                <td style="width: 50%; padding: 10px; border: 1px solid #ccc;">--}}
-{{--                                    <h3 style="margin: 0;">@lang('Admin'): {{$setup->name}}</h3>--}}
-{{--                                    <p style="margin: 5px 0;">@lang('Address'): {{$setup->location}}</p>--}}
-{{--                                    <p style="margin: 5px 0;">@lang('Phone'): {{$setup->phone}}</p>--}}
-{{--                                    <p style="margin: 5px 0;">@lang('Email'): {{$setup->email}}</p>--}}
-{{--                                </td>--}}
-{{--                                <td style="width: 50%; padding: 10px; border: 1px solid #ccc;">--}}
-{{--                                    <h3 style="margin: 0;">Bill To</h3>--}}
-{{--                                    <p style="margin: 5px 0;">Customer Name</p>--}}
-{{--                                    <p style="margin: 5px 0;">Address: Customer Address</p>--}}
-{{--                                    <p style="margin: 5px 0;">City, Country, Postal Code</p>--}}
-{{--                                    <p style="margin: 5px 0;">Phone: +987654321</p>--}}
-{{--                                    <p style="margin: 5px 0;">Email: customer@example.com</p>--}}
-{{--                                </td>--}}
-{{--                            </tr>--}}
-{{--                        </table>--}}
-{{--                    </div>--}}
-
-                </div>
-        </div>
-        <div style="">
-
-            <h2 style="text-align: center;">@lang('Words Table')</h2>
-
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-transform: capitalize">
-                <thead>
-                <tr style="background-color: #f2f2f2;">
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('SL')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Words')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Meaning')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('Gender')</th>
-                    <th style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">@lang('pop')</th>
-                </tr>
-                </thead>
-                <tbody>
-                @forelse($items as $i => $item)
-
-                    <tr style="border: 1px solid #ddd;">
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;">{{$i+1}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd; font-family: XBRiyaz">{{$item->name}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd; font-family: examplefont">{{$item->meaning}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;font-size: 2px">{{$item->gender}}</td>
-                        <td style="text-transform: capitalize; padding: 10px; border: 1px solid #ddd;font-size: 2px">{{$item->pop}}</td>
-                    </tr>
-                @empty
-
-                @endforelse
-
-
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-
+<div class="container">
+    <h1>Post List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Status</th>
+            <th>Tags</th>
+            <th>Excerpt</th>
+            <th>Author</th>
+            <th>Published At</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($posts as $index => $post)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td class="title">{{ $post->title }}</td>
+                <td>{{ $post->slug }}</td>
+                <td>
+                            <span class="status {{ $post->status == 'published' ? 'published' : 'draft' }}">
+                                {{ ucfirst($post->status) }}
+                            </span>
+                </td>
+                <td class="tags">
+                    @if($post->tags)
+                        @foreach(json_decode($post->tags) as $tag)
+                            <span>{{ $tag }}</span>
+                        @endforeach
+                    @else
+                        No Tags
+                    @endif
+                </td>
+                <td class="excerpt">{{ \Illuminate\Support\Str::limit($post->content, 50) }}</td>
+                <td>{{ $post->user->name }}</td>
+                <td>{{ $post->published_at ? $post->published_at->format('d M Y') : 'Not Published' }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

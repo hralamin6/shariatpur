@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\NotifiesAdminsOnDelete;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class Role extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, NotifiesAdminsOnDelete;
     protected $guarded = ['id'];
 
     public function users()
