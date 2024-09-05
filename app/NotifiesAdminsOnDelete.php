@@ -3,10 +3,11 @@
 namespace App;
 
 use App\Models\User;
-use App\Notifications\DeleteNotification;
+use App\Notifications\ModelUpdateNotification;
 use App\Models\Role;
 use App\Notifications\UserApproved;
 use Illuminate\Support\Facades\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
 
 trait NotifiesAdminsOnDelete
 {
@@ -22,7 +23,7 @@ trait NotifiesAdminsOnDelete
 
             // If the role exists, send the notification with afterCommit
             if ($role && $user) {
-                $role->notify(new DeleteNotification($user, $model, 'created'));
+                $role->notify(new ModelUpdateNotification($user, $model, 'created'));
             }
         });
         static::updating(function ($model) {
@@ -34,9 +35,10 @@ trait NotifiesAdminsOnDelete
 
             // If the role exists, send the notification with afterCommit
             if ($role && $user) {
-                $role->notify(new DeleteNotification($user, $model, 'edited'));
+                $role->notify(new ModelUpdateNotification($user, $model, 'edited',  ['database']));
+                $user->notify(new ModelUpdateNotification($user, $model, 'edited',  ['database']));
 //                $user->notify(new UserApproved($user->name, $body, $user));
-                Notification::send($role->users, new UserApproved($user->name, $body='the quick brown fox', $user));
+                Notification::sendNow($role->users, new ModelUpdateNotification($user, $model, 'edited',  [WebPushChannel::class]));
             }
         });
 
@@ -48,8 +50,8 @@ trait NotifiesAdminsOnDelete
 
             // If the role exists, send the notification
             if ($role && $user) {
-//                $role->notify((new DeleteNotification($user, $model, 'deleted')));
-                Notification::sendNow($role, new DeleteNotification($user, $model, 'deleted'));
+//                $role->notify((new ModelUpdateNotification($user, $model, 'deleted')));
+                Notification::sendNow($role, new ModelUpdateNotification($user, $model, 'deleted'));
             }
         });
     }

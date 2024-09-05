@@ -13,6 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app/backups', \App\Livewire\App\BackupComponent::class)->name('app.backups');
     Route::get('app/users', \App\Livewire\App\UserComponent::class)->name('app.users');
     Route::get('app/profile', \App\Livewire\App\ProfileComponent::class)->name('app.profile');
+    Route::get('app/user/{user}', \App\Livewire\App\UserDetailComponent::class)->name('app.user.detail');
     Route::get('app/setting', \App\Livewire\App\SettingComponent::class)->name('app.setting');
     Route::get('app/chat', \App\Livewire\App\ChatComponent::class)->name('app.chat');
     Route::get('app/pages', \App\Livewire\App\PageComponent::class)->name('app.pages');
@@ -31,6 +32,15 @@ Route::post('/subscribe', function (Request $request) {
         $request->keys['auth']
     );
     return response()->json(['success' => true], 200);
+});
+Route::get('/', function () {
+    return view('test');
+});
+Route::group(['as' => 'laravelpwa.'], function()
+{
+    Route::get('/manifest.json', 'App\Http\Controllers\LaravelPWAController@manifestJson')
+        ->name('manifest');
+    Route::get('/offline/', 'LaravelPWAController@offline');
 });
 Route::get('{slug}', \App\Livewire\App\NotificationComponent::class)->name('page');
 

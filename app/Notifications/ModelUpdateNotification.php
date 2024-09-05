@@ -11,22 +11,25 @@ use Illuminate\Queue\SerializesModels;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
 
-class DeleteNotification extends Notification implements ShouldQueue
+class ModelUpdateNotification extends Notification implements ShouldQueue
 {
     use Queueable, SerializesModels;
     protected $model;
     protected $user;
     protected $type;
+    protected $channels;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $model, $type)
+    public function __construct($user, $model, $type, $channels)
     {
 //        dd($model);
         $this->user = $user;
         $this->model = $model;
         $this->type = $type;
+        $this->channels = $channels;  // Store the provided channels
+
     }
 
     /**
@@ -37,7 +40,9 @@ class DeleteNotification extends Notification implements ShouldQueue
     public function via(object $notifiable): array
     {
         try {
-            return ['database', WebPushChannel::class];
+            return $this->channels;  // Dynamically return the provided channels
+
+//            return ['database', WebPushChannel::class];
         } catch (\Exception $e) {
             \Log::error('Notification Error: ' . $e->getMessage());
             throw $e;
@@ -47,14 +52,14 @@ class DeleteNotification extends Notification implements ShouldQueue
     {
 //        $user = User::find($this->user);
         return (new WebPushMessage())
-            ->title($this->type)
+            ->title($this->user->name)
 //            ->icon('https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name))
             ->icon(getUserProfileImage($this->user))
             ->body('A ' . class_basename($this->model) . ' was '. $this->type .' by ' . $this->user->name)
             ->action('View account', 'view_account')
             ->options(['TTL' => 1000])
             ->data([
-                'url' => 'https://example.com/your-page' // Add the URL you want to redirect to
+                'url' => 'app/notifications' // Add the URL you want to redirect to
             ])->vibrate([200, 100, 200])->requireInteraction(true)->badge(10);
     }
     /**

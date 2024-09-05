@@ -1,46 +1,48 @@
 <div  class="m-0 md:m-2 capitalize" x-data="profile()">
     <div class="flex justify-between gap-4 mb-2 capitalize">
-        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">@lang("user profile")</p>
+        <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">@lang("user details")</p>
         <div class="flex text-sm gap-1">
             <a href="{{route('app.dashboard')}}" wire:navigate class="text-blue-500 dark:text-blue-400">@lang("dashboard")</a>
+            <span class="text-gray-500 dark:text-gray-200">/</span>
+            <a href="{{route('app.users')}}" wire:navigate class="text-blue-500 dark:text-blue-400">@lang("all users")</a>
             <span class="text-gray-500 dark:text-gray-200">/</span>
             <span class="text-gray-500 dark:text-gray-300">@lang("users")</span>
         </div>
     </div>
     <main class="h-full capitalize">
-        <div class="max-w-4xl mx-auto mb-6">
-            <!-- Tabs Container -->
-            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden">
-                <!-- Profile Tab -->
-                <button
-                    @click="activeTab = 'profile'"
-                    :class="{'bg-primary text-white': activeTab === 'profile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'profile'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Profile')
-                </button>
-                <!-- Update Profile Tab -->
-                <button
-                    @click="activeTab = 'updateProfile'"
-                    :class="{'bg-primary text-white': activeTab === 'updateProfile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updateProfile'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Update Profile')
-                </button>
-                <!-- Change Password Tab -->
-                <button
-                    @click="activeTab = 'changePassword'"
-                    :class="{'bg-primary text-white': activeTab === 'changePassword', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'changePassword'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Change Password')
-                </button>
-                <!-- Update Photo Tab -->
-                <button
-                    @click="activeTab = 'updatePhoto'"
-                    :class="{'bg-primary text-white': activeTab === 'updatePhoto', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updatePhoto'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Update Photo')
-                </button>
-            </div>
-        </div>
+{{--        <div class="max-w-4xl mx-auto mb-6">--}}
+{{--            <!-- Tabs Container -->--}}
+{{--            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden">--}}
+{{--                <!-- Profile Tab -->--}}
+{{--                <button--}}
+{{--                    @click="activeTab = 'profile'"--}}
+{{--                    :class="{'bg-primary text-white': activeTab === 'profile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'profile'}"--}}
+{{--                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">--}}
+{{--                    @lang('Profile')--}}
+{{--                </button>--}}
+{{--                <!-- Update Profile Tab -->--}}
+{{--                <button--}}
+{{--                    @click="activeTab = 'updateProfile'"--}}
+{{--                    :class="{'bg-primary text-white': activeTab === 'updateProfile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updateProfile'}"--}}
+{{--                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">--}}
+{{--                    @lang('Update Profile')--}}
+{{--                </button>--}}
+{{--                <!-- Change Password Tab -->--}}
+{{--                <button--}}
+{{--                    @click="activeTab = 'changePassword'"--}}
+{{--                    :class="{'bg-primary text-white': activeTab === 'changePassword', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'changePassword'}"--}}
+{{--                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">--}}
+{{--                    @lang('Change Password')--}}
+{{--                </button>--}}
+{{--                <!-- Update Photo Tab -->--}}
+{{--                <button--}}
+{{--                    @click="activeTab = 'updatePhoto'"--}}
+{{--                    :class="{'bg-primary text-white': activeTab === 'updatePhoto', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updatePhoto'}"--}}
+{{--                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">--}}
+{{--                    @lang('Update Photo')--}}
+{{--                </button>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <div x-show="activeTab === 'profile'" class="max-w-4xl mx-auto bg-white dark:bg-darker shadow-lg border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
             <!-- Profile Header -->

@@ -63,7 +63,7 @@
 
     async function send() {
         const register = await navigator.serviceWorker.register('/serviceworker.js', {
-            // scope: '/'
+            scope: '/'
         });
 
         const subscription = await register.pushManager.subscribe({

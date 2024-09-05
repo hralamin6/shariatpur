@@ -33,13 +33,14 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-gray-700 dark:text-gray-300 cursor-pointer" @click="open = !open">
-                                @if($notification->data['type'] == 'deleted')
-                                    {{ $notification->data['message'] }} (Deleted)
-                                @elseif($notification->data['type'] == 'created')
-                                    {{ $notification->data['message'] }} (Created)
-                                @elseif($notification->data['type'] == 'edited')
-                                    {{ $notification->data['message'] }} (Edited)
-                                @endif
+                               A {{$notification->data['className']}}
+                                was been
+                                {{$notification->data['type']}} by
+                                <a class="text-blue-500" href="{{route('app.user.detail', \App\Models\User::find($notification->data['changedById']))}}" wire:navigate>
+                                    {{$notification->data['changedByName']}}
+                                    ({{$notification->data['changedByRole']}})
+                                </a>
+
                             </p>
                             <span class="text-sm text-gray-500 dark:text-gray-400">{{ $notification->created_at->diffForHumans() }}</span>
                         </div>

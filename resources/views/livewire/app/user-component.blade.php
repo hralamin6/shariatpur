@@ -145,13 +145,13 @@
 
                                         <td class="max-w-48 truncate px-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                             <div class="inline-flex items-center gap-x-3">
-                                                <div class="flex items-center gap-x-2">
+                                                <a href="{{route('app.user.detail', $item)}}" wire:navigate class="flex items-center gap-x-2">
                                                     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
                                                         <img src="{{ getUserProfileImage($item, 'profile', 'thumb') }}" alt="" onerror="{{getErrorProfile(auth()->user())}}" class="w-full h-full object-cover">
                                                     </span>
                                                     <h2 class="font-medium text-gray-800 dark:text-white ">{{ $item->name }}</h2>
                                                         <p class="text-sm font-normal text-gray-600 dark:text-gray-400">{{ $item->email }}</p>
-                                                </div>
+                                                </a>
                                             </div>
                                         </td>
                                         <td class="max-w-48 truncate px-12 text-sm font-medium text-gray-700 whitespace-nowrap">
