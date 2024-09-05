@@ -200,10 +200,7 @@
             </div>
 
         </section>
-        <div class="mx-auto my-4 px-4 overflow-y-auto">
-            {{ $items->links() }}
-            {{--            {{ $items->links() }}--}}
-        </div>
+        <div class="mx-auto my-4 px-4 overflow-y-auto">{{ $items->links() }}</div>
     </main>
 
     <div x-cloak x-show="isOpen">

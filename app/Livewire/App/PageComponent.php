@@ -6,7 +6,7 @@ use App\Models\Conversation;
 use App\Models\Page;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\DeleteNotification;
+use App\Notifications\MessageSentNotification;
 use App\Notifications\UserApproved;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;

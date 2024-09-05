@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Google\Service\Drive;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use League\Flysystem;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -45,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
         }
         \Blade::if('role', function ($role) {
             return \Auth::user()->role->slug === $role;
+        });
+
+        Gate::define('role', function (User $user, $role) {
+            return $user->role->slug === $role;
         });
     }
 }

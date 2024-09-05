@@ -58,37 +58,45 @@
 
     // Register Service Worker
     if ('serviceWorker' in navigator) {
-        send().catch(err => console.error(err));
+        registerServiceWorker().catch(err => console.error('Service Worker registration failed:', err));
     }
 
-    async function send() {
-        const register = await navigator.serviceWorker.register('/serviceworker.js', {
-            scope: '/'
-        });
+    async function registerServiceWorker() {
+        try {
+            const register = await navigator.serviceWorker.register('/serviceworker.js');
+            console.log('Service Worker registered:', register);
 
-        const subscription = await register.pushManager.subscribe({
+            const subscription = await subscribeUser(register);
+            console.log('Push Subscription:', subscription);
+
+            await sendSubscriptionToServer(subscription);
+        } catch (error) {
+            console.error('Error in registering Service Worker:', error);
+        }
+    }
+
+    async function subscribeUser(register) {
+        return await register.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
         });
+    }
+
+    async function sendSubscriptionToServer(subscription) {
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        console.log(subscription)
         await fetch('/subscribe', {
-            method: 'POST',  // Ensure this is POST
+            method: 'POST',
             body: JSON.stringify(subscription),
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': token
-
             }
         });
     }
 
     function urlBase64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding)
-            .replace(/-/g, '+')
-            .replace(/_/g, '/');
-
+        const base64 = base64String.replace(/-/g, '+').replace(/_/g, '/');
         const rawData = window.atob(base64);
         const outputArray = new Uint8Array(rawData.length);
 
@@ -97,6 +105,10 @@
         }
         return outputArray;
     }
-    Notification.requestPermission();
 
+    Notification.requestPermission().then(permission => {
+        if (permission !== 'granted') {
+            console.log('Notification permission denied');
+        }
+    });
 </script>

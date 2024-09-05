@@ -2,28 +2,32 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use NotificationChannels\WebPush\WebPushChannel;
-use NotificationChannels\WebPush\WebPushMessage;
+    use Illuminate\Bus\Queueable;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Notifications\Messages\MailMessage;
+    use Illuminate\Notifications\Notification;
+    use Illuminate\Queue\SerializesModels;
+    use NotificationChannels\WebPush\WebPushChannel;
+    use NotificationChannels\WebPush\WebPushMessage;
 
-class UserApproved extends Notification Implements ShouldQueue
+class UserApproved extends Notification
 {
-    use Queueable;
+    use Queueable, SerializesModels;
 
     /**
      * Create a new notification instance.
      */
-    public $userName;
-    public $body;
+    public $link;
+    public $model;
     public $user;
-    public function __construct($userName, $body, $user)
+    public $message;
+    public function __construct($user, $model, $message, $link)
     {
-        $this->userName = $userName;
-        $this->body = $body;
+//        dd($model);
         $this->user = $user;
+        $this-> model = $model;
+        $this-> message = $message;
+        $this->link = $link;
     }
 
     /**
@@ -38,7 +42,7 @@ class UserApproved extends Notification Implements ShouldQueue
     public function via($notifiable)
     {
         try {
-            return [WebPushChannel::class];
+            return [WebPushChannel::class, 'database'];
         } catch (\Exception $e) {
             \Log::error('Notification Error: ' . $e->getMessage());
             throw $e;
@@ -46,44 +50,42 @@ class UserApproved extends Notification Implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-//    public function toMail(object $notifiable): MailMessage
-//    {
-//        return (new MailMessage)
-//                    ->line('The introduction to the notification.')
-//                    ->action('Notification Action', url('/'))
-//                    ->line('Thank you for using our application!');
-//    }
-    public function toWebPush($notifiable, $notification)
+        public function toMail($notifiable)
+        {
+            return (new MailMessage)
+                ->subject('Account Approved')
+                ->line("Your account has been approved by {$this->user->name}.")
+                ->action('View Details', $this->link)
+                ->line('Thank you for using our application!');
+        }    public function toWebPush($notifiable, $notification)
     {
 //        $user = User::find($this->user);
         return (new WebPushMessage())
-            ->title('New message from: ' . $this->userName)
+            ->title('New message from: ' . $this->user->name)
 //            ->icon('https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name))
             ->icon(getUserProfileImage($this->user))
-            ->body($this->body)
+            ->body($this->message)
+            ->badge($this->link)
             ->action('View account', 'view_account')
             ->options(['TTL' => 1000])
             ->data([
                 'url' => 'https://example.com/your-page' // Add the URL you want to redirect to
-            ])->vibrate([200, 100, 200])->requireInteraction(true)->badge(10);
-        // ->badge()
-        // ->dir()
-        // ->image()
-        // ->lang()
-        // ->renotify()
-        // ->requireInteraction()
-        // ->tag()
-        // ->vibrate()
+            ])->vibrate([200, 100, 200]);
     }
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-//    public function toArray(object $notifiable): array
-//    {
-//        return [
-//            //
-//        ];
-//    }
-}
+        public function toArray(object $notifiable): array
+        {
+
+            return [
+                'message' => $this->message,
+                'model' => $this->model->toArray(),
+                'type' => 'edited',
+                'link' => $this->link,
+                'className' => class_basename($this->model),
+                'changedByName' => $this->user->name,
+                'changedById' => $this->user->id,
+                'changedByRole' => $this->user->role->name,
+
+            ];
+        }
+
+    }

@@ -45,14 +45,17 @@
                 <i x-show="!isDark" class='bx bx-sun text-2xl font-medium -mt-1'></i>
 
             </a>
-            <a href="">
-                <i class='bx bx-bell text-2xl font-medium -mt-1'></i>
+            <a class="relative" href="{{route('app.notifications')}}" wire:navigate>
+                <i class='bx bx-bell text-2xl font-medium -mt-1 {{$unReadNotificationCount?'bx-teda':''}}'></i>
+                @if($unReadNotificationCount)
+                    <span class="absolute top-0 right-0 flex-shrink-0 w-5 h-5 flex items-center justify-center p-0.5 text-xs text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{$unReadNotificationCount}}</span>
+                @endif
             </a>
 
             <a class="relative" href="{{route('app.chat')}}" wire:navigate>
                 <i class='bx bx-chat text-2xl font-medium -mt-1 {{$unReadMessageCount?'bx-teda':''}}'></i>
                 @if($unReadMessageCount)
-                    <span class="absolute top-0 right-0 inline-flex items-center justify-center p-0.5 text-xs text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{$unReadMessageCount}}</span>
+                    <span class="absolute top-0 right-0 flex-shrink-0 w-5 h-5 flex items-center justify-center p-0.5 text-xs text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{$unReadMessageCount}}</span>
                 @endif
 
             </a>

@@ -17,17 +17,19 @@ class ModelUpdateNotification extends Notification implements ShouldQueue
     protected $model;
     protected $user;
     protected $type;
+    protected $link;
     protected $channels;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $model, $type, $channels)
+    public function __construct($user, $model, $type, $link, $channels)
     {
 //        dd($model);
         $this->user = $user;
         $this->model = $model;
         $this->type = $type;
+        $this->link = $link;
         $this->channels = $channels;  // Store the provided channels
 
     }
@@ -52,14 +54,15 @@ class ModelUpdateNotification extends Notification implements ShouldQueue
     {
 //        $user = User::find($this->user);
         return (new WebPushMessage())
-            ->title($this->user->name)
+            ->title($this->type)
 //            ->icon('https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name))
             ->icon(getUserProfileImage($this->user))
+            ->badge($this->link)
             ->body('A ' . class_basename($this->model) . ' was '. $this->type .' by ' . $this->user->name)
             ->action('View account', 'view_account')
             ->options(['TTL' => 1000])
             ->data([
-                'url' => 'app/notifications' // Add the URL you want to redirect to
+                'url' => '/app/notifications' // Add the URL you want to redirect to
             ])->vibrate([200, 100, 200])->requireInteraction(true)->badge(10);
     }
     /**
@@ -82,9 +85,10 @@ class ModelUpdateNotification extends Notification implements ShouldQueue
     {
 
         return [
-            'message' => 'A ' . class_basename($this->model) . ' was '. $this->type .' by ' . $this->user->name,
+            'message' => 'A ' . class_basename($this->model) . ' was '. $this->type,
             'model' => $this->model->toArray(),
             'type' => $this->type,
+            'link' => $this->link,
             'className' => class_basename($this->model),
             'changedByName' => $this->user->name,
             'changedById' => $this->user->id,

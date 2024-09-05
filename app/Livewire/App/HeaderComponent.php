@@ -54,7 +54,8 @@ class HeaderComponent extends Component
     #[On('header-reload')]
 public function render()
     {
+        $unReadNotificationCount = auth()->user()->unreadNotifications->where('type','!=','App\Notifications\ModelUpdateNotification')->count();
         $unReadMessageCount = Message::where('receiver_id', Auth::id())->where('read', 0)->count();
-        return view('livewire.app.header-component', compact('unReadMessageCount'));
+        return view('livewire.app.header-component', compact('unReadMessageCount', 'unReadNotificationCount'));
     }
 }

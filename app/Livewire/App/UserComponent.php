@@ -57,7 +57,12 @@ class UserComponent extends Component
         $this->authorize('app.users.edit');
 
         $user->status=='active'?$user->update(['status'=>'inactive']):$user->update(['status'=>'active']);
-        $user->notify(new UserApproved($user->name, $user->status, $user));
+
+        $authUser = auth()->user();
+        $message = "Your account's status has been changed ";
+        $link = route('app.user.detail', $user);
+        $model = User::find($user->id);
+        $user->notify(new UserApproved($authUser, $model, $message, $link));
 
         $this->alert('success', __('Data updated successfully'));
     }

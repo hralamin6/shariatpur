@@ -20,10 +20,13 @@ trait NotifiesAdminsOnDelete
             $user = auth()->user();
 
             $role = Role::where('name', 'admin')->first();
+            $link = '/app/notifications';
 
             // If the role exists, send the notification with afterCommit
             if ($role && $user) {
-                $role->notify(new ModelUpdateNotification($user, $model, 'created'));
+                $role->notify(new ModelUpdateNotification($user, $model, 'created', $link, ['database']));
+                $user->notify(new ModelUpdateNotification($user, $model, 'created', $link,  ['database']));
+                Notification::sendNow($role->users, new ModelUpdateNotification($user, $model, 'created', $link,  [WebPushChannel::class]));
             }
         });
         static::updating(function ($model) {
@@ -32,13 +35,13 @@ trait NotifiesAdminsOnDelete
 
             // Capture the original model data before the update
             $role = Role::where('name', 'admin')->first();
+            $link = '/app/notifications';
 
             // If the role exists, send the notification with afterCommit
             if ($role && $user) {
-                $role->notify(new ModelUpdateNotification($user, $model, 'edited',  ['database']));
-                $user->notify(new ModelUpdateNotification($user, $model, 'edited',  ['database']));
-//                $user->notify(new UserApproved($user->name, $body, $user));
-                Notification::sendNow($role->users, new ModelUpdateNotification($user, $model, 'edited',  [WebPushChannel::class]));
+                $role->notify(new ModelUpdateNotification($user, $model, 'edited', $link,  ['database']));
+                $user->notify(new ModelUpdateNotification($user, $model, 'edited', $link,  ['database']));
+                Notification::sendNow($role->users, new ModelUpdateNotification($user, $model, 'edited', $link,  [WebPushChannel::class]));
             }
         });
 
@@ -47,11 +50,15 @@ trait NotifiesAdminsOnDelete
             $user = auth()->user();
             // Find the role that should be notified (e.g., Admin role)
             $role = Role::where('name', 'admin')->first();
+            $link = '/app/notifications';
 
             // If the role exists, send the notification
             if ($role && $user) {
 //                $role->notify((new ModelUpdateNotification($user, $model, 'deleted')));
-                Notification::sendNow($role, new ModelUpdateNotification($user, $model, 'deleted'));
+                Notification::sendNow($role, new ModelUpdateNotification($user, $model, 'deleted', $link, ['database']));
+                Notification::sendNow($user, new ModelUpdateNotification($user, $model, 'deleted', $link, ['database']));
+                Notification::sendNow($role->users, new ModelUpdateNotification($user, $model, 'deleted', $link,  [WebPushChannel::class]));
+
             }
         });
     }

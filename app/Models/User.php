@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 {
     use HasFactory, Notifiable;
     use Notifiable, InteractsWithMedia;
-     use HasPushSubscriptions, NotifiesAdminsOnDelete;
+     use HasPushSubscriptions;
     /**
      * The attributes that are mass assignable.
      *

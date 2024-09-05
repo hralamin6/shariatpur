@@ -8,6 +8,7 @@ use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\User;
+use App\Notifications\MessageSentNotification;
 use App\Notifications\UserApproved;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -139,7 +140,7 @@ class ChatComponent extends Component
             $this->reset('body');
             broadcast(new MessageSent(auth()->id(), $this->selectedConversation->id, $this->receiver, $body))->toOthers();
             $user = User::find($this->receiver);
-            $user->notify(new UserApproved($user->name, $body, $user));
+            $user->notify(new MessageSentNotification($user->name, $body, $user));
         }
 
     }
