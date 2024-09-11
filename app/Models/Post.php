@@ -19,12 +19,16 @@ class Post extends Model implements HasMedia
 //        return $this->hasMany(Comment::class)->orderBy('id', 'desc');
 //    }
 
-    public function registerMediaConversions(Media $media = null) : void
+    public function registerMediaCollections(): void
     {
-        $this->addMediaConversion('thumb')
-            ->width(600)
-            ->height(300)
-            ->sharpen(10);
+        $this->addMediaCollection('postImages')->registerMediaConversions(function (Media $media = null) {
+            $this->addMediaConversion('thumb')->quality('10')->nonQueued();
+
+        });
+        $this->addMediaCollection('post')->singleFile()->registerMediaConversions(function (Media $media = null) {
+            $this->addMediaConversion('thumb')->quality('10')->nonQueued();
+
+        });
     }
     protected $casts = [
         'tags' => 'array',  // Cast tags field to array

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use misterspelik\LaravelPdf\Facades\Pdf;
 
@@ -16,6 +17,7 @@ class PostComponent extends Component
 {
     use WithPagination;
     use LivewireAlert;
+    use WithFileUploads;
 
     public $selectedRows = [];
     public $selectPageRows = false;
@@ -25,6 +27,8 @@ class PostComponent extends Component
     public $orderDirection = 'asc';
     public $search = '';
     public $itemStatus;
+    public $photo=[];
+    public $image_url;
     protected $queryString = [
         'search' => ['except' => ''],
         'itemStatus' => ['except' => null],
@@ -73,7 +77,7 @@ class PostComponent extends Component
 
     public function resetData()
     {
-        $this->reset('title', 'content', 'slug', 'status', 'excerpt', 'tags', 'meta_title', 'meta_description', 'published_at', 'category_id', 'user_id');
+        $this->reset('title','image_url', 'photo', 'content', 'slug', 'status', 'excerpt', 'tags', 'meta_title', 'meta_description', 'published_at', 'category_id', 'user_id');
     }
 
     public function saveData()
@@ -81,7 +85,8 @@ class PostComponent extends Component
         $this->authorize('app.posts.create');
         $this->user_id = Auth::id();
         $this->tags = json_encode(array_map('trim', explode(',', $this->tags))); // Convert to JSON array
-
+        $this->meta_title = $this->meta_title==''?$this->title: $this->meta_title;
+        $this->meta_description = $this->meta_description==''?$this->excerpt: $this->meta_description;
         $data = $this->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -93,9 +98,27 @@ class PostComponent extends Component
             'meta_description' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
+            'photo.*' => 'nullable|image|max:2048', // 2MB Max
+            'image_url' => 'nullable|url', // 2MB Max
+
         ]);
 
         $data = Post::create($data);
+        if ($this->image_url!=null) {
+            $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            $media =  $data->addMediaFromUrl($this->image_url)->usingFileName($data->id. '.' . $extension)->toMediaCollection('post');
+            $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+        }elseif($this->photo!=null){
+            $media = $data->addMedia($this->photo->getRealPath())->usingFileName($data->id. '.' . $this->photo->extension())->toMediaCollection('post');
+            $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
         $var = $data->id;
         $this->dispatch('dataAdded', dataId: "item-id-$var");
         $this->goToPage($this->getDataProperty()->lastPage());
@@ -111,7 +134,7 @@ class PostComponent extends Component
         $this->slug = $post->slug;
         $this->status = $post->status;
         $this->excerpt = $post->excerpt;
-        $this->tags = $post->tags;
+        $this->tags = implode(",", json_decode($post->tags));
         $this->meta_title = $post->meta_title;
         $this->meta_description = $post->meta_description;
         $this->published_at = $post->published_at;
@@ -136,9 +159,29 @@ class PostComponent extends Component
             'meta_description' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
-        ]);
+            'photo.*' => 'nullable|image|max:2048', // 2MB Max
+            'image_url' => 'nullable|url', // 2MB Max
 
+        ]);
         $this->post->update($data);
+
+        if ($this->image_url!=null) {
+            $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            $media =  $this->post->addMediaFromUrl($this->image_url)->usingFileName($this->post->id. '.' . $extension)->toMediaCollection('post');
+            $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+        }elseif($this->photo!=null){
+            foreach ($this->photo as $p) {
+                $media = $this->post->addMedia($p->getRealPath())->usingFileName($this->post->id. '.' . $p->extension())->toMediaCollection('postImages');
+                $path = storage_path("app/public/".$media->id.'/'. $media->file_name);
+                if (file_exists($path)) {
+                    unlink($path);
+                }            }
+
+        }
         $var = $this->post->id;
         $this->dispatch('dataAdded', dataId: "item-id-$var");
         $this->alert('success', __('Data updated successfully'));

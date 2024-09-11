@@ -1,4 +1,4 @@
-<div  class="m-0 md:m-2 capitalize" x-data="setting()">
+<div  class="m-0 md:m-2 capitalize dark:scrollbar-thin-dark scrollbar-thin-light" x-data="setting()">
     <div class="flex justify-between gap-4 mb-2 capitalize">
         <p class="text-gray-700 dark:text-gray-200 text-xl font-semibold">@lang("all settings")</p>
         <div class="flex text-sm gap-1">

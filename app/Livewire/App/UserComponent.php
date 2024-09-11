@@ -23,8 +23,8 @@ class UserComponent extends Component
     public $selectPageRows = false;
     public $itemPerPage=20;
     public $orderBy = 'id';
-    public $searchBy = 'name';
     public $orderDirection = 'asc';
+    public $searchBy = 'name';
     public $search = '';
     public $itemStatus;
     protected $queryString = [

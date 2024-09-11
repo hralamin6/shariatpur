@@ -249,10 +249,57 @@
                         </div>
                     </div>
 
+                    <div class="flex flex-col md:flex-row gap-2 items-center justify-between overflow-x-auto max-w-4xl mx-auto my-2 bg-white border border-slate-300 dark:border-slate-600 dark:bg-darker shadow-lg rounded-lg p-4">
+                        <div class="flex gap-2">
+                            @if($photo)
+                                @foreach($photo as $p)
+                                    <img src="{{ $p->temporaryUrl() }}" alt="icon Preview" class="mt-2 w-16 h-16 md:w-24 md:h-24 object-cover"/>
+                                @endforeach
+                            @else
+                                @if($post!==null)
+                                    <img src="{{ getImage($post, 'postImages', 'thumb') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
+                                         class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
 
+                                    @foreach($post->getMedia('postImages') as $k => $media)
+                                        <img src="{{$media->getAvailableUrl(['thumb'])}}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
+                                             class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
+                                    @endforeach
+                                @endif
+
+                            @endif
+                        </div>
+
+
+                        <div>
+                            <div>
+                                <x-text-input placeholder="image link" errorName="image_url"  id="image_url" wire:model="image_url" type="url"/>
+                            </div>
+                            <div class="flex flex-col items-center" x-data="{ isUploading: false, progress: 5 }"
+                                 x-on:livewire-upload-start="isUploading = true"
+                                 x-on:livewire-upload-finish="isUploading = false"
+                                 x-on:livewire-upload-error="isUploading = false"
+                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                <div x-show="isUploading" class="w-full mt-4">
+                                    <div class="relative pt-1">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-xs font-semibold text-blue-600 dark:text-blue-400" x-text="progress + '%'"></div>
+                                        </div>
+                                        <div class="flex w-full bg-gray-200 dark:bg-gray-700 rounded-full">
+                                            <div class="bg-blue-600 dark:bg-blue-400 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                                                 x-bind:style="'width: ' + progress + '%'"
+                                                 x-text="progress + '%'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <x-text-input multiple type="file" wire:model="photo" accept="image/*" class="mb-4"></x-text-input>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="flex items-center justify-between w-full mt-4">
                         <button type="button" @click="closeModal" class="bg-red-600 focus:ring-gray-400 transition duration-150 text-white ease-in-out hover:bg-red-300 rounded px-8 py-2 text-sm">Cancel</button>
-                        <button type="submit" class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">Submit</button>
+                        <button wire:loading.remove wire:target="editData,saveData" type="submit" class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">Submit</button>
                     </div>
                 </form>
             </div>

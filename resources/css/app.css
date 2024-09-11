@@ -77,7 +77,7 @@
         @apply m-2 px-3 py-2 flex justify-start rounded-md gap-2  text-gray-600 dark:text-gray-200 hover:bg-primary-dark hover:text-white;
     }
     .subNavMenuLink {
-        @apply mx-2 pl-5 py-2 flex justify-start rounded-md gap-2 hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-gray-100;
+        @apply ml-4 mr-2  pl-5 py-1.5 flex justify-start rounded-md gap-2 hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-gray-100;
     }
     .navActive {
         @apply bg-primary text-white;

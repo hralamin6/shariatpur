@@ -24,7 +24,7 @@
         <div class="flex flex-col flex-1 w-full">
 
                 <livewire:app.header-component />
-            <main class="overflow-y-auto overflow-x-hidden h-screen dark:bg-darkBg">
+            <main class="overflow-y-auto overflow-x-hidden h-screen dark:bg-darkBg dark:scrollbar-thin-dark scrollbar-thin-light">
                 <div class="m-2">
                     @yield('content')
 

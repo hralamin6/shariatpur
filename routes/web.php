@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app/categories', \App\Livewire\App\CategoryComponent::class)->name('app.categories');
     Route::get('app/posts', \App\Livewire\App\PostComponent::class)->name('app.posts');
     Route::get('app/notifications', \App\Livewire\App\NotificationComponent::class)->name('app.notifications');
+    Route::get('app/translate', \App\Livewire\App\TranslateComponent::class)->name('app.translate');
 
 });
 
