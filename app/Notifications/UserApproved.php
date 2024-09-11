@@ -10,7 +10,7 @@ namespace App\Notifications;
     use NotificationChannels\WebPush\WebPushChannel;
     use NotificationChannels\WebPush\WebPushMessage;
 
-class UserApproved extends Notification
+class UserApproved extends Notification implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -42,7 +42,7 @@ class UserApproved extends Notification
     public function via($notifiable)
     {
         try {
-            return [WebPushChannel::class, 'database'];
+            return [WebPushChannel::class, 'database', 'mail'];
         } catch (\Exception $e) {
             \Log::error('Notification Error: ' . $e->getMessage());
             throw $e;

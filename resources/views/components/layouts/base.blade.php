@@ -217,7 +217,7 @@
             });
         });
     </script>
-
+@stack('head')
 
 </head>
 <body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="">

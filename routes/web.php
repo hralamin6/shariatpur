@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-
-
-
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -23,7 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 Route::post('/subscribe', function (Request $request) {
@@ -38,12 +36,19 @@ Route::post('/subscribe', function (Request $request) {
 Route::get('/', function () {
     return view('test');
 });
-Route::group(['as' => 'laravelpwa.'], function()
-{
+Route::group(['as' => 'laravelpwa.'], function () {
     Route::get('/manifest.json', 'App\Http\Controllers\LaravelPWAController@manifestJson')
         ->name('manifest');
     Route::get('/offline/', 'LaravelPWAController@offline');
 });
+
+Route::get('cmd/{slug}', function ($slug = null) {
+    Artisan::call($slug); // Replace 'your:command' with the actual command.
+    $output = Artisan::output();
+    return "<pre>" . htmlspecialchars($output) . "</pre>";
+});
+
+
 Route::get('{slug}', \App\Livewire\App\NotificationComponent::class)->name('page');
 
 
