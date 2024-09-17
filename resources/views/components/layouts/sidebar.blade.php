@@ -2,22 +2,22 @@
      class="md:block shadow-2xl bg-white overflow-y-hidden overflow-x-hidden inset-y-0 z-10 fixed md:relative flex-shrink-0 w-64 overflow-y-auto bg-white dark:bg-darkSidebar dark:scrollbar-thin-dark scrollbar-thin-light"
      :class="{'hidden': nav == false}">
     <div class="h-14 border-b dark:border-gray-600 flex px-4 py-2 gap-3 items-center">
-    <span
+    <a href="{{route('web.home')}}" wire:navigate
         class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
         <img src="{{ getSettingImage('iconImage', 'icon') }}" alt="" onerror="{{ getErrorImage() }}"
              class="w-full h-full object-cover">
-    </span>
-        <span class="text-xl text-gray-500 font-mono dark:text-gray-300">{{ setup('name', 'laravel') }}</span>
+    </a>
+        <a href="{{route('web.home')}}" wire:navigate class="text-xl text-gray-500 font-mono dark:text-gray-300">{{ setup('name', 'laravel') }}</a>
     </div>
 
     <div class="h-screen  overflow-y-auto scrollbar-none">
         <div class="h-16 border-b dark:border-gray-600 flex px-4 py-2 gap-3">
-    <span
+    <a href="{{route('app.profile')}}" wire:navigate
         class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center">
                 <img src="{{ getUserProfileImage(auth()->user()) }}" alt=""
                      onerror="{{ getErrorProfile(auth()->user()) }}" class="w-full h-full object-cover">
-            </span>
-            <span class="my-auto text-sm text-gray-600 font-medium dark:text-gray-300">{{auth()->user()->name}}</span>
+            </a>
+            <a href="{{route('app.profile')}}" wire:navigate class="my-auto text-sm text-gray-600 font-medium dark:text-gray-300">{{auth()->user()->name}}</a>
         </div>
         <div class="m-2 mt-4 flex">
             <input type="search"

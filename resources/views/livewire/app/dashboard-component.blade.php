@@ -1,6 +1,6 @@
 <div class="m-2 capitalize" x-data="dashboard({{ $items && $items->isNotEmpty() ? $items->last()->id : 'null' }})">
 
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto">
 
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -35,7 +35,7 @@
                     </div>
 
                     <div x-show="openChat" x-collapse>
-                        <div class="mb-1 h-96 overflow-y-scroll scrollbar-none" id="chatbox_body" x-data="{ open: false, imageUrl: '' }">
+                        <div class="mb-1 h-96 overflow-y-scroll p-4 dark:scrollbar-thin-dark scrollbar-thin-light" id="chatbox_body" x-data="{ open: false, imageUrl: '' }">
                             @php
                                 $currentDate = null;
                                 $currentHour = null;
@@ -385,8 +385,17 @@
             scrollToLast(e) {
                 $nextTick(() => {
                     element = document.getElementById(e)
-                    element.classList.add('animate-pulse');
-                    element.scrollIntoView({behavior: 'instant'})
+                    parent = document.getElementById('chatbox_body')
+                    if (element && parent) {
+                        // Add an animation class to the element
+                        element.classList.add('animate-pulse');
+
+                        // Scroll the parent container to the element inside it
+                        parent.scrollTo({
+                            top: element.offsetTop - parent.offsetTop, // Scroll based on the element's position inside the parent
+                            behavior: 'smooth'
+                        });
+                    }
                 });
                 setTimeout(() => {
                     element.classList.remove('animate-pulse');

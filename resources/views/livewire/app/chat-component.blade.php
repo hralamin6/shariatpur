@@ -365,8 +365,6 @@
                     const top = element.scrollTop;
                     if (top == 0) {
                         this.height = element.scrollHeight
-                        // alert(this.height)
-                        // element.scrollTop = element.scrollTop + 620;
                         this.$wire.loadMore();
                     }
                 });
@@ -375,8 +373,17 @@
 
                 $nextTick(() => {
                     element = document.getElementById(e)
-                    element.classList.add('animate-pulse');
-                    element.scrollIntoView({behavior: 'instant'})
+                    parent = document.getElementById('chatbox_body')
+                    if (element && parent) {
+                        // Add an animation class to the element
+                        element.classList.add('animate-pulse');
+
+                        // Scroll the parent container to the element inside it
+                        parent.scrollTo({
+                            top: element.offsetTop - parent.offsetTop, // Scroll based on the element's position inside the parent
+                            behavior: 'smooth'
+                        });
+                    }
                 });
                 setTimeout(() => {
                     element.classList.remove('animate-pulse');
