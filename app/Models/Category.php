@@ -32,6 +32,10 @@ class Category extends Model implements HasMedia
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
     public function setParentIdAttribute($value)
     {
         $this->attributes['parent_id'] = $value === '' ? null : $value;

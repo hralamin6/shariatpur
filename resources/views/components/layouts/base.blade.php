@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-
-    @hasSection('title')
-
-        <title>@yield('title') - {{ setup('name', 'starter') }}</title>
-    @else
-        <title>{{ setup('name', 'starter') }}</title>
-    @endif
-        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-{{--    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">--}}
     <style>
         [x-cloak] {
             display: none;
@@ -24,8 +14,11 @@
             }
         }
     </style>
-    @vite(['resources/js/bootstrap.js'])
+    @stack('head')
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+{{--        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">--}}
+{{--        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>--}}
     @laravelPWA
         <style>
             .trix-content p,
@@ -181,16 +174,15 @@
             }
 
         }
-
         document.addEventListener('livewire:init', () => {
             Livewire.on('browserMessage', (e) => {
 
-                if (window.location.pathname === '/app/chat') {
-                   console.log('chat')
+                if (window.location.href === e.link) {
+
                 } else {
                     const notification = new Notification(e.userName, {
                         body: e.messageBody,
-                        icon: 'https://unmeshbd.com/media/Images/Unmesh/logo.png',
+                        icon: e.image,
                         requireInteraction: true // Keeps the notification until the user interacts
                     });
 
@@ -200,10 +192,9 @@
                     }, 20000); // 10 seconds
 
                     // Handle click event
-                    notification.onclick = function (e) {
-                        console.log(e)
-                        e.preventDefault(); // Prevent the default action
-                        window.location.href = '/app/chat'; // Navigate to the link
+                    notification.onclick = function (event) {
+                        event.preventDefault(); // Prevent the default action
+                        window.location.href = e.link; // Navigate to the link
                         window.focus();
                         this.close(); // Close the notification
                     };
@@ -216,20 +207,17 @@
 
             });
         });
+
     </script>
-@stack('head')
 
 </head>
 <body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="">
-{{--<button id="installButton"--}}
-{{--        style="display:none;"--}}
-{{-->Install App</button>--}}
 @yield('body')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-{{--<script src="{{ asset('js/sa.js') }}"> </script>--}}
 <x-livewire-alert::scripts />
 
 <button id="installButton" style="display:none;">Install App</button>
+
 <div x-show="isVisible" x-transition.opacity class="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90 transition-opacity duration-300 ease-in-out z-50">
     <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 max-w-sm mx-auto w-full">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Install Our App</h2>
@@ -240,10 +228,6 @@
         </div>
     </div>
 </div>
-<script>
-
-
-</script>
 
 </body>
 </html>

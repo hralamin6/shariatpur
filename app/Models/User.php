@@ -46,6 +46,22 @@ use Spatie\MediaLibrary\InteractsWithMedia;
     {
         return $this->belongsTo(Role::class)->withDefault();
     }
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class, 'id')
+            ->where(function ($query) {
+                $query->where('sender_id', auth()->id())
+                    ->orWhere('receiver_id', auth()->id());
+            });
+    }
+     public function messages()
+     {
+         return $this->hasMany(Message::class)
+             ->where(function ($query) {
+                 $query->where('sender_id', auth()->id())
+                     ->orWhere('receiver_id', auth()->id());
+             });
+     }
     public function hasPermission($permission): bool
     {
         return $this->role->permissions()->where('slug', $permission)->first() ? true : false;

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', \App\Livewire\Web\HomeComponent::class)->name('web.home');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app', \App\Livewire\App\DashboardComponent::class)->name('app.dashboard');
@@ -34,9 +36,7 @@ Route::post('/subscribe', function (Request $request) {
     );
     return response()->json(['success' => true], 200);
 });
-Route::get('/', function () {
-    return view('test');
-});
+
 Route::group(['as' => 'laravelpwa.'], function () {
     Route::get('/manifest.json', 'App\Http\Controllers\LaravelPWAController@manifestJson')
         ->name('manifest');
@@ -50,6 +50,6 @@ Route::get('cmd/{slug}', function ($slug = null) {
 });
 
 
-Route::get('{slug}', \App\Livewire\App\NotificationComponent::class)->name('page');
+Route::get('{slug}', \App\Livewire\Web\PageComponent::class)->name('web.page');
 
 

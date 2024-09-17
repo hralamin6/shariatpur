@@ -68,6 +68,8 @@ class SettingComponent extends Component
 
     public function updatePusherAndVapidSettings()
     {
+        $this->authorize('app.settings.edit');
+
         $this->validate([
             'pusherAppId' => 'required|string|max:255',
             'pusherAppKey' => 'required|string|max:255',
@@ -106,6 +108,8 @@ class SettingComponent extends Component
     }
     public function updateAppSettings()
     {
+        $this->authorize('app.settings.edit');
+
         $this->validate([
             'appName' => 'required|string|max:255',
             'appTimezone' => 'required|string|max:255',
@@ -138,6 +142,8 @@ class SettingComponent extends Component
     }
     public function updateOAuth()
     {
+        $this->authorize('app.settings.edit');
+
         $this->validate([
             'githubClientId' => 'required|string|max:255',
             'githubClientSecret' => 'required|string|max:255',
@@ -161,6 +167,8 @@ class SettingComponent extends Component
     }
     public function updateImage()
     {
+        $this->authorize('app.settings.edit');
+
         $this->validate([
             'logoImage' => 'nullable|image|max:2048',
             'iconImage' => 'nullable|image|max:2048',
@@ -214,6 +222,8 @@ class SettingComponent extends Component
     }
     public function updateGeneral()
     {
+        $this->authorize('app.settings.edit');
+
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -233,6 +243,8 @@ class SettingComponent extends Component
     }
     public function updateMail()
     {
+        $this->authorize('app.settings.edit');
+
         $this->validate([
             'mailMailer' => 'required|string|max:255',
             'mailHost' => 'required|string|max:255',
@@ -314,6 +326,8 @@ class SettingComponent extends Component
 
     protected function updateEnv($key, $value)
     {
+        $this->authorize('app.settings.edit');
+
         $path = base_path('.env');
 
         if (!File::exists($path)) {
@@ -338,7 +352,7 @@ class SettingComponent extends Component
     }
     public function render()
     {
-//        $item = Setting::get();
+        $this->authorize('app.settings.index');
         return view('livewire.app.setting-component');
     }
 }

@@ -33,6 +33,8 @@ class ProfileComponent extends Component
     ];
     public function updatePhoto()
     {
+        $this->authorize('app.profile.edit');
+
         $this->validate([
             'photo' => 'nullable|image|max:2048', // 2MB Max
             'image_url' => 'nullable|url', // 2MB Max
@@ -63,6 +65,8 @@ class ProfileComponent extends Component
     }
     public function updatePassword()
     {
+        $this->authorize('app.profile.edit');
+
         $this->validate([
             'currentPassword' => 'required',
             'newPassword' => 'required|same:newPasswordConfirmation|min:8',
@@ -89,6 +93,8 @@ class ProfileComponent extends Component
     }
     public function updateProfile()
     {
+        $this->authorize('app.profile.edit');
+
         $this->validate();
 
         auth()->user()->update([
@@ -102,12 +108,8 @@ class ProfileComponent extends Component
     }
     public function render()
     {
-//        $path = storage_path('app/media/54/conversions/bfX4Z3GdUeUL0eyJlxDsHz8O6k6BfF-metaU2NyZWVuc2hvdCBmcm9tIDIwMjQtMDctMTMgMjItNTgtMDAucG5n--thumb.jpg');
-//        if (file_exists($path)) {
-//            echo "File exists.";
-//        } else {
-//            echo "File does not exist.";
-//        }
+        $this->authorize('app.profile.index');
+
         $item = auth()->user();
 
         return view('livewire.app.profile-component', compact('item'));

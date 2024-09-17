@@ -10,3 +10,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('chat.{receiver}', function ($user, $id) {
     return (int) $user->id === (int) $id || (int) $user->id === (int) request()->user()->id;
 });
+
+Broadcast::channel('chat', function ($user) {
+    \Illuminate\Support\Facades\Gate::authorize('app.dashboard');
+        return $user;
+
+});

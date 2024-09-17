@@ -22,6 +22,8 @@ class NotificationComponent extends Component
 
     public function markAsRead($notificationId)
     {
+        $this->authorize('app.notifications.edit');
+
         $notification = DatabaseNotification::find($notificationId);
         if ($notification) {
             $notification->markAsRead();
@@ -30,16 +32,22 @@ class NotificationComponent extends Component
     }
     public function markAllAsRead()
     {
+        $this->authorize('app.notifications.edit');
+
         $this->data->get()->markAsRead(); // Mark all unread notifications as read
         $this->alert('success', __('All data was mark as read successfully'));
     }
     public function deleteAll()
     {
+        $this->authorize('app.notifications.delete');
+
         $this->data->delete(); // Mark all unread notifications as read
         $this->alert('success', __('All data was deleted successfully'));
     }
     public function deleteNotification($notificationId)
     {
+        $this->authorize('app.notifications.delete');
+
         $notification = DatabaseNotification::find($notificationId);
 
         if ($notification) {
@@ -89,7 +97,7 @@ class NotificationComponent extends Component
     }
     public function render()
     {
-//        $this->authorize('role', 'admin');
+        $this->authorize('app.notifications.index');
 
         $notifications = $this->data->paginate(10);
 

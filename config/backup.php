@@ -24,9 +24,27 @@ return [
                  * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
-                    base_path('vendor'),
+                    base_path('.phpunit.cache'),
                     base_path('node_modules'),
+                    base_path('public/hot'),
+//                    base_path('public/storage'),
+//                    base_path('storage/*.key'),
+                    base_path('vendor'),
+//                    base_path('.env'),
+                    base_path('.env.backup'),
+                    base_path('.env.production'),
+                    base_path('.phpactor.json'),
+                    base_path('.phpunit.result.cache'),
+                    base_path('Homestead.json'),
+                    base_path('Homestead.yaml'),
+                    base_path('auth.json'),
+                    base_path('npm-debug.log'),
+                    base_path('yarn-error.log'),
+                    base_path('.fleet'),
+                    base_path('.idea'),
+                    base_path('.vscode'),
                 ],
+
 
                 /*
                  * Determines if symlinks should be followed.

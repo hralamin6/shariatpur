@@ -103,12 +103,8 @@ class UserDetailComponent extends Component
     }
     public function render()
     {
-//        $path = storage_path('app/media/54/conversions/bfX4Z3GdUeUL0eyJlxDsHz8O6k6BfF-metaU2NyZWVuc2hvdCBmcm9tIDIwMjQtMDctMTMgMjItNTgtMDAucG5n--thumb.jpg');
-//        if (file_exists($path)) {
-//            echo "File exists.";
-//        } else {
-//            echo "File does not exist.";
-//        }
+        $this->authorize('app.user_details.index');
+
         $item = auth()->user();
 
         return view('livewire.app.user-detail-component', compact('item'));

@@ -5,38 +5,34 @@ namespace App\Events;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSendEvent implements ShouldBroadcast, ShouldBroadcastNow
+class LiveMessageSent implements ShouldBroadcast, ShouldQueue
 {
+    use Queueable;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $sender_id;
-    public $conversation_id;
-    public $receiver_id;
     public $body;
 
-    public function __construct($sender_id, $conversation_id, $receiver_id, $body)
+    public function __construct($sender_id, $body)
     {
 
         $this->sender_id= $sender_id;
-        $this->conversation_id= $conversation_id;
-        $this->receiver_id= $receiver_id;
         $this->body= $body;
     }
 
 
     public function broadcastWith()
     {
-//        dd('asdf');
 
         return [
             'sender_id'=>$this->sender_id,
-            'conversation_id'=>$this->conversation_id,
-            'receiver_id'=>$this->receiver_id,
             'message'=>$this->body,
         ];
     }
@@ -48,7 +44,6 @@ class MessageSendEvent implements ShouldBroadcast, ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-//        dd('asdf');
-        return new PrivateChannel('chat.'.$this->receiver_id);
+        return new PresenceChannel('chat');
     }
 }

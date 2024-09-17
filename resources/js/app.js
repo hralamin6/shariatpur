@@ -1,2 +1,4 @@
 import './bootstrap';
-import Push from 'push.js';
+import 'trix';
+// Import the Trix editor JavaScript
+

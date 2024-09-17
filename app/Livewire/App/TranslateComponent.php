@@ -28,7 +28,7 @@ class TranslateComponent extends Component
     }
     public function importBlade()
     {
-        // Extract translation keys from Blade files
+        $this->authorize('app.translates.edit');
         $translationKeys = $this->extractTranslationKeys();
         $existingKeys = Translate::where('locale', $this->activeLocale)
             ->pluck('key')
@@ -68,6 +68,8 @@ class TranslateComponent extends Component
     }
     private function extractTranslationKeys()
     {
+        $this->authorize('app.translates.edit');
+
         $keys = [];
         $files = File::allFiles(resource_path('views'));
 
@@ -103,6 +105,8 @@ class TranslateComponent extends Component
 
     public function importTranslations()
     {
+        $this->authorize('app.translates.edit');
+
         // Define the path to the en.json file
         $jsonFilePath = resource_path("lang/{$this->activeLocale}.json");
 
@@ -141,12 +145,16 @@ class TranslateComponent extends Component
 
     public function clearTranslations()
     {
+        $this->authorize('app.translates.edit');
+
         Translate::where('locale', $this->activeLocale)->delete();
         $this->alert('error', __('translations deleted successfully.'));
 
     }
     public function exportTranslations()
     {
+        $this->authorize('app.translates.edit');
+
         // Fetch all translations for the 'en' locale
         $translations = Translate::where('locale', $this->activeLocale)->get();
 
@@ -179,7 +187,7 @@ class TranslateComponent extends Component
 
     public function createTranslation()
     {
-// Validate input fields
+        $this->authorize('app.translates.create');
         $this->validate([
             'locale' => 'required|string',
             'group' => 'required|string',
@@ -204,7 +212,7 @@ class TranslateComponent extends Component
 
     public function editTranslation($id)
     {
-// Fetch translation for editing
+        $this->authorize('app.translates.edit');
         $translation = Translate::findOrFail($id);
         $this->editTranslationId = $id;
         $this->locale = $translation->locale;
@@ -216,7 +224,7 @@ class TranslateComponent extends Component
 
     public function updateTranslation()
     {
-// Validate input fields
+        $this->authorize('app.translates.edit');
         $this->validate([
             'locale' => 'required|string',
             'group' => 'required|string',
@@ -242,7 +250,7 @@ class TranslateComponent extends Component
 
     public function deleteTranslation($id)
     {
-// Delete the translation
+        $this->authorize('app.translates.delete');
         Translate::destroy($id);
         $this->translations = Translate::all();  // Refresh the list
     }
@@ -260,6 +268,8 @@ class TranslateComponent extends Component
 
     public function render()
     {
+        $this->authorize('app.translates.index');
+
         $translations = $this->data;
         return view('livewire.app.translate-component', compact('translations'));
     }

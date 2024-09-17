@@ -6,8 +6,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </a>
-            <a href="" class="capitalize hidden md:block">home</a>
-            <a href="" class="capitalize hidden md:block">contact</a>
+            <a href="{{route('web.home')}}" wire:navigate class="capitalize hidden md:block">home</a>
 
         </div>
         <div class="w-full hidden md:block">

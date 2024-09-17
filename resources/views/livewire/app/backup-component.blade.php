@@ -42,7 +42,7 @@
                     <!-- Loading spinner -->
                     <svg
                         class="w-5 h-5 mx-auto text-white animate-spin block"
-                        wire:loading wire:target="backupCreate"
+                        wire:loading wire:target="backupCreateDb"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -81,10 +81,20 @@
                     <td class="px-4 py-3 text-xs">{{$backup['created_at']}}</td>
                     <td  class="px-4 py-3 text-sm">
                         @can("app.backups.download")
-                            <button wire:click.prevent="backupDownload('{{$backup['file_name']}}')"
+                            <button wire:loading.remove wire:target="backupDownload" wire:click.prevent="backupDownload('{{$backup['file_name']}}')"
                                     class="text-green-500 transition-colors duration-200 dark:hover:text-green-600 dark:text-green-500 hover:text-green-600 focus:outline-none">
                                 <i class='bx bx-download text-2xl'></i>
                             </button>
+                            <svg
+                                class="w-5 h-5 mx-auto text-white animate-spin block"
+                                wire:loading wire:target="backupDownload"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 00-6 6h2a4 4 0 01-4-4z"></path>
+                            </svg>
                         @endcan
 
                         @can("app.backups.delete")

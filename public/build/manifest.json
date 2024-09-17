@@ -1,22 +1,13 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-PMXIzTVc.css",
+    "file": "assets/app-C8-u96Ix.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BEiDGU1O.js",
+    "file": "assets/app-C9hk9Uie.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true,
-    "imports": [
-      "resources/js/bootstrap.js"
-    ]
-  },
-  "resources/js/bootstrap.js": {
-    "file": "assets/bootstrap-DKHMZEGZ.js",
-    "name": "bootstrap",
-    "src": "resources/js/bootstrap.js",
     "isEntry": true
   }
 }

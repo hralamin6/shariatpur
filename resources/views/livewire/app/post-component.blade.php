@@ -115,10 +115,12 @@
 
                                         <td class="max-w-48 truncate px-4 text-sm font-medium text-gray-700 whitespace-nowrap">
 {{--                                            <a href="{{route('post', $item->slug)}}" wire:navigate class="flex justify-start gap-x-3">--}}
-                                                <div class="flex items-center gap-x-2">
-                                                    <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center flex-shrink-0">
-                                                        <img src="{{ getImage($item, 'profile', 'thumb') }}" alt="" onerror="{{getErrorImage()}}" class="w-full h-full object-cover">
-                                                    </span>
+                                                <div class="flex items-center gap-x-2 overflow-x-auto">
+                                                    @foreach($item->getMedia('postImages') as $k => $media)
+                                                        <img src="{{$media->getAvailableUrl(['thumb'])}}"
+                                                             alt="Profile Avatar" onerror="{{getErrorImage()}}"
+                                                             class="w-8 h-8 border-1 border-white dark:border-darker shadow-lg mb-4">
+                                                    @endforeach
                                                     <h2 class="font-medium text-gray-800 dark:text-white flex-grow">{{ $item->title }}</h2>
                                                 </div>
 {{--                                            </a>--}}
@@ -257,12 +259,14 @@
                                 @endforeach
                             @else
                                 @if($post!==null)
-                                    <img src="{{ getImage($post, 'postImages', 'thumb') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
-                                         class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
+{{--                                    <img src="{{ getImage($post, 'postImages', 'thumb') }}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"--}}
+{{--                                         class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">--}}
 
                                     @foreach($post->getMedia('postImages') as $k => $media)
                                         <img src="{{$media->getAvailableUrl(['thumb'])}}" alt="Profile Avatar"  onerror="{{getErrorImage()}}"
                                              class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-white dark:border-darker shadow-lg mb-4">
+                                        <button class="text-pink-500" wire:click.prevent="deleteMedia({{$post}}, {{$k}})">X</button>
+
                                     @endforeach
                                 @endif
 
@@ -272,7 +276,7 @@
 
                         <div>
                             <div>
-                                <x-text-input placeholder="image link" errorName="image_url"  id="image_url" wire:model="image_url" type="url"/>
+                                <x-text-input errorName="image_url" placeholder="image link" errorName="image_url"  id="image_url" wire:model="image_url" type="url"/>
                             </div>
                             <div class="flex flex-col items-center" x-data="{ isUploading: false, progress: 5 }"
                                  x-on:livewire-upload-start="isUploading = true"
@@ -292,7 +296,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <x-text-input multiple type="file" wire:model="photo" accept="image/*" class="mb-4"></x-text-input>
+                                <x-text-input errorName="photo" multiple type="file" wire:model="photo" accept="image/*" class="mb-4"></x-text-input>
                             </div>
                         </div>
 
@@ -305,6 +309,10 @@
             </div>
         </div>
     </div>
+    @assets
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    @endassets
 
     @script
     <script>

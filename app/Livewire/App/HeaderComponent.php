@@ -18,21 +18,24 @@ class HeaderComponent extends Component
 
         $auth_id = auth()->id();
         return [
+            "echo-presence:chat,LiveMessageSent" => 'broadcastLiveMessageReceived',
             "echo-private:chat.{$auth_id},MessageSent" => 'broadcastedMessageReceived',
-//            "echo-private:chat.{$auth_id},MessageSent" => '$refresh',
             "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
-            'loadConversation', 'pushMessage', 'loadmore', 'updateHeight','broadcastMessageRead','resetComponent'
         ];
     }
 
+    public function broadcastLiveMessageReceived($e)
+    {
+        $this->dispatch('broadcastLiveMessageReceived', sentEvent: $e);
+        $image = getUserProfileImage( User::find($e['sender_id']));
+
+            $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: route('app.dashboard'), image: $image);
+    }
     public function broadcastedMessageReceived($e)
     {
         $this->dispatch('broadcastedMessageReceived', sentEvent: $e);
 
 //            $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: route('app.chat'));
-
-
-
     }
     public function broadcastedMessageRead($e)
     {

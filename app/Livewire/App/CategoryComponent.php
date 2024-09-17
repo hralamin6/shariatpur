@@ -58,6 +58,8 @@ class CategoryComponent extends Component
 
     public function saveData()
     {
+        $this->authorize('app.categories.create');
+
         $data = $this->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -86,6 +88,8 @@ class CategoryComponent extends Component
 
     public function editData()
     {
+        $this->authorize('app.categories.edit');
+
         $data = $this->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -102,6 +106,8 @@ class CategoryComponent extends Component
 
     public function deleteSingle(Category $category)
     {
+        $this->authorize('app.categories.delete');
+
         $category->delete();
         $this->alert('success', __('Data deleted successfully!'));
     }
@@ -118,6 +124,8 @@ class CategoryComponent extends Component
     }
     public function deleteMultiple()
     {
+        $this->authorize('app.categories.delete');
+
         Category::whereIn('id', $this->selectedRows)->delete();
         $this->selectedRows = [];
         $this->alert('success', __('Data deleted successfully!'));
@@ -135,6 +143,8 @@ class CategoryComponent extends Component
     {
         $this->authorize('app.categories.edit');
 
+        $this->authorize('app.categories.edit');
+
         $category->status=='draft'?$category->update(['status'=>'published']):$category->update(['status'=>'draft']);
 //        $page->notify(new PageApproved($page->name, $page->status, $page));
 
@@ -142,6 +152,8 @@ class CategoryComponent extends Component
     }
     public function render()
     {
+        $this->authorize('app.categories.index');
+
         $categories = $this->data;
         $selectCategories = Category::whereNull('parent_id')->when($this->category, function ($query) {
             return $query->where('id', '!=', $this->category->id);

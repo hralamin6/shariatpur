@@ -137,6 +137,38 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.settings.delete',
         ]);
 
+        // Translate Management Module
+        $moduleAppTranslate = Module::updateOrCreate(['name' => 'Translate Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppTranslate->id,
+            'name' => 'access translate',
+            'slug' => 'app.translates.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppTranslate->id,
+            'name' => 'create translate',
+            'slug' => 'app.translates.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppTranslate->id,
+            'name' => 'edit translate',
+            'slug' => 'app.translates.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppTranslate->id,
+            'name' => 'delete translate',
+            'slug' => 'app.translates.delete',
+        ]);
+
+        // UserDetails Management Module
+        $moduleAppUserDetails = Module::updateOrCreate(['name' => 'UserDetails Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleAppUserDetails->id,
+            'name' => 'access user details',
+            'slug' => 'app.user_details.index',
+        ]);
+
+
         // Chat Management Module
         $moduleChat = Module::updateOrCreate(['name' => 'Chat Management']);
         Permission::updateOrCreate([

@@ -115,16 +115,11 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <x-field :OB="$orderBy" :OD="$orderDirection"
-                                             :field="'title'">@lang('title')</x-field>
-                                    <x-field :OB="$orderBy" :OD="$orderDirection"
-                                             :field="'slug'">@lang('slug')</x-field>
-                                    <x-field :OB="$orderBy" :OD="$orderDirection"
-                                             :field="'content'">@lang('content')</x-field>
-                                    <x-field :OB="$orderBy" :OD="$orderDirection"
-                                             :field="'status'">@lang('status')</x-field>
-                                    <x-field :OB="$orderBy" :OD="$orderDirection"
-                                             :field="'updated_at'">@lang('last update')</x-field>
+                                    <x-field :OB="$orderBy" :OD="$orderDirection" :field="'title'">@lang('title')</x-field>
+                                    <x-field :OB="$orderBy" :OD="$orderDirection" :field="'slug'">@lang('slug')</x-field>
+                                    <x-field :OB="$orderBy" :OD="$orderDirection" :field="'status'">@lang('status')</x-field>
+                                    <x-field :OB="$orderBy" :OD="$orderDirection" :field="'content'">@lang('content')</x-field>
+                                    <x-field :OB="$orderBy" :OD="$orderDirection" :field="'updated_at'">@lang('last update')</x-field>
                                     <x-field>@lang('action')</x-field>
 
 
@@ -142,7 +137,7 @@
                                         </td>
 
                                         <td class="max-w-48 truncate px-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <a href="{{route('page', $item->slug)}}" wire:navigate class="flex justify-start gap-x-3">
+                                            <a href="{{route('web.page', $item->slug)}}" wire:navigate class="flex justify-start gap-x-3">
                                                 <div class="flex items-center gap-x-2">
                                                     <span class="w-10 h-10 rounded-full bg-purple-600 border dark:border-gray-600 shadow-xl overflow-hidden flex items-center justify-center flex-shrink-0">
                                                         <img src="{{ getImage($item, 'profile', 'thumb') }}" alt="" onerror="{{getErrorImage()}}" class="w-full h-full object-cover">
@@ -255,7 +250,6 @@
             </div>
         </div>
     </div>
-
     @script
     <script>
         Alpine.data('page', () => ({
@@ -312,6 +306,7 @@
                 }
             })
         });
+
 
 
     </script>

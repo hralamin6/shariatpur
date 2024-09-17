@@ -334,6 +334,7 @@
                 }
             })
         });
+
     </script>
     @endscript
 </div>
