@@ -181,22 +181,25 @@
 
             Livewire.on('browserMessage', (e) => {
 
-                if (window.location.href === e.link) {
+                if (window.location.pathname === e.messagLink) {
+                    console.log('same')
 
                 } else {
-                    Push.create(e.userName), {
+
+                    Push.create(e.userName, {
                         body: e.messageBody,
-                        icon: e.image,
-                        timeout: 10000,
+                        icon: e.messageImage,
                         requireInteraction: true,
                         vibrate: [200, 100],
-                        link: e.link,
-                        onClick: function () {
-                            window.location.href = e.link;
+                        link: e.messagLink,
+                        onClick: function (event) {
+                            event.preventDefault();
+                            window.location.href = e.messagLink;
                             window.focus();
                             this.close();
                         }
-                    }
+                });
+
                 }
 
             });

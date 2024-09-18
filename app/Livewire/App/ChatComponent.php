@@ -168,8 +168,7 @@ class ChatComponent extends Component
         $this->dispatch('whisperTypingEnd');
         $this->reset('body', 'image_url', 'photo');
             broadcast(new MessageSent(auth()->id(), $this->selectedConversation->id, $this->receiver, $body))->toOthers();
-        $isOnline = Cache::has('user-is-online-' . $this->receiver);
-
+        $isOnline = Cache::has('is_online' . $this->receiver);
         if (!$isOnline) {
             // User has been inactive for more than 30 seconds, send notification
             $user = User::find($this->receiver);

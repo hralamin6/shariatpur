@@ -11,6 +11,9 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Events\MessageRead;
 use App\Events\MessageSent;
+use Minishlink\WebPush\WebPush;
+use NotificationChannels\WebPush\WebPushMessage;
+
 class HeaderComponent extends Component
 {
     public function  getListeners()
@@ -28,13 +31,14 @@ class HeaderComponent extends Component
     {
         $this->dispatch('broadcastLiveMessageReceived', sentEvent: $e);
         $image = getUserProfileImage( User::find($e['sender_id']));
-            $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: '/app', image: $image);
+                $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, messagLink: '/app', messageImage: $image);
     }
     public function broadcastedMessageReceived($e)
     {
         $this->dispatch('broadcastedMessageReceived', sentEvent: $e);
         $image = getUserProfileImage( User::find($e['sender_id']));
-        $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, link: '/', image: $image);
+        $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, messagLink: '/app/chat', messageImage: $image);
+
     }
     public function broadcastedMessageRead($e)
     {
