@@ -191,9 +191,14 @@
                         icon: e.messageImage,
                         requireInteraction: true,
                         vibrate: [200, 100],
-                        link: e.messageLink,
-                        onClick: function (event) {
-                            window.location.href = e.messageLink;
+                        data: {
+                            url: e.messageLink
+                        },                        onClick: function (event) {
+                            if (event.target && event.target.data && event.target.data.url) {
+                                window.location.href = event.target.data.url;
+                            } else {
+                                window.location.href = e.messageLink;
+                            }
                             window.focus();
                             this.close();
                         }
