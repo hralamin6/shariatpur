@@ -52,7 +52,8 @@
 
 <script type="text/javascript">
     // Initialize the service worker
-    const publicVapidKey = "{{ env('VAPID_PUBLIC_KEY') }}";
+    const publicVapidKey = "{{ config('webpush.vapid.public_key') }}";
+{{--    const publicVapidKey = "{{ env('VAPID_PUBLIC_KEY') }}";--}}
 
     // Register Service Worker
     if ('serviceWorker' in navigator) {
@@ -104,9 +105,20 @@
         return outputArray;
     }
 
-    Notification.requestPermission().then(permission => {
-        if (permission !== 'granted') {
-            console.log('Notification permission denied');
-        }
-    });
+    if ('Notification' in window && 'serviceWorker' in navigator) {
+        Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                // Create the notification
+                const notification = new Notification('Title', {
+                    body: 'This is the body',
+                    requireInteraction: true
+                });
+            } else {
+                console.log('Notification permission denied');
+            }
+        });
+    } else {
+        console.log('Notification not supported in this browser');
+    }
+
 </script>

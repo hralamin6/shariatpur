@@ -175,11 +175,11 @@
 
         }
         document.addEventListener('livewire:init', () => {
-            const notification = new Notification('title', {
-                body: 'body',
-                // icon: e.image,
-                requireInteraction: true // Keeps the notification until the user interacts
-            });
+            // const notification = new Notification('title', {
+            //     body: 'body',
+            //     // icon: e.image,
+            //     requireInteraction: true // Keeps the notification until the user interacts
+            // });
 
             // setTimeout(() => {
             //     notification.close();
