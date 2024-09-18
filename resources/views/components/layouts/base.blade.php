@@ -19,6 +19,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 {{--        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">--}}
 {{--        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.8/push.min.js" integrity="sha512-eiqtDDb4GUVCSqOSOTz/s/eiU4B31GrdSb17aPAA4Lv/Cjc8o+hnDvuNkgXhSI5yHuDvYkuojMaQmrB5JB31XQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @laravelPWA
         <style>
             .trix-content p,
@@ -175,6 +177,21 @@
 
         }
         document.addEventListener('livewire:init', () => {
+
+            Push.create('asdf'), {
+                body: 'obody',
+                icon: 'https://unmeshbd.com/media/Images/Unmesh/logo.png',
+                timeout: 10000,
+                requireInteraction: true,
+                vibrate: [200, 100],
+                link: '/',
+                onClick: function () {
+
+                    window.location.href = '/';
+                    window.focus();
+                    this.close();
+                }
+            }
             Livewire.on('browserMessage', (e) => {
 
                 if (window.location.href === e.link) {
