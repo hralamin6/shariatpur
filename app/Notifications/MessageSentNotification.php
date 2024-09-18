@@ -60,7 +60,7 @@ class MessageSentNotification extends Notification implements ShouldQueue
 //            ->icon('https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name))
             ->icon(getUserProfileImage($this->user))
             ->body($this->body)
-            ->badge('/app')
+            ->badge('/app/chat/')
             ->action('View account', 'view_account')
             ->options(['TTL' => 1000])
             ->vibrate([200, 100, 200]);

@@ -11,7 +11,7 @@ use function Livewire\Volt\layout;
 use function Livewire\Volt\rules;
 use function Livewire\Volt\state;
 
-layout('layouts.guest');
+layout('components.layouts.web');
 
 state('token')->locked();
 
@@ -61,37 +61,53 @@ $resetPassword = function () {
 
 ?>
 
-<div>
-    <form wire:submit="resetPassword">
+<div class="bg-white dark:bg-darker shadow-lg rounded-lg p-6 max-w-md mx-auto space-y-6">
+    <!-- Form Heading -->
+    <h2 class="text-center text-2xl font-semibold text-gray-800 dark:text-gray-100">{{ __('Reset Password') }}</h2>
+
+    <form wire:submit.prevent="resetPassword" class="space-y-4">
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-input-label for="email" :value="__('Email')" class="text-gray-700 dark:text-gray-300" />
+            <x-text-input wire:model="email"
+                          errorName="email"
+                          id="email"
+                          class="block mt-1 w-full border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm px-4 py-2 bg-gray-100 dark:bg-darkBg focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-darkBg"
+                          type="email"
+                          name="email"
+                          required autofocus autocomplete="username" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div>
+            <x-input-label for="password" :value="__('Password')" class="text-gray-700 dark:text-gray-300" />
+            <x-text-input wire:model="password"
+                          errorName="password"
+                          id="password"
+                          class="block mt-1 w-full border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm px-4 py-2 bg-gray-100 dark:bg-darkBg focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-darkBg"
+                          type="password"
+                          name="password"
+                          required autocomplete="new-password" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
+        <div>
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="text-gray-700 dark:text-gray-300" />
+            <x-text-input wire:model="password_confirmation"
+                          errorName="password_confirmation"
+                          id="password_confirmation"
+                          class="block mt-1 w-full border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm px-4 py-2 bg-gray-100 dark:bg-darkBg focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-darkBg"
                           type="password"
-                          name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                          name="password_confirmation"
+                          required autocomplete="new-password" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+        <!-- Submit Button -->
+        <div class="flex justify-end mt-4">
+            <x-primary-button class="px-6 py-2 text-base font-semibold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg shadow-md transition-all duration-200 dark:bg-indigo-700 dark:hover:bg-indigo-600 dark:focus:ring-indigo-600">
                 {{ __('Reset Password') }}
             </x-primary-button>
         </div>
     </form>
 </div>
+

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 
 use function Livewire\Volt\layout;
 
-layout('layouts.guest');
+layout('components.layouts.web');
 
 $sendVerification = function () {
     if (Auth::user()->hasVerifiedEmail()) {
@@ -28,7 +28,8 @@ $logout = function (Logout $logout) {
 
 ?>
 
-<div>
+<div class="bg-white dark:bg-darker shadow-lg rounded-lg p-6 max-w-md mx-auto space-y-6">
+    <!-- Instructions -->
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
     </div>
@@ -39,8 +40,9 @@ $logout = function (Logout $logout) {
         </div>
     @endif
 
+    <!-- Actions: Resend Verification & Log Out -->
     <div class="mt-4 flex items-center justify-between">
-        <x-primary-button wire:click="sendVerification">
+        <x-primary-button wire:click="sendVerification" class="px-6 py-2 text-base font-semibold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg shadow-md transition-all duration-200 dark:bg-indigo-700 dark:hover:bg-indigo-600 dark:focus:ring-indigo-600">
             {{ __('Resend Verification Email') }}
         </x-primary-button>
 
@@ -49,3 +51,4 @@ $logout = function (Logout $logout) {
         </button>
     </div>
 </div>
+

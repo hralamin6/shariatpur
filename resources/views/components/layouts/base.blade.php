@@ -175,6 +175,22 @@
 
         }
         document.addEventListener('livewire:init', () => {
+            const notification = new Notification('title', {
+                body: 'body',
+                // icon: e.image,
+                requireInteraction: true // Keeps the notification until the user interacts
+            });
+
+            // setTimeout(() => {
+            //     notification.close();
+            // }, 20000); // 10 seconds
+            //
+            // notification.onclick = function (event) {
+            //     event.preventDefault(); // Prevent the default action
+            //     window.location.href= '/'; // Navigate to the link
+            //     window.focus();
+            //     this.close(); // Close the notification
+            // };
             Livewire.on('browserMessage', (e) => {
 
                 if (window.location.href === e.link) {
@@ -190,19 +206,17 @@
                     setTimeout(() => {
                         notification.close();
                     }, 20000); // 10 seconds
-
-                    // Handle click event
-                    notification.onclick = function (event) {
-                        event.preventDefault(); // Prevent the default action
-                        window.location.href = e.link; // Navigate to the link
-                        window.focus();
-                        this.close(); // Close the notification
-                    };
-
-                    // Handle vibration (works on mobile devices with proper permissions)
                     if ("vibrate" in navigator) {
                         navigator.vibrate([200, 100]); // Vibration pattern
                     }
+                    notification.onclick = function (event) {
+                        event.preventDefault(); // Prevent the default action
+                        window.location.href = e.link; // Navigate to the link
+                        // window.focus();
+                        // this.close(); // Close the notification
+                    };
+
+
                 }
 
             });

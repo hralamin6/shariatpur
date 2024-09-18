@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
+//    Route::get('login', \App\Livewire\Auth\LoginComponent::class)->name('login');
+
+
     Volt::route('register', 'pages.auth.register')
         ->name('register');
 
