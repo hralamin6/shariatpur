@@ -178,46 +178,24 @@
         }
         document.addEventListener('livewire:init', () => {
 
-            Push.create('asdf'), {
-                body: 'obody',
-                icon: 'https://unmeshbd.com/media/Images/Unmesh/logo.png',
-                timeout: 10000,
-                requireInteraction: true,
-                vibrate: [200, 100],
-                link: '/',
-                onClick: function () {
 
-                    window.location.href = '/';
-                    window.focus();
-                    this.close();
-                }
-            }
             Livewire.on('browserMessage', (e) => {
 
                 if (window.location.href === e.link) {
 
                 } else {
-                    const notification = new Notification(e.userName, {
+                    Push.create(e.userName), {
                         body: e.messageBody,
                         icon: e.image,
-                        requireInteraction: true // Keeps the notification until the user interacts
-                    });
-
-                    // Set a timeout to close the notification after a specific time
-                    setTimeout(() => {
-                        notification.close();
-                    }, 20000); // 10 seconds
-
-                    // Handle click event
-                    notification.onclick = function (event) {
-                        event.preventDefault(); // Prevent the default action
-                        window.location.href = e.link; // Navigate to the link
-                        window.focus();
-                        this.close(); // Close the notification
-                    };
-
-                    if ("vibrate" in navigator) {
-                        navigator.vibrate([200, 100]); // Vibration pattern
+                        timeout: 10000,
+                        requireInteraction: true,
+                        vibrate: [200, 100],
+                        link: e.link,
+                        onClick: function () {
+                            window.location.href = e.link;
+                            window.focus();
+                            this.close();
+                        }
                     }
                 }
 

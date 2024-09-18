@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Notifications\MessageSentNotification;
 use App\Notifications\UserApproved;
+use Illuminate\Support\Facades\Cache;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -167,8 +168,13 @@ class ChatComponent extends Component
         $this->dispatch('whisperTypingEnd');
         $this->reset('body', 'image_url', 'photo');
             broadcast(new MessageSent(auth()->id(), $this->selectedConversation->id, $this->receiver, $body))->toOthers();
+        $isOnline = Cache::has('user-is-online-' . $this->receiver);
+
+        if (!$isOnline) {
+            // User has been inactive for more than 30 seconds, send notification
             $user = User::find($this->receiver);
             $user->notify(new MessageSentNotification($user->name, $body, $user));
+        }
 
     }
     public function getDataProperty()

@@ -21,7 +21,7 @@ class LastSeenMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            $expireTime = Carbon::now()->addMinute(1);
+            $expireTime = Carbon::now()->addSeconds(59);
             Cache::put('is_online'.Auth::id(), true, $expireTime);
             User::where('id', Auth::id())->update(['last_seen' => Carbon::now()]);
         }
