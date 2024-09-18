@@ -123,7 +123,7 @@ class SettingComponent extends Component
 //        dd($this->appDebug);
         Setting::updateOrCreate(['key' => 'appName'], ['value' => str_replace(' ', '_', $this->appName)]);
         Setting::updateOrCreate(['key' => 'appEnv'], ['value' => str_replace(' ', '_', $this->appEnv)]);
-        Setting::updateOrCreate(['key' => 'appDebug'], ['value' => str_replace(' ', '_', $this->appDebug)]);
+        Setting::updateOrCreate(['key' => 'appDebug'], ['value' => $this->appDebug ? 'true' : 'false']);
         Setting::updateOrCreate(['key' => 'appTimezone'], ['value' => str_replace(' ', '_', $this->appTimezone)]);
         Setting::updateOrCreate(['key' => 'appUrl'], ['value' => str_replace(' ', '_', $this->appUrl)]);
         Setting::updateOrCreate(['key' => 'appLocale'], ['value' => str_replace(' ', '_', $this->appLocale)]);
@@ -132,7 +132,7 @@ class SettingComponent extends Component
         // Update environment variables
         $this->updateEnv('APP_NAME', str_replace(' ', '_', $this->appName));
         $this->updateEnv('APP_ENV', str_replace(' ', '_', $this->appEnv));
-        $this->updateEnv('APP_DEBUG', str_replace(' ', '_', $this->appDebug));
+        $this->updateEnv('APP_DEBUG', $this->appDebug ? 'true' : 'false');
         $this->updateEnv('APP_TIMEZONE', str_replace(' ', '_', $this->appTimezone));
         $this->updateEnv('APP_URL', str_replace(' ', '_', $this->appUrl));
         $this->updateEnv('APP_LOCALE', str_replace(' ', '_', $this->appLocale));

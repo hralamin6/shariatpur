@@ -5,6 +5,7 @@ if (!function_exists('setup')) {
     {
         return \App\Models\Setting::getByKey($key, $default);
     }
+
 }
 if (!function_exists('getImage')) {
     function getImage($model, $collection = 'profile', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
@@ -25,10 +26,19 @@ if (!function_exists('getUserProfileImage')) {
 if (!function_exists('getSettingImage')) {
     function getSettingImage($key = 'iconImage', $collection = 'icon', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
     {
-        $setting = \App\Models\Setting::where('key', $key)->first();
-        return $setting?->getFirstMediaUrl($collection, $conversion) ?? setup('placeHolder', $defaultUrl);
+        // Use a static variable to store settings to prevent duplicate queries
+        static $settings = [];
+
+        // Check if the setting is already retrieved in this request
+        if (!array_key_exists($key, $settings)) {
+            $settings[$key] = \App\Models\Setting::where('key', $key)->first();
+        }
+
+        // Return the image URL or the default placeholder
+        return $settings[$key]?->getFirstMediaUrl($collection, $conversion) ?? setup('placeHolder', $defaultUrl);
     }
 }
+
 if (!function_exists('getErrorImage')) {
     function getErrorImage($defaultUrl = 'https://placehold.co/400')
     {

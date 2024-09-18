@@ -24,13 +24,30 @@ class Setting extends Model implements HasMedia
             $this->addMediaConversion('thumb')->quality('10')->nonQueued();
         });
     }
+//    public static function getByKey($key, $default = null)
+//    {
+//        $setting = self::where('key', $key)->first();
+//        if (isset($setting)) {
+//            return $setting->value;
+//        }else{
+//            return $default;
+//        }
+//    }
+
+    // In your Setting model
     public static function getByKey($key, $default = null)
     {
-        $setting = self::where('key', $key)->first();
-        if (isset($setting)) {
-            return $setting->value;
-        }else{
-            return $default;
+        // Define a static variable to store settings within the request
+        static $settings = [];
+
+        // Check if the setting is already retrieved in this request
+        if (!array_key_exists($key, $settings)) {
+            $setting = self::where('key', $key)->first();
+            $settings[$key] = $setting->value ?? $default; // Store the retrieved setting in memory
         }
+
+        // Return the stored setting value
+        return $settings[$key];
     }
+
 }

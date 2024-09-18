@@ -19,7 +19,8 @@ class RoleMiddleware
     {
         $user = auth()->user();
         if ($user){
-            $permissions = Permission::all();
+            $permissions = Permission::get();
+//            $permissions = $user->role->permissions;
             foreach ($permissions as $permission){
                 \Illuminate\Support\Facades\Gate::define($permission->slug, function (User $user) use ($permission){
                     return $user->hasPermission($permission->slug);
@@ -28,4 +29,6 @@ class RoleMiddleware
         }
         return $next($request);
     }
+
+
 }

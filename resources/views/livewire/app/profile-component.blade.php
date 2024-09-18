@@ -10,7 +10,7 @@
     <main class="h-full capitalize">
         <div class="max-w-4xl mx-auto mb-6">
             <!-- Tabs Container -->
-            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden">
+            <div class="flex justify-center space-x-4 bg-white dark:bg-darker shadow-lg rounded-lg overflow-hidden overflow-x-auto">
                 <!-- Profile Tab -->
                 <button
                     @click="activeTab = 'profile'"

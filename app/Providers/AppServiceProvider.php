@@ -52,5 +52,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('role', function (User $user, $role) {
             return $user->role->slug === $role;
         });
+
     }
 }
