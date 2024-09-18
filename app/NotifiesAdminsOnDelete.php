@@ -20,7 +20,7 @@ trait NotifiesAdminsOnDelete
             $user = auth()->user();
 
             $role = Role::where('name', 'admin')->first();
-            $link = '/app/notifications';
+            $link = route('app.notifications');
 
             // If the role exists, send the notification with afterCommit
             if ($role && $user) {
@@ -35,7 +35,7 @@ trait NotifiesAdminsOnDelete
 
             // Capture the original model data before the update
             $role = Role::where('name', 'admin')->first();
-            $link = '/app/notifications';
+            $link = route('app.notifications');
 
             // If the role exists, send the notification with afterCommit
             if ($role && $user) {
@@ -50,7 +50,7 @@ trait NotifiesAdminsOnDelete
             $user = auth()->user();
             // Find the role that should be notified (e.g., Admin role)
             $role = Role::where('name', 'admin')->first();
-            $link = '/app/notifications';
+            $link = route('app.notifications');
 
             // If the role exists, send the notification
             if ($role && $user) {
