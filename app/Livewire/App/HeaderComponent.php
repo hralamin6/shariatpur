@@ -13,16 +13,16 @@ use App\Events\MessageRead;
 use App\Events\MessageSent;
 class HeaderComponent extends Component
 {
-//    public function  getListeners()
-//    {
-//
-//        $auth_id = auth()->id();
-//        return [
-//            "echo-presence:chat,LiveMessageSent" => 'broadcastLiveMessageReceived',
-//            "echo-private:chat.{$auth_id},MessageSent" => 'broadcastedMessageReceived',
-//            "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
-//        ];
-//    }
+    public function  getListeners()
+    {
+
+        $auth_id = auth()->id();
+        return [
+            "echo-presence:chat,LiveMessageSent" => 'broadcastLiveMessageReceived',
+            "echo-private:chat.{$auth_id},MessageSent" => 'broadcastedMessageReceived',
+            "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
+        ];
+    }
 
     public function broadcastLiveMessageReceived($e)
     {

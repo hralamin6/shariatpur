@@ -56,56 +56,56 @@
 {{--    const publicVapidKey = "{{ env('VAPID_PUBLIC_KEY') }}";--}}
 
     // Register Service Worker
-    if ('serviceWorker' in navigator) {
-        registerServiceWorker().catch(err => console.error('Service Worker registration failed:', err));
-    }
+    // if ('serviceWorker' in navigator) {
+    //     registerServiceWorker().catch(err => console.error('Service Worker registration failed:', err));
+    // }
+    //
+    // async function registerServiceWorker() {
+    //     try {
+    //         const register = await navigator.serviceWorker.register('/serviceworker.js');
+    //         console.log('Service Worker registered:', register);
+    //
+    //         const subscription = await subscribeUser(register);
+    //         console.log('Push Subscription:', subscription);
+    //
+    //         await sendSubscriptionToServer(subscription);
+    //     } catch (error) {
+    //         console.error('Error in registering Service Worker:', error);
+    //     }
+    // }
+    //
+    // async function subscribeUser(register) {
+    //     return await register.pushManager.subscribe({
+    //         userVisibleOnly: true,
+    //         applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    //     });
+    // }
+    //
+    // async function sendSubscriptionToServer(subscription) {
+    //     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    //     await fetch('/subscribe', {
+    //         method: 'POST',
+    //         body: JSON.stringify(subscription),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRF-TOKEN': token
+    //         }
+    //     });
+    // }
+    //
+    // function urlBase64ToUint8Array(base64String) {
+    //     const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    //     const base64 = base64String.replace(/-/g, '+').replace(/_/g, '/');
+    //     const rawData = window.atob(base64);
+    //     const outputArray = new Uint8Array(rawData.length);
+    //
+    //     for (let i = 0; i < rawData.length; ++i) {
+    //         outputArray[i] = rawData.charCodeAt(i);
+    //     }
+    //     return outputArray;
+    // }
 
-    async function registerServiceWorker() {
-        try {
-            const register = await navigator.serviceWorker.register('/serviceworker.js');
-            console.log('Service Worker registered:', register);
-
-            const subscription = await subscribeUser(register);
-            console.log('Push Subscription:', subscription);
-
-            await sendSubscriptionToServer(subscription);
-        } catch (error) {
-            console.error('Error in registering Service Worker:', error);
-        }
-    }
-
-    async function subscribeUser(register) {
-        return await register.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-        });
-    }
-
-    async function sendSubscriptionToServer(subscription) {
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        await fetch('/subscribe', {
-            method: 'POST',
-            body: JSON.stringify(subscription),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': token
-            }
-        });
-    }
-
-    function urlBase64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = base64String.replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = window.atob(base64);
-        const outputArray = new Uint8Array(rawData.length);
-
-        for (let i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
-
-    if ('Notification' in window && 'serviceWorker' in navigator) {
+    // if ('Notification' in window && 'serviceWorker' in navigator) {
         Notification.requestPermission().then(function(permission) {
             if (permission === 'granted') {
                 // Create the notification
@@ -117,8 +117,8 @@
                 console.log('Notification permission denied');
             }
         });
-    } else {
-        console.log('Notification not supported in this browser');
-    }
+    // } else {
+    //     console.log('Notification not supported in this browser');
+    // }
 
 </script>
