@@ -31,13 +31,13 @@ class HeaderComponent extends Component
     {
         $this->dispatch('broadcastLiveMessageReceived', sentEvent: $e);
         $image = getUserProfileImage( User::find($e['sender_id']));
-                $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, messagLink: '/app', messageImage: $image);
+                $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, messageLink: \route('app.dashboard'), messageImage: $image);
     }
     public function broadcastedMessageReceived($e)
     {
         $this->dispatch('broadcastedMessageReceived', sentEvent: $e);
         $image = getUserProfileImage( User::find($e['sender_id']));
-        $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, messagLink: '/app/chat', messageImage: $image);
+        $this->dispatch('browserMessage', messageBody: $e['message'], userName: User::find($e['sender_id'])->name, messageLink: \route('app.chat'), messageImage: $image);
 
     }
     public function broadcastedMessageRead($e)

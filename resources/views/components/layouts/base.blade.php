@@ -181,7 +181,7 @@
 
             Livewire.on('browserMessage', (e) => {
 
-                if (window.location.pathname === e.messagLink) {
+                if (window.location.href === e.messageLink) {
                     console.log('same')
 
                 } else {
@@ -191,10 +191,9 @@
                         icon: e.messageImage,
                         requireInteraction: true,
                         vibrate: [200, 100],
-                        link: e.messagLink,
+                        link: e.messageLink,
                         onClick: function (event) {
-                            event.preventDefault();
-                            window.location.href = e.messagLink;
+                            window.location.href = e.messageLink;
                             window.focus();
                             this.close();
                         }

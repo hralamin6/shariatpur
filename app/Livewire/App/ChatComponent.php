@@ -64,8 +64,7 @@ class ChatComponent extends Component
             Message::where('conversation_id',$this->selectedConversation->id)
                 ->where('receiver_id',auth()->user()->id)->update(['read'=> 1]);
             broadcast(new MessageRead($this->selectedConversation->id, $this->getChatUserInstance($this->selectedConversation, $name = 'id')))->toOthers();
-//            $this->alert('success', __('New message from '.User::find($sentEvent['sender_id'])->name).' '.$sentEvent['message']);
-
+            $this->dispatch('header-reload');
 
         }
 
