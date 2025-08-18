@@ -24,6 +24,10 @@ Route::get('/fire-services', \App\Livewire\Web\FireService\FireServiceComponent:
 Route::get('/doctor/categories', \App\Livewire\Web\Doctor\DoctorCategoryComponent::class)->name('web.doctor.categories');
 Route::get('/doctor/categories/{cat_id?}', \App\Livewire\Web\Doctor\DoctorComponent::class)->name('web.doctor');
 
+// Houses (rent)
+Route::get('/house-types', \App\Livewire\Web\House\HouseTypeComponent::class)->name('web.house.types');
+Route::get('/houses/{type_id?}', \App\Livewire\Web\House\HouseComponent::class)->name('web.houses');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app', \App\Livewire\App\DashboardComponent::class)->name('app.dashboard');

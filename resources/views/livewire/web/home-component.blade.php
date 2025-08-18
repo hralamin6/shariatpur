@@ -56,6 +56,12 @@
             </div>
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Fire Services')</span>
         </a>
+        <a wire:navigate href="{{route('web.house.types')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-emerald-500">
+                <i class="bx bxs-home-heart"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Houses')</span>
+        </a>
 
         <template x-for="item in services" :key="item.name">
             <a href="#" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">

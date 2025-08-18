@@ -53,5 +53,9 @@
         <a href="#" class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
             <i class='bx bxs-log-out mr-2'></i> লগ আউট
         </a>
+        <!-- New: House Types (Houses/Rent) -->
+        <a wire:navigate href="{{route('web.house.types')}}" class="{{Route::is('web.house.types')||Route::is('web.houses')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+            <i class='bx bxs-home-heart mr-2'></i> Houses
+        </a>
     </nav>
 </aside>

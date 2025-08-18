@@ -512,5 +512,51 @@ class PermissionSeeder extends Seeder
             'name' => 'delete fire service',
             'slug' => 'app.fire_services.delete',
         ]);
+
+        // House Type Management Module
+        $moduleHouseType = Module::updateOrCreate(['name' => 'House Type Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouseType->id,
+            'name' => 'access house type',
+            'slug' => 'app.house_types.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouseType->id,
+            'name' => 'create house type',
+            'slug' => 'app.house_types.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouseType->id,
+            'name' => 'edit house type',
+            'slug' => 'app.house_types.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouseType->id,
+            'name' => 'delete house type',
+            'slug' => 'app.house_types.delete',
+        ]);
+
+        // House Management Module
+        $moduleHouse = Module::updateOrCreate(['name' => 'House Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouse->id,
+            'name' => 'access house',
+            'slug' => 'app.houses.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouse->id,
+            'name' => 'create house',
+            'slug' => 'app.houses.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouse->id,
+            'name' => 'edit house',
+            'slug' => 'app.houses.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHouse->id,
+            'name' => 'delete house',
+            'slug' => 'app.houses.delete',
+        ]);
     }
 }

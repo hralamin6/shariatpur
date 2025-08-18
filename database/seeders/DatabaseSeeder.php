@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(PageSeeder::class);
 
-//        $this->call(DivisionSeeder::class);
-//        $this->call(DistrictSeeder::class);
-//        $this->call(UpazilaSeeder::class);
-//        $this->call(UnionSeeder::class);
+        $this->call(DivisionSeeder::class);
+        $this->call(DistrictSeeder::class);
+        $this->call(UpazilaSeeder::class);
+        $this->call(UnionSeeder::class);
 
 
 
@@ -55,6 +55,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LaunchSeeder::class);
         $this->call(PlaceSeeder::class);
         $this->call(FireServiceSeeder::class);
+        $this->call(HouseTypeSeeder::class);
+        $this->call(HouseSeeder::class);
 
         // Create 5 parent categories
 //        $parentCategories = Category::factory()->count(5)->create();

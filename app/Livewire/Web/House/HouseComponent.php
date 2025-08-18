@@ -31,9 +31,13 @@ class HouseComponent extends Component
 
     public string $search = '';
     public ?int $filter_type_id = null;
+    public ?int $filter_upazila_id = null;
 
     public $photo; // uploaded file
     public string $image_url = '';
+
+    public ?int $detailsId = null;
+    public array $houseDetails = [];
 
     protected function rules(): array
     {
@@ -94,15 +98,20 @@ class HouseComponent extends Component
             'status' => $this->status,
         ]);
 
-        if (!empty($this->image_url) && function_exists('checkImageUrl') && checkImageUrl($this->image_url)) {
-            $ext = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
-            $house->addMediaFromUrl($this->image_url)
-                ->usingFileName($house->id . '.' . $ext)
-                ->toMediaCollection('house');
-        } elseif ($this->photo) {
-            $house->addMedia($this->photo->getRealPath())
-                ->usingFileName(($house->id) . '.' . $this->photo->extension())
-                ->toMediaCollection('house');
+        if ($this->image_url!=null && checkImageUrl($this->image_url)) {
+            $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
+            $media =  $house->addMediaFromUrl($this->image_url)->usingFileName($house->id. '.' . $extension)->toMediaCollection('house');
+            $path = storage_path("app/public/House/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+        }elseif($this->photo!=null){
+            $media = $house->addMedia($this->photo->getRealPath())->usingFileName($house->name. '.' . $this->photo->extension())->toMediaCollection('house');
+            $path = storage_path("app/public/House/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
 
         $this->resetForm();
@@ -155,15 +164,20 @@ class HouseComponent extends Component
             'status' => $this->status,
         ]);
 
-        if (!empty($this->image_url) && function_exists('checkImageUrl') && checkImageUrl($this->image_url)) {
-            $ext = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
-            $house->addMediaFromUrl($this->image_url)
-                ->usingFileName($house->id . '.' . $ext)
-                ->toMediaCollection('house');
-        } elseif ($this->photo) {
-            $house->addMedia($this->photo->getRealPath())
-                ->usingFileName(($house->id) . '.' . $this->photo->extension())
-                ->toMediaCollection('house');
+        if ($this->image_url!=null && checkImageUrl($this->image_url)) {
+            $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
+            $media =  $house->addMediaFromUrl($this->image_url)->usingFileName($house->id. '.' . $extension)->toMediaCollection('house');
+            $path = storage_path("app/public/House/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+        }elseif($this->photo!=null){
+            $media = $house->addMedia($this->photo->getRealPath())->usingFileName($house->name. '.' . $this->photo->extension())->toMediaCollection('house');
+            $path = storage_path("app/public/House/".$media->id.'/'. $media->file_name);
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
 
         $this->photo = null;
@@ -222,6 +236,9 @@ class HouseComponent extends Component
         if ($this->filter_type_id) {
             $query->where('house_type_id', $this->filter_type_id);
         }
+        if ($this->filter_upazila_id) {
+            $query->where('upazila_id', $this->filter_upazila_id);
+        }
         if (filled($this->search)) {
             $s = '%' . trim($this->search) . '%';
             $query->where(function($q) use($s) {
@@ -238,5 +255,43 @@ class HouseComponent extends Component
         return view('livewire.web.house.house-component', compact('houses','types','upazilas'))
             ->layout('components.layouts.web');
     }
-}
 
+    private function buildHouseDetailsPayload(House $house): array
+    {
+        $photoUrl = null;
+        if (method_exists($house, 'getFirstMediaUrl')) {
+            $photoUrl = $house->getFirstMediaUrl('house', 'avatar') ?: $house->getFirstMediaUrl('house');
+        }
+        return [
+            'name' => $house->name,
+            'type' => $house->type?->name,
+            'upazila' => $house->upazila?->name,
+            'area' => $house->area,
+            'rooms' => (int) ($house->room_number ?? 0),
+            'baths' => (int) ($house->bathroom_number ?? 0),
+            'rent_price' => (int) ($house->rent_price ?? 0),
+            'address' => $house->address,
+            'map_one' => $house->map_one,
+            'phone' => $house->phone,
+            'details' => $house->details,
+            'status' => $house->status,
+            'photo_url' => $photoUrl,
+            'created_by' => $house->user?->name,
+            'created_at' => optional($house->created_at)->format('d M Y'),
+        ];
+    }
+
+    public function showDetails(int $id): void
+    {
+        $house = House::with('type','upazila','user')->findOrFail($id);
+        $this->detailsId = $id;
+        $this->houseDetails = $this->buildHouseDetailsPayload($house);
+        $this->dispatch('open-modal', 'house-details');
+    }
+
+    public function houseDetails(int $id): void
+    {
+        // Alias to showDetails to match requested method name
+        $this->showDetails($id);
+    }
+}
