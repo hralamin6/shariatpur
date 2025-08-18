@@ -5,6 +5,24 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Livewire\Web\HomeComponent::class)->name('web.home');
+Route::get('/bus-routes', \App\Livewire\Web\Bus\BusRouteComponent::class)->name('web.bus.routes');
+Route::get('/buses/{route_id?}', \App\Livewire\Web\Bus\BusComponent::class)->name('web.bus.buses');
+
+// Train
+Route::get('/train-routes', \App\Livewire\Web\Train\TrainRouteComponent::class)->name('web.train.routes');
+Route::get('/trains/{route_id?}', \App\Livewire\Web\Train\TrainComponent::class)->name('web.train.trains');
+
+// Launch
+Route::get('/launch-routes', \App\Livewire\Web\Launch\LaunchRouteComponent::class)->name('web.launch.routes');
+Route::get('/launches/{route_id?}', \App\Livewire\Web\Launch\LaunchComponent::class)->name('web.launch.launches');
+
+// Places
+Route::get('/places', \App\Livewire\Web\Place\PlaceComponent::class)->name('web.places');
+
+Route::get('/hospitals', \App\Livewire\Web\Hospital\HospitalComponent::class)->name('web.hospitals');
+Route::get('/fire-services', \App\Livewire\Web\FireService\FireServiceComponent::class)->name('web.fire_services');
+Route::get('/doctor/categories', \App\Livewire\Web\Doctor\DoctorCategoryComponent::class)->name('web.doctor.categories');
+Route::get('/doctor/categories/{cat_id?}', \App\Livewire\Web\Doctor\DoctorComponent::class)->name('web.doctor');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -51,5 +69,3 @@ Route::get('cmd/{slug}', function ($slug = null) {
 
 
 Route::get('{slug}', \App\Livewire\Web\PageComponent::class)->name('web.page');
-
-

@@ -8,11 +8,6 @@
         .flickity-viewport {
             height: 500px !important;
         }
-        @media print {
-            #header, #footer, #url {
-                display: none;
-            }
-        }
     </style>
     @stack('head')
 
@@ -22,26 +17,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.8/push.min.js" integrity="sha512-eiqtDDb4GUVCSqOSOTz/s/eiU4B31GrdSb17aPAA4Lv/Cjc8o+hnDvuNkgXhSI5yHuDvYkuojMaQmrB5JB31XQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @laravelPWA
-        <style>
-            .trix-content p,
-            .trix-content h1,
-            .trix-content h2,
-            .trix-content h3,
-            .trix-content a,
-            .trix-content ul,
-            .trix-content ol {
-                @apply text-gray-800 dark:text-gray-100;
-            }
-
-            .trix-content a {
-                @apply text-blue-600 dark:text-blue-400;
-            }
-
-            .trix-content blockquote {
-                @apply bg-gray-100 dark:bg-gray-800;
-                @apply border-l-4 border-gray-300 dark:border-gray-600;
-            }
-        </style>
     <script>
 
         const setup = () => {
@@ -172,7 +147,45 @@
                 },
                 closePopup() {
                     this.isVisible = false;
-                }
+                },
+
+                isSidebarOpen: false,
+                activeTab: 'হোম',
+                services: [
+                    { name: 'হাসপাতাল', icon: 'bx bxs-hospital', color: 'text-red-500' },
+                    { name: 'বাসের সময়সূচি', icon: 'bx bxs-bus', color: 'text-green-500' },
+                    { name: 'ট্রেনের সময়সূচি', icon: 'bx bxs-train', color: 'text-sky-500' },
+                    { name: 'দর্শনীয় স্থান', icon: 'bx bxs-camera', color: 'text-purple-500' },
+                    { name: 'বাসা ভাড়া', icon: 'bx bxs-home-heart', color: 'text-orange-500' },
+                    { name: 'শপিং', icon: 'bx bxs-shopping-bag', color: 'text-pink-500' },
+                    { name: 'ফায়ার সার্ভিস', icon: 'bx bxs-hot', color: 'text-red-600' },
+                    { name: 'কুরিয়ার সার্ভিস', icon: 'bx bxs-truck', color: 'text-yellow-500' },
+                    { name: 'থানা-পুলিশ', icon: 'bx bxs-shield-alt-2', color: 'text-blue-700' },
+                    { name: 'ওয়েবসাইট', icon: 'bx bx-globe', color: 'text-indigo-500' },
+                    { name: 'বিদ্যুৎ অফিস', icon: 'bx bxs-bulb', color: 'text-yellow-400' },
+                    { name: 'ডায়াগনস্টিক', icon: 'bx bxs-flask', color: 'text-teal-500' },
+                    { name: 'রক্ত', icon: 'bx bxs-droplet', color: 'text-red-500' },
+                    { name: 'হোটেল', icon: 'bx bxs-hotel', color: 'text-amber-600' },
+                    { name: 'গাড়ি ভাড়া', icon: 'bx bxs-car', color: 'text-gray-600' },
+                    { name: 'মিস্ত্রি', icon: 'bx bxs-wrench', color: 'text-gray-500' },
+                    { name: 'জরুরী সেবা', icon: 'bx bxs-phone-call', color: 'text-rose-500' },
+                    { name: 'চাকরি', icon: 'bx bxs-briefcase', color: 'text-cyan-500' },
+                    { name: 'উদ্যোক্তা', icon: 'bx bxs-dollar-circle', color: 'text-lime-500' },
+                    { name: 'শিক্ষক', icon: 'bx bxs-graduation', color: 'text-blue-600' },
+                    { name: 'পার্লার', icon: 'bx bxs-florist', color: 'text-fuchsia-500' },
+                    { name: 'রেস্টুরেন্ট', icon: 'bx bxs-dish', color: 'text-orange-400' },
+                    { name: 'ফ্ল্যাট ও জমি', icon: 'bx bxs-building-house', color: 'text-indigo-600' },
+                    { name: 'ভিডিও', icon: 'bx bxs-videos', color: 'text-blue-500' },
+                    { name: 'নিউজ', icon: 'bx bxs-news', color: 'text-gray-500' },
+                    { name: 'অন্যান্য', icon: 'bx bxs-category', color: 'text-teal-500' },
+                    { name: 'প্রোফাইল', icon: 'bx bxs-user-circle', color: 'text-green-500' },
+                ],
+                navigation: [
+                    { name: 'হোম', icon: 'bx bxs-home' },
+                    { name: 'যোগাযোগ', icon: 'bx bxs-chat' },
+                    { name: 'নোটিফিকেশন', icon: 'bx bxs-bell' },
+                    { name: 'প্রোফাইল', icon: 'bx bxs-user' },
+                ]
             }
 
         }
@@ -212,7 +225,7 @@
     </script>
 
 </head>
-<body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="">
+<body x-data="setup()" :class="{ 'dark': isDark}" x-cloak="none" class="font-serif">
 @yield('body')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-livewire-alert::scripts />

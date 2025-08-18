@@ -1,53 +1,69 @@
-
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
-    <!-- Header -->
-    <header class="w-full text-center py-10 bg-white dark:bg-gray-800 shadow-md">
-        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-gray-100">Welcome to {{setup('name')}}</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400 mt-4">Your project is ready to start building amazing things!</p>
-        <a href="{{route('app.dashboard')}}" wire:navigate class="capitalize">dashboard</a>
-
-    </header>
-
-    <!-- Main Content -->
-    <main class="flex-grow w-full max-w-6xl mx-auto p-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Card 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Get Started</h2>
-                <p class="mt-4 text-gray-600 dark:text-gray-400">
-                    Explore the documentation to understand how to build features with Livewire and Tailwind CSS.
-                </p>
-                <a href="https://laravel-livewire.com/docs/2.x/quickstart" target="_blank" class="mt-6 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-                    Learn Livewire
-                </a>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Tailwind CSS</h2>
-                <p class="mt-4 text-gray-600 dark:text-gray-400">
-                    Use Tailwind CSS to rapidly build modern, responsive UI components.
-                </p>
-                <a href="https://tailwindcss.com/docs" target="_blank" class="mt-6 inline-block bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
-                    Explore Tailwind
-                </a>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Community Support</h2>
-                <p class="mt-4 text-gray-600 dark:text-gray-400">
-                    Join the Livewire and Tailwind communities for help and inspiration on your next project.
-                </p>
-                <a href="https://github.com/livewire/livewire" target="_blank" class="mt-6 inline-block bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700">
-                    Join the Community
-                </a>
-            </div>
+<div class="max-w-7xl mx-auto">
+    <!-- Image Banner/Slider -->
+    <div class="relative rounded-xl overflow-hidden mb-6 shadow-md">
+        <img src="https://placehold.co/1200x400/a0c4ff/ffffff?text=Welcome+to+Faridpur+City"
+             alt="Faridpur City Banner"
+             class="w-full h-auto object-cover"
+             onerror="this.onerror=null;this.src='https://placehold.co/1200x400/cccccc/ffffff?text=Image+Not+Found';">
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+            <span class="block w-3 h-3 bg-white rounded-full"></span>
+            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
+            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="w-full text-center py-4 bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400">
-        <p>&copy; 2024 Your Project. Built with Livewire & Tailwind CSS.</p>
-    </footer>
+    <!-- Services Grid -->
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <a wire:navigate href="{{route('web.doctor.categories')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-blue-500">
+                <i class="bx bxs-user-plus"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Doctors')</span>
+        </a>
+        <a wire:navigate href="{{route('web.hospitals')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-green-500">
+                <i class="bx bx-building"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Hostipals')</span>
+        </a>
+        <a wire:navigate href="{{route('web.bus.routes')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-green-500">
+                <i class="bx bx-bus"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Buses')</span>
+        </a>
+        <a wire:navigate href="{{route('web.train.routes')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-indigo-500">
+                <i class="bx bx-train"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Trains')</span>
+        </a>
+        <a wire:navigate href="{{route('web.launch.routes')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-cyan-500">
+                <i class="bx bxs-ship"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Launches')</span>
+        </a>
+        <a wire:navigate href="{{route('web.places')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-emerald-500">
+                <i class="bx bx-map"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Places</span>
+        </a>
+        <a wire:navigate href="{{route('web.fire_services')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-red-500">
+                <i class="bx bxs-hot"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Fire Services')</span>
+        </a>
+
+        <template x-for="item in services" :key="item.name">
+            <a href="#" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div class="text-4xl mb-2" :class="item.color">
+                    <i :class="item.icon"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300" x-text="item.name"></span>
+            </a>
+        </template>
+    </div>
 </div>

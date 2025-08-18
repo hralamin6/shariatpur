@@ -1,0 +1,177 @@
+<div class="max-w-7xl mx-auto">
+    <!-- Image Banner/Slider -->
+    <div class="relative rounded-xl overflow-hidden mb-6 shadow-md">
+        <img src="https://placehold.co/1200x400/a0c4ff/ffffff?text=Welcome+to+Faridpur+City"
+             alt="Faridpur City Banner"
+             class="w-full h-auto object-cover"
+             onerror="this.onerror=null;this.src='https://placehold.co/1200x400/cccccc/ffffff?text=Image+Not+Found';">
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+            <span class="block w-3 h-3 bg-white rounded-full"></span>
+            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
+            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
+        </div>
+    </div>
+        @php
+            $colors = [
+                'text-red-500','text-orange-500','text-amber-500','text-yellow-500',
+                'text-lime-500','text-green-500','text-emerald-500','text-teal-500',
+                'text-cyan-500','text-sky-500','text-blue-500','text-indigo-500',
+                'text-violet-500','text-purple-500','text-fuchsia-500','text-pink-500',
+                'text-rose-500',
+            ];
+        @endphp
+    <!-- Services Grid -->
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        @forelse($doctorCategories as $category)
+            <div wire:key="{{$category->id}}" class="border border-gray-200 dark:border-gray-700 hover:border-primary flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                @php $canManage = auth()->check() && ($category->user_id === auth()->id() || auth()->user()->can('admin')); @endphp
+
+                    <!-- Main Content Area -->
+                <a wire:navigate href="{{route('web.doctor', $category->id)}}" class="p-4 flex-grow flex flex-col items-center justify-center text-center">
+                    <div  class="text-4xl mb-2 {{ $colors[array_rand($colors)] }} ">
+                        <i class="{{$category->icon}}"></i>
+                    </div>
+                    <div class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ app()->isLocale('bn') ? ($category->bangla_name ?: $category->name) : $category->name }}</div>
+                </a>
+
+                <!-- Action Buttons Footer -->
+                @if($canManage)
+                    <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-2 flex items-center justify-center gap-2">
+                        @can('app.doctor_categories.edit')
+                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 shadow-sm" title="Edit"
+                                    wire:click.stop="selectCategoryForEdit({{ $category->id }})" @click.stop>
+                                <i class='bx bxs-edit text-base'></i>
+                            </button>
+                        @endcan
+                        @can('app.doctor_categories.delete')
+                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 shadow-sm" title="Delete"
+                                    wire:click="confirmDelete({{ $category->id }})">
+                                <i class='bx bxs-trash text-base'></i>
+                            </button>
+                        @endcan
+                    </div>
+                @endif
+            </div>
+
+        @empty
+        <div class="flex items-center justify-center col-span-full p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+            <span class="text-gray-500 dark:text-gray-400">No doctor categories available</span>
+        </div>
+        @endforelse
+
+    </div>
+
+    <!-- Floating Add Category Button -->
+    @auth
+    <div x-data class="fixed bottom-24 right-6 z-40">
+        <button type="button"
+                class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 transition"
+                @click="$dispatch('open-modal', 'create-doctor-category')" wire:click="resetForm"
+                aria-label="Add Category">
+            <i class="bx bx-plus text-3xl bx-tada"></i>
+        </button>
+    </div>
+    @endauth
+    @guest
+    <a href="{{ route('login') }}" class="fixed bottom-24 right-6 z-40 inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 transition" aria-label="Login to add">
+        <i class="bx bx-plus text-3xl bx-tada"></i>
+    </a>
+    @endguest
+
+    <!-- Create Category Modal -->
+    <x-modal name="create-doctor-category" :show="false" maxWidth="md" focusable>
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Add New Doctor Category</h2>
+
+            <form wire:submit.prevent="createCategory" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                    <input type="text" wire:model.defer="name" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="e.g., Cardiology">
+                    @error('name')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bangla Name</label>
+                    <input type="text" wire:model.defer="bangla_name" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="উদা., কার্ডিওলজি">
+                    @error('bangla_name')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Icon (Boxicons class)</label>
+                    <input type="text" wire:model.defer="icon" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="e.g., bxs-heart">
+                    @error('icon')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                    <select wire:model.defer="status" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    @error('status')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mt-6 flex items-center justify-end gap-3">
+                    <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'create-doctor-category')">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Save</button>
+                </div>
+            </form>
+        </div>
+    </x-modal>
+
+    <!-- Edit Category Modal -->
+    <x-modal name="edit-doctor-category" :show="false" maxWidth="md" focusable>
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Edit Doctor Category</h2>
+            <form wire:submit.prevent="updateCategory" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                    <input type="text" wire:model.defer="name" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary">
+                    @error('name')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bangla Name</label>
+                    <input type="text" wire:model.defer="bangla_name" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary">
+                    @error('bangla_name')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Icon (Boxicons class)</label>
+                    <input type="text" wire:model.defer="icon" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary">
+                    @error('icon')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                    <select wire:model.defer="status" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    @error('status')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                </div>
+
+                <div class="mt-6 flex items-center justify-end gap-3">
+                    <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'edit-doctor-category')">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Update</button>
+                </div>
+            </form>
+        </div>
+    </x-modal>
+
+    <!-- Delete Confirmation Modal -->
+    <x-modal name="delete-doctor-category" :show="false" maxWidth="sm" focusable>
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Delete Category</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this category?</p>
+            <div class="mt-6 flex items-center justify-end gap-3">
+                <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-doctor-category')">Cancel</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCategory">Delete</button>
+            </div>
+        </div>
+    </x-modal>
+</div>

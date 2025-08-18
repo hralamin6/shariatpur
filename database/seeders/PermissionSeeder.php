@@ -283,6 +283,234 @@ class PermissionSeeder extends Seeder
             'name' => 'delete backup',
             'slug' => 'app.backups.delete',
         ]);
-    }
 
+        // Doctor Category Management Module
+        $moduleDoctorCategory = Module::updateOrCreate(['name' => 'Doctor Category Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctorCategory->id,
+            'name' => 'access doctor category',
+            'slug' => 'app.doctor_categories.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctorCategory->id,
+            'name' => 'create doctor category',
+            'slug' => 'app.doctor_categories.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctorCategory->id,
+            'name' => 'edit doctor category',
+            'slug' => 'app.doctor_categories.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctorCategory->id,
+            'name' => 'delete doctor category',
+            'slug' => 'app.doctor_categories.delete',
+        ]);
+
+        // Doctor Management Module
+        $moduleDoctor = Module::updateOrCreate(['name' => 'Doctor Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctor->id,
+            'name' => 'access doctor',
+            'slug' => 'app.doctors.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctor->id,
+            'name' => 'create doctor',
+            'slug' => 'app.doctors.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctor->id,
+            'name' => 'edit doctor',
+            'slug' => 'app.doctors.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDoctor->id,
+            'name' => 'delete doctor',
+            'slug' => 'app.doctors.delete',
+        ]);
+
+        // Hospital Management Module
+        $moduleHospital = Module::updateOrCreate(['name' => 'Hospital Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHospital->id,
+            'name' => 'access hospital',
+            'slug' => 'app.hospitals.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHospital->id,
+            'name' => 'create hospital',
+            'slug' => 'app.hospitals.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHospital->id,
+            'name' => 'edit hospital',
+            'slug' => 'app.hospitals.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHospital->id,
+            'name' => 'delete hospital',
+            'slug' => 'app.hospitals.delete',
+        ]);
+        // Bus Route Management Module
+        $moduleBusRoute = Module::updateOrCreate(['name' => 'Bus Route Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBusRoute->id,
+            'name' => 'access bus route',
+            'slug' => 'app.bus_routes.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBusRoute->id,
+            'name' => 'create bus route',
+            'slug' => 'app.bus_routes.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBusRoute->id,
+            'name' => 'edit bus route',
+            'slug' => 'app.bus_routes.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBusRoute->id,
+            'name' => 'delete bus route',
+            'slug' => 'app.bus_routes.delete',
+        ]);
+
+        // Train Route Management Module
+        $moduleTrainRoute = Module::updateOrCreate(['name' => 'Train Route Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrainRoute->id,
+            'name' => 'access train route',
+            'slug' => 'app.train_routes.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrainRoute->id,
+            'name' => 'create train route',
+            'slug' => 'app.train_routes.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrainRoute->id,
+            'name' => 'edit train route',
+            'slug' => 'app.train_routes.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrainRoute->id,
+            'name' => 'delete train route',
+            'slug' => 'app.train_routes.delete',
+        ]);
+
+        // Train Management Module
+        $moduleTrain = Module::updateOrCreate(['name' => 'Train Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrain->id,
+            'name' => 'access train',
+            'slug' => 'app.trains.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrain->id,
+            'name' => 'create train',
+            'slug' => 'app.trains.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrain->id,
+            'name' => 'edit train',
+            'slug' => 'app.trains.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTrain->id,
+            'name' => 'delete train',
+            'slug' => 'app.trains.delete',
+        ]);
+
+        // Launch Route Management Module
+        $moduleLaunchRoute = Module::updateOrCreate(['name' => 'Launch Route Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunchRoute->id,
+            'name' => 'access launch route',
+            'slug' => 'app.launch_routes.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunchRoute->id,
+            'name' => 'create launch route',
+            'slug' => 'app.launch_routes.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunchRoute->id,
+            'name' => 'edit launch route',
+            'slug' => 'app.launch_routes.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunchRoute->id,
+            'name' => 'delete launch route',
+            'slug' => 'app.launch_routes.delete',
+        ]);
+
+        // Launch Management Module
+        $moduleLaunch = Module::updateOrCreate(['name' => 'Launch Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunch->id,
+            'name' => 'access launch',
+            'slug' => 'app.launches.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunch->id,
+            'name' => 'create launch',
+            'slug' => 'app.launches.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunch->id,
+            'name' => 'edit launch',
+            'slug' => 'app.launches.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLaunch->id,
+            'name' => 'delete launch',
+            'slug' => 'app.launches.delete',
+        ]);
+
+        // Place Management Module
+        $modulePlace = Module::updateOrCreate(['name' => 'Place Management']);
+        Permission::updateOrCreate([
+            'module_id' => $modulePlace->id,
+            'name' => 'access place',
+            'slug' => 'app.places.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $modulePlace->id,
+            'name' => 'create place',
+            'slug' => 'app.places.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $modulePlace->id,
+            'name' => 'edit place',
+            'slug' => 'app.places.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $modulePlace->id,
+            'name' => 'delete place',
+            'slug' => 'app.places.delete',
+        ]);
+
+        // Fire Service Management Module
+        $moduleFire = Module::updateOrCreate(['name' => 'Fire Service Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleFire->id,
+            'name' => 'access fire service',
+            'slug' => 'app.fire_services.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleFire->id,
+            'name' => 'create fire service',
+            'slug' => 'app.fire_services.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleFire->id,
+            'name' => 'edit fire service',
+            'slug' => 'app.fire_services.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleFire->id,
+            'name' => 'delete fire service',
+            'slug' => 'app.fire_services.delete',
+        ]);
+    }
 }

@@ -55,4 +55,6 @@ if (!function_exists('getErrorProfile')) {
             return "this.onerror=null; this.src='{$placeholderUrl}';";
 
     }
+
+
 }

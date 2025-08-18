@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bus;
 use App\Models\Category;
+use App\Models\District;
 use App\Models\Post;
 use App\Models\Role;
+use App\Models\Union;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,7 +22,13 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(PageSeeder::class);
-//        $this->call(CategorySeeder::class);
+
+//        $this->call(DivisionSeeder::class);
+//        $this->call(DistrictSeeder::class);
+//        $this->call(UpazilaSeeder::class);
+//        $this->call(UnionSeeder::class);
+
+
 
         User::updateOrCreate([
             'name' => 'admin',
@@ -35,25 +44,36 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('000000'),
             'role_id' => Role::where('slug', 'user')->first()->id
         ]);
+        $this->call(DoctorCategorySeeder::class);
+        $this->call(DoctorSeeder::class);
+        $this->call(HospitalSeeder::class);
+        $this->call(BusRouteSeeder::class);
+        $this->call(BusSeeder::class);
+        $this->call(TrainRouteSeeder::class);
+        $this->call(TrainSeeder::class);
+        $this->call(LaunchRouteSeeder::class);
+        $this->call(LaunchSeeder::class);
+        $this->call(PlaceSeeder::class);
+        $this->call(FireServiceSeeder::class);
 
         // Create 5 parent categories
-        $parentCategories = Category::factory()->count(5)->create();
+//        $parentCategories = Category::factory()->count(5)->create();
 
         // Create 3 child categories for each parent category
-        $parentCategories->each(function ($parentCategory) {
-            Category::factory()->count(3)->childCategory($parentCategory->id)->create();
-        });
+//        $parentCategories->each(function ($parentCategory) {
+//            Category::factory()->count(3)->childCategory($parentCategory->id)->create();
+//        });
 
         // Create 10 users
-        $users = User::factory()->count(10)->create();
+//        $users = User::factory()->count(10)->create();
 
         // For each user, create 10 posts with random child categories
-        $users->each(function ($user) {
-            Post::factory()->count(10)->create([
-                'user_id' => $user->id,
-                'category_id' => Category::whereNotNull('parent_id')->inRandomOrder()->first()->id, // Random child category
-            ]);
-        });
+//        $users->each(function ($user) {
+//            Post::factory()->count(10)->create([
+//                'user_id' => $user->id,
+//                'category_id' => Category::whereNotNull('parent_id')->inRandomOrder()->first()->id, // Random child category
+//            ]);
+//        });
     }
 
 
