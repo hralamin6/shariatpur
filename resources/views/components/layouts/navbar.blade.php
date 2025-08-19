@@ -17,7 +17,7 @@
         <span class="text-2xl font-bold text-teal-400">Shariatpur<span class="font-light text-gray-200">City</span></span>
     </a>
     <!-- Dark mode toggle button -->
-    <button @click="isDark=!isDark" class="text-2xl text-gray-600 dark:text-gray-300 ml-auto mt-1.5">
+    <button @click="toggleTheme()" class="text-2xl text-gray-600 dark:text-gray-300 ml-auto mt-1.5">
         <i class='bx' :class="isDark ? 'bxs-sun' : 'bxs-moon'"></i>
     </button>
     <div class="flex items-center justify-between lg:space-x-12 hidden lg:flex">

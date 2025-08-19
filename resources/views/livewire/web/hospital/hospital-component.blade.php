@@ -61,7 +61,7 @@
                     </div>
                     <div class="flex-grow flex flex-col sm:flex-row gap-4">
                         <div class="sm:w-32 md:w-40 flex-shrink-0 h-32">
-                            @php $img = method_exists($hospital,'getFirstMediaUrl') ? $hospital->getFirstMediaUrl('hospital','avatar') : ''; @endphp
+                            @php $img = method_exists($hospital,'getFirstMediaUrl') ? fixSlash($hospital->getFirstMediaUrl('hospital','avatar'))  : ''; @endphp
                             @if(!empty($img))
                                 <img src="{{ $img }}" onerror="{{getErrorImage()}}" class="w-full h-32 sm:h-full object-cover rounded-md">
                             @else

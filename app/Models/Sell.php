@@ -8,23 +8,15 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Hospital extends Model implements HasMedia
+class Sell extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-    protected $guarded = ['id'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function upazila()
-    {
-        return $this->belongsTo(Upazila::class);
-    }
+    protected $guarded = ['id'];
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('hospital')->singleFile();
+        $this->addMediaCollection('sell')->singleFile();
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -35,14 +27,20 @@ class Hospital extends Model implements HasMedia
             ->quality(75)
             ->nonQueued();
     }
-    public function getAvatarUrlAttribute()
+
+    public function user()
     {
-        $media = $this->getFirstMedia('hospital');
-        if ($media) {
-            return asset($media->getUrl());
-        }
-        return null;
+        return $this->belongsTo(User::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(SellCategory::class, 'sell_category_id');
+    }
 
+    public function upazila()
+    {
+        return $this->belongsTo(Upazila::class);
+    }
 }
+

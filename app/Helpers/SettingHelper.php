@@ -58,3 +58,19 @@ if (!function_exists('getErrorProfile')) {
 
 
 }
+if (!function_exists('fixSlash')) {
+    function fixSlash($url) {
+        // প্রথমে http:// বা https:// বাদ দিয়ে বাকিটা নেব
+        $parsed = parse_url($url);
+
+        $scheme = $parsed['scheme'] ?? 'http';
+        $host   = $parsed['host'] ?? '';
+        $path   = $parsed['path'] ?? '';
+
+        // path-এর মধ্যে double slash কে single slash-এ রূপান্তর
+        $path = preg_replace('#/+#','/',$path);
+
+        // আবার final URL বানানো
+        return $scheme . '://' . $host . $path;
+    }
+}

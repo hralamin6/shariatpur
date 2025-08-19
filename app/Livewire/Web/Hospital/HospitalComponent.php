@@ -139,7 +139,7 @@ class HospitalComponent extends Component
             $media = $hospital->addMedia($this->photo->getRealPath())->usingFileName($hospital->name. '.' . $this->photo->extension())->toMediaCollection('hospital');
             $path = storage_path("app/public/Hospital/".$media->id.'/'. $media->file_name);
             if (file_exists($path)) {
-                unlink($path);
+//                unlink($path);
             }
         }
 
