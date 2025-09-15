@@ -17,8 +17,6 @@ class Notice extends Model implements HasMedia
     protected function casts(): array
     {
         return [
-            'published_at' => 'datetime',
-            'expires_at' => 'datetime',
             'pinned' => 'boolean',
         ];
     }
@@ -40,27 +38,5 @@ class Notice extends Model implements HasMedia
             ->height(200)
             ->quality(75)
             ->nonQueued();
-    }
-
-    public function scopePublished($query)
-    {
-        return $query->where('status', 'published')
-            ->where(function ($q) {
-                $q->whereNull('published_at')->orWhere('published_at', '<=', now());
-            })
-            ->where(function ($q) {
-                $q->whereNull('expires_at')->orWhere('expires_at', '>=', now());
-            });
-    }
-
-    public function setSlugAttribute($value): void
-    {
-        $base = \Str::slug($value ?: ($this->attributes['title'] ?? 'notice'));
-        $slug = $base;
-        $i = 1;
-        while (static::where('slug', $slug)->where('id', '!=', $this->id ?? 0)->exists()) {
-            $slug = $base . '-' . $i++;
-        }
-        $this->attributes['slug'] = $slug;
     }
 }

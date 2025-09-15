@@ -11,8 +11,8 @@ class HomeComponent extends Component
 
     public function render()
     {
-    $headlines = Notice::published()
-    ->orderByDesc('pinned')
+    $headlines = Notice::
+    orderByDesc('pinned')
     ->orderByDesc('created_at')
     ->limit(10)
     ->get(['id', 'title'])
