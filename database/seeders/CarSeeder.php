@@ -27,7 +27,7 @@ class CarSeeder extends Seeder
                     'user_id' => 1,
                     'car_type_id' => $typeId,
                     'upazila_id' => rand(322, 327),
-                    'driver_name' => fake()->name(),
+                    'driver_name' => 'test driver',
                     'phone' => '01'.rand(3, 9).rand(10000000, 99999999),
                     'ac' => (bool) $c['ac'],
                     'seat_number' => (int) $c['seat'],
