@@ -214,7 +214,7 @@ class NoticeComponent extends Component
         }
 
         $notices = $query->orderByDesc('pinned')
-            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
             ->latest()
             ->get();
 

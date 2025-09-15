@@ -190,10 +190,6 @@
                     <p class="text-xs text-gray-500 dark:text-gray-400">Added by: {{ $noticeDetails['created_by'] }}</p>
                 @endif
             </div>
-
-            <div class="p-6 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700/50 text-center">
-                <span class="text-xs text-gray-500 dark:text-gray-400">Status: {{ ucfirst($noticeDetails['status'] ?? 'published') }}</span>
-            </div>
         </div>
     </x-modal>
 </div>
