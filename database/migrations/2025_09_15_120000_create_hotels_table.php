@@ -8,10 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('sell_categories', function (Blueprint $table) {
+        Schema::create('hotels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('upazila_id')->constrained()->cascadeOnDelete();
             $table->string('name')->unique();
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
+            $table->text('details')->nullable();
+            $table->text('map')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
         });
@@ -19,7 +24,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('sell_categories');
+        Schema::dropIfExists('hotels');
     }
 };
 

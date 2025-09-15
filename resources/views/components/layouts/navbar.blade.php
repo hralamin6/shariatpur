@@ -4,17 +4,9 @@
         <i class='bx bx-menu'></i>
     </button>
     <!-- Desktop Title (or search bar) -->
-    <a wire:navigate href="{{route('web.home')}}" class="flex gap-2 items-center text-center ml-12 text-xl font-semibold text-gray-700 dark:text-gray-200">
-        <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Background Circle -->
-            <circle cx="50" cy="50" r="50" fill="#0D9488"/> <!-- Teal-700 -->
-
-            <!-- Stylized Bridge/Building Shape -->
-            <path d="M30 70 C40 50, 60 50, 70 70" stroke="white" stroke-width="8" stroke-linecap="round" fill="none"/>
-            <path d="M25 70 H 75" stroke="white" stroke-width="8" stroke-linecap="round"/>
-            <rect x="46" y="40" width="8" height="30" fill="white" rx="4"/>
-        </svg>
-        <span class="text-2xl font-bold text-teal-400">Shariatpur<span class="font-light text-gray-200">City</span></span>
+    <a wire:navigate href="{{route('web.home')}}" class="flex gap-2 items-center text-center ml-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+        <img src="{{getSettingImage('iconImage')}}" alt="" class="h-8 rounded-full object-cover">
+        <span class="text-2xl font-bold text-teal-400">{{setup('name', 'Shariatpur City')}}</span>
     </a>
     <!-- Dark mode toggle button -->
     <button @click="toggleTheme()" class="text-2xl text-gray-600 dark:text-gray-300 ml-auto mt-1.5">

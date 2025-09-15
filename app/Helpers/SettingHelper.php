@@ -1,13 +1,13 @@
 <?php
 
-if (!function_exists('setup')) {
+if (! function_exists('setup')) {
     function setup($key, $default = null)
     {
         return \App\Models\Setting::getByKey($key, $default);
     }
 
 }
-if (!function_exists('getImage')) {
+if (! function_exists('getImage')) {
     function getImage($model, $collection = 'profile', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
     {
         $placeholderUrl = setup('placeHolder') != '' ? setup('placeHolder') : $defaultUrl;
@@ -16,21 +16,21 @@ if (!function_exists('getImage')) {
             ?: $placeholderUrl;
     }
 }
-if (!function_exists('getUserProfileImage')) {
+if (! function_exists('getUserProfileImage')) {
     function getUserProfileImage($user, $collection = 'profile', $conversion = 'thumb')
     {
         return $user->getFirstMediaUrl($collection, $conversion)
-            ?: 'https://ui-avatars.com/api/?name=' . urlencode($user->name);
+            ?: 'https://ui-avatars.com/api/?name='.urlencode($user->name);
     }
 }
-if (!function_exists('getSettingImage')) {
-    function getSettingImage($key = 'iconImage', $collection = 'icon', $conversion = 'thumb', $defaultUrl = 'https://placehold.co/400')
+if (! function_exists('getSettingImage')) {
+    function getSettingImage($key = 'iconImage', $collection = 'icon', $conversion = 'default', $defaultUrl = 'https://placehold.co/400')
     {
         // Use a static variable to store settings to prevent duplicate queries
         static $settings = [];
 
         // Check if the setting is already retrieved in this request
-        if (!array_key_exists($key, $settings)) {
+        if (! array_key_exists($key, $settings)) {
             $settings[$key] = \App\Models\Setting::where('key', $key)->first();
         }
 
@@ -39,38 +39,40 @@ if (!function_exists('getSettingImage')) {
     }
 }
 
-if (!function_exists('getErrorImage')) {
+if (! function_exists('getErrorImage')) {
     function getErrorImage($defaultUrl = 'https://placehold.co/400')
     {
         $placeholderUrl = setup('placeHolder') != '' ? setup('placeHolder') : $defaultUrl;
+
         return "this.onerror=null; this.src='{$placeholderUrl}';";
 
     }
 }
-if (!function_exists('getErrorProfile')) {
+if (! function_exists('getErrorProfile')) {
 
     function getErrorProfile($user, $defaultUrl = 'https://placehold.co/400')
     {
-            $placeholderUrl = 'https://ui-avatars.com/api/?name=' . urlencode($user->name);
-            return "this.onerror=null; this.src='{$placeholderUrl}';";
+        $placeholderUrl = 'https://ui-avatars.com/api/?name='.urlencode($user->name);
+
+        return "this.onerror=null; this.src='{$placeholderUrl}';";
 
     }
 
-
 }
-if (!function_exists('fixSlash')) {
-    function fixSlash($url) {
+if (! function_exists('fixSlash')) {
+    function fixSlash($url)
+    {
         // প্রথমে http:// বা https:// বাদ দিয়ে বাকিটা নেব
         $parsed = parse_url($url);
 
         $scheme = $parsed['scheme'] ?? 'http';
-        $host   = $parsed['host'] ?? '';
-        $path   = $parsed['path'] ?? '';
+        $host = $parsed['host'] ?? '';
+        $path = $parsed['path'] ?? '';
 
         // path-এর মধ্যে double slash কে single slash-এ রূপান্তর
-        $path = preg_replace('#/+#','/',$path);
+        $path = preg_replace('#/+#', '/', $path);
 
         // আবার final URL বানানো
-        return $scheme . '://' . $host . $path;
+        return $scheme.'://'.$host.$path;
     }
 }

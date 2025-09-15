@@ -2,14 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Bus;
 use App\Models\Category;
-use App\Models\District;
 use App\Models\Post;
 use App\Models\Role;
-use App\Models\Union;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,22 +24,20 @@ class DatabaseSeeder extends Seeder
         $this->call(UpazilaSeeder::class);
         $this->call(UnionSeeder::class);
 
-
-
         User::updateOrCreate([
             'name' => 'admin',
-            'email' => 'admin@mail.com'],[
-            'email_verified_at' => now(),
-            'password' => bcrypt('000000'),
-            'role_id' => Role::where('slug', 'admin')->first()->id
-        ]);
+            'email' => 'admin@mail.com'], [
+                'email_verified_at' => now(),
+                'password' => bcrypt('000000'),
+                'role_id' => Role::where('slug', 'admin')->first()->id,
+            ]);
         User::updateOrCreate([
             'name' => 'user',
-            'email' => 'user@mail.com'],[
-            'email_verified_at' => now(),
-            'password' => bcrypt('000000'),
-            'role_id' => Role::where('slug', 'user')->first()->id
-        ]);
+            'email' => 'user@mail.com'], [
+                'email_verified_at' => now(),
+                'password' => bcrypt('000000'),
+                'role_id' => Role::where('slug', 'user')->first()->id,
+            ]);
         $this->call(DoctorCategorySeeder::class);
         $this->call(DoctorSeeder::class);
         $this->call(HospitalSeeder::class);
@@ -54,29 +48,43 @@ class DatabaseSeeder extends Seeder
         $this->call(LaunchRouteSeeder::class);
         $this->call(LaunchSeeder::class);
         $this->call(PlaceSeeder::class);
+        $this->call(HotelSeeder::class);
         $this->call(FireServiceSeeder::class);
+        $this->call(ElectricityOfficeSeeder::class);
         $this->call(HouseTypeSeeder::class);
         $this->call(HouseSeeder::class);
+        $this->call(CarTypeSeeder::class);
+        $this->call(CarSeeder::class);
+        $this->call(SellCategorySeeder::class);
+        $this->call(SellSeeder::class);
+        $this->call(CourierServiceSeeder::class);
+        $this->call(DiagnosticCenterSeeder::class);
+        $this->call(PoliceSeeder::class);
+        $this->call(InstitutionTypeSeeder::class);
+        $this->call(InstitutionSeeder::class);
+        $this->call(NoticeSeeder::class);
+        $this->call(BloodDonorSeeder::class);
+
+        $this->call(BlogCategorySeeder::class);
+        $this->call(BlogSeeder::class);
 
         // Create 5 parent categories
-//        $parentCategories = Category::factory()->count(5)->create();
+        //        $parentCategories = Category::factory()->count(5)->create();
 
         // Create 3 child categories for each parent category
-//        $parentCategories->each(function ($parentCategory) {
-//            Category::factory()->count(3)->childCategory($parentCategory->id)->create();
-//        });
+        //        $parentCategories->each(function ($parentCategory) {
+        //            Category::factory()->count(3)->childCategory($parentCategory->id)->create();
+        //        });
 
         // Create 10 users
-//        $users = User::factory()->count(10)->create();
+        //        $users = User::factory()->count(10)->create();
 
         // For each user, create 10 posts with random child categories
-//        $users->each(function ($user) {
-//            Post::factory()->count(10)->create([
-//                'user_id' => $user->id,
-//                'category_id' => Category::whereNotNull('parent_id')->inRandomOrder()->first()->id, // Random child category
-//            ]);
-//        });
+        //        $users->each(function ($user) {
+        //            Post::factory()->count(10)->create([
+        //                'user_id' => $user->id,
+        //                'category_id' => Category::whereNotNull('parent_id')->inRandomOrder()->first()->id, // Random child category
+        //            ]);
+        //        });
     }
-
-
 }

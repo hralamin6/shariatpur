@@ -16,11 +16,21 @@ Route::get('/trains/{route_id?}', \App\Livewire\Web\Train\TrainComponent::class)
 Route::get('/launch-routes', \App\Livewire\Web\Launch\LaunchRouteComponent::class)->name('web.launch.routes');
 Route::get('/launches/{route_id?}', \App\Livewire\Web\Launch\LaunchComponent::class)->name('web.launch.launches');
 
-// Places
+// Places & Hotels
 Route::get('/places', \App\Livewire\Web\Place\PlaceComponent::class)->name('web.places');
+Route::get('/hotels', \App\Livewire\Web\Hotel\HotelComponent::class)->name('web.hotels');
+Route::get('/blood-donors', \App\Livewire\Web\BloodDonor\BloodDonorComponent::class)->name('web.blood_donors');
+Route::get('/polices', \App\Livewire\Web\Police\PoliceComponent::class)->name('web.police');
+Route::get('/institution-types', \App\Livewire\Web\Institution\InstitutionTypeComponent::class)->name('web.institution.types');
+Route::get('/institutions/{type_id?}', \App\Livewire\Web\Institution\InstitutionComponent::class)->name('web.institutions');
+Route::get('/notices', \App\Livewire\Web\Notice\NoticeComponent::class)->name('web.notices');
+Route::get('/notice/{id?}', \App\Livewire\Web\Notice\NoticeDetailsComponent::class)->name('web.notice.details');
 
 Route::get('/hospitals', \App\Livewire\Web\Hospital\HospitalComponent::class)->name('web.hospitals');
+Route::get('/diagnostic-centers', \App\Livewire\Web\Diagnostic\DiagnosticCenterComponent::class)->name('web.diagnostic_centers');
 Route::get('/fire-services', \App\Livewire\Web\FireService\FireServiceComponent::class)->name('web.fire_services');
+Route::get('/electricity-offices', \App\Livewire\Web\ElectricityOffice\ElectricityOfficeComponent::class)->name('web.electricity_offices');
+Route::get('/courier-services', \App\Livewire\Web\CourierService\CourierServiceComponent::class)->name('web.courier_services');
 Route::get('/doctor/categories', \App\Livewire\Web\Doctor\DoctorCategoryComponent::class)->name('web.doctor.categories');
 Route::get('/doctor/categories/{cat_id?}', \App\Livewire\Web\Doctor\DoctorComponent::class)->name('web.doctor');
 
@@ -28,8 +38,17 @@ Route::get('/doctor/categories/{cat_id?}', \App\Livewire\Web\Doctor\DoctorCompon
 Route::get('/house-types', \App\Livewire\Web\House\HouseTypeComponent::class)->name('web.house.types');
 Route::get('/houses/{type_id?}', \App\Livewire\Web\House\HouseComponent::class)->name('web.houses');
 
+// Cars (rent)
+Route::get('/car-types', \App\Livewire\Web\Car\CarTypeComponent::class)->name('web.car.types');
+Route::get('/cars/{type_id?}', \App\Livewire\Web\Car\CarComponent::class)->name('web.cars');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+// Sell (classifieds)
+Route::get('/sell-categories', \App\Livewire\Web\Sell\SellCategoryComponent::class)->name('web.sell.categories');
+Route::get('/sells/{cat_id?}', \App\Livewire\Web\Sell\SellComponent::class)->name('web.sells');
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('profile', \App\Livewire\Web\ProfileComponent::class)->name('web.profile');
+
     Route::get('app', \App\Livewire\App\DashboardComponent::class)->name('app.dashboard');
     Route::get('app/roles', \App\Livewire\App\RoleComponent::class)->name('app.roles');
     Route::get('app/backups', \App\Livewire\App\BackupComponent::class)->name('app.backups');
@@ -43,33 +62,56 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('app/posts', \App\Livewire\App\PostComponent::class)->name('app.posts');
     Route::get('app/notifications', \App\Livewire\App\NotificationComponent::class)->name('app.notifications');
     Route::get('app/translate', \App\Livewire\App\TranslateComponent::class)->name('app.translate');
-
 });
 
 require __DIR__ . '/auth.php';
 
 
+// Secure Web Push subscription endpoint
 Route::post('/subscribe', function (Request $request) {
-    $user = \Illuminate\Support\Facades\Auth::user();
+    $validated = $request->validate([
+        'endpoint' => 'required|string',
+        'keys.p256dh' => 'required|string',
+        'keys.auth' => 'required|string',
+    ]);
+
+    $user = $request->user();
+    if (!$user) {
+        abort(401);
+    }
+
     $user->updatePushSubscription(
-        $request->endpoint,
-        $request->keys['p256dh'],
-        $request->keys['auth']
+        $validated['endpoint'],
+        $validated['keys']['p256dh'],
+        $validated['keys']['auth']
     );
+
     return response()->json(['success' => true], 200);
-});
+})->middleware('auth')->name('webpush.subscribe');
 
+// PWA manifest and offline routes
 Route::group(['as' => 'laravelpwa.'], function () {
-    Route::get('/manifest.json', 'App\Http\Controllers\LaravelPWAController@manifestJson')
+    Route::get('/manifest.json', [\App\Http\Controllers\LaravelPWAController::class, 'manifestJson'])
         ->name('manifest');
-    Route::get('/offline/', 'LaravelPWAController@offline');
+    // Support both with and without trailing slash
+    Route::get('/offline', [\App\Http\Controllers\LaravelPWAController::class, 'offline'])->name('offline');
 });
 
-Route::get('cmd/{slug}', function ($slug = null) {
-    Artisan::call($slug); // Replace 'your:command' with the actual command.
-    $output = Artisan::output();
-    return "<pre>" . htmlspecialchars($output) . "</pre>";
-});
+// Restrict artisan command execution to local environment and authenticated users, allowlist only
+if (app()->environment('local')) {
+    Route::get('cmd/{slug}', function ($slug = null) {
+        $allowed = [
+            'cache:clear', 'config:cache', 'config:clear', 'route:clear', 'route:cache', 'view:clear',
+            'queue:restart', 'migrate', 'migrate:fresh', 'migrate:refresh', 'optimize', 'optimize:clear'
+        ];
+        if (!$slug || !in_array($slug, $allowed, true)) {
+            abort(403, 'Command not allowed.');
+        }
+        Artisan::call($slug);
+        $output = Artisan::output();
+        return "<pre>" . htmlspecialchars($output) . "</pre>";
+    })->where('slug', '[A-Za-z0-9:\\-]+')->middleware('auth');
+}
 
 
 Route::get('{slug}', \App\Livewire\Web\PageComponent::class)->name('web.page');

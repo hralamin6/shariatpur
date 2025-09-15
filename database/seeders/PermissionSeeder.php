@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Module;
 use App\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -168,7 +167,6 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.user_details.index',
         ]);
 
-
         // Chat Management Module
         $moduleChat = Module::updateOrCreate(['name' => 'Chat Management']);
         Permission::updateOrCreate([
@@ -284,6 +282,29 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.backups.delete',
         ]);
 
+        // Notice Management Module
+        $moduleNotice = Module::updateOrCreate(['name' => 'Notice Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNotice->id,
+            'name' => 'access notice',
+            'slug' => 'app.notices.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNotice->id,
+            'name' => 'create notice',
+            'slug' => 'app.notices.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNotice->id,
+            'name' => 'edit notice',
+            'slug' => 'app.notices.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNotice->id,
+            'name' => 'delete notice',
+            'slug' => 'app.notices.delete',
+        ]);
+
         // Doctor Category Management Module
         $moduleDoctorCategory = Module::updateOrCreate(['name' => 'Doctor Category Management']);
         Permission::updateOrCreate([
@@ -352,6 +373,30 @@ class PermissionSeeder extends Seeder
             'name' => 'delete hospital',
             'slug' => 'app.hospitals.delete',
         ]);
+
+        // Diagnostic Center Management Module
+        $moduleDiagnostic = Module::updateOrCreate(['name' => 'Diagnostic Center Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDiagnostic->id,
+            'name' => 'access diagnostic center',
+            'slug' => 'app.diagnostic_centers.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDiagnostic->id,
+            'name' => 'create diagnostic center',
+            'slug' => 'app.diagnostic_centers.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDiagnostic->id,
+            'name' => 'edit diagnostic center',
+            'slug' => 'app.diagnostic_centers.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleDiagnostic->id,
+            'name' => 'delete diagnostic center',
+            'slug' => 'app.diagnostic_centers.delete',
+        ]);
+
         // Bus Route Management Module
         $moduleBusRoute = Module::updateOrCreate(['name' => 'Bus Route Management']);
         Permission::updateOrCreate([
@@ -490,6 +535,29 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.places.delete',
         ]);
 
+        // Hotel Management Module
+        $moduleHotel = Module::updateOrCreate(['name' => 'Hotel Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotel->id,
+            'name' => 'access hotel',
+            'slug' => 'app.hotels.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotel->id,
+            'name' => 'create hotel',
+            'slug' => 'app.hotels.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotel->id,
+            'name' => 'edit hotel',
+            'slug' => 'app.hotels.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotel->id,
+            'name' => 'delete hotel',
+            'slug' => 'app.hotels.delete',
+        ]);
+
         // Fire Service Management Module
         $moduleFire = Module::updateOrCreate(['name' => 'Fire Service Management']);
         Permission::updateOrCreate([
@@ -511,6 +579,52 @@ class PermissionSeeder extends Seeder
             'module_id' => $moduleFire->id,
             'name' => 'delete fire service',
             'slug' => 'app.fire_services.delete',
+        ]);
+
+        // Electricity Office Management Module
+        $moduleElectricity = Module::updateOrCreate(['name' => 'Electricity Office Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleElectricity->id,
+            'name' => 'access electricity office',
+            'slug' => 'app.electricity_offices.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleElectricity->id,
+            'name' => 'create electricity office',
+            'slug' => 'app.electricity_offices.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleElectricity->id,
+            'name' => 'edit electricity office',
+            'slug' => 'app.electricity_offices.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleElectricity->id,
+            'name' => 'delete electricity office',
+            'slug' => 'app.electricity_offices.delete',
+        ]);
+
+        // Courier Service Management Module
+        $moduleCourier = Module::updateOrCreate(['name' => 'Courier Service Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCourier->id,
+            'name' => 'access courier service',
+            'slug' => 'app.courier_services.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCourier->id,
+            'name' => 'create courier service',
+            'slug' => 'app.courier_services.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCourier->id,
+            'name' => 'edit courier service',
+            'slug' => 'app.courier_services.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCourier->id,
+            'name' => 'delete courier service',
+            'slug' => 'app.courier_services.delete',
         ]);
 
         // House Type Management Module
@@ -558,6 +672,189 @@ class PermissionSeeder extends Seeder
             'name' => 'delete house',
             'slug' => 'app.houses.delete',
         ]);
+
+        // Car Type Management Module
+        $moduleCarType = Module::updateOrCreate(['name' => 'Car Type Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCarType->id,
+            'name' => 'access car type',
+            'slug' => 'app.car_types.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCarType->id,
+            'name' => 'create car type',
+            'slug' => 'app.car_types.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCarType->id,
+            'name' => 'edit car type',
+            'slug' => 'app.car_types.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCarType->id,
+            'name' => 'delete car type',
+            'slug' => 'app.car_types.delete',
+        ]);
+
+        // Car Management Module
+        $moduleCar = Module::updateOrCreate(['name' => 'Car Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCar->id,
+            'name' => 'access car',
+            'slug' => 'app.cars.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCar->id,
+            'name' => 'create car',
+            'slug' => 'app.cars.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCar->id,
+            'name' => 'edit car',
+            'slug' => 'app.cars.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleCar->id,
+            'name' => 'delete car',
+            'slug' => 'app.cars.delete',
+        ]);
+
+        // Sell Category Management Module
+        $moduleSellCategory = Module::updateOrCreate(['name' => 'Sell Category Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSellCategory->id,
+            'name' => 'access sell category',
+            'slug' => 'app.sell_categories.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSellCategory->id,
+            'name' => 'create sell category',
+            'slug' => 'app.sell_categories.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSellCategory->id,
+            'name' => 'edit sell category',
+            'slug' => 'app.sell_categories.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSellCategory->id,
+            'name' => 'delete sell category',
+            'slug' => 'app.sell_categories.delete',
+        ]);
+
+        // Sell Management Module
+        $moduleSell = Module::updateOrCreate(['name' => 'Sell Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSell->id,
+            'name' => 'access sell',
+            'slug' => 'app.sells.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSell->id,
+            'name' => 'create sell',
+            'slug' => 'app.sells.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSell->id,
+            'name' => 'edit sell',
+            'slug' => 'app.sells.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSell->id,
+            'name' => 'delete sell',
+            'slug' => 'app.sells.delete',
+        ]);
+
+        // Blood Donor Management Module
+        $moduleBloodDonor = Module::updateOrCreate(['name' => 'Blood Donor Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBloodDonor->id,
+            'name' => 'access blood donors',
+            'slug' => 'app.blood_donors.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBloodDonor->id,
+            'name' => 'create blood donor',
+            'slug' => 'app.blood_donors.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBloodDonor->id,
+            'name' => 'edit blood donor',
+            'slug' => 'app.blood_donors.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBloodDonor->id,
+            'name' => 'delete blood donor',
+            'slug' => 'app.blood_donors.delete',
+        ]);
+
+        // Police Management Module
+        $modulePolice = Module::updateOrCreate(['name' => 'Police Management']);
+        Permission::updateOrCreate([
+            'module_id' => $modulePolice->id,
+            'name' => 'access police',
+            'slug' => 'app.police.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $modulePolice->id,
+            'name' => 'create police',
+            'slug' => 'app.police.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $modulePolice->id,
+            'name' => 'edit police',
+            'slug' => 'app.police.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $modulePolice->id,
+            'name' => 'delete police',
+            'slug' => 'app.police.delete',
+        ]);
+        // Institution Type Management Module
+        $moduleInstitutionType = Module::updateOrCreate(['name' => 'Institution Type Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitutionType->id,
+            'name' => 'access institution types',
+            'slug' => 'app.institution_types.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitutionType->id,
+            'name' => 'create institution type',
+            'slug' => 'app.institution_types.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitutionType->id,
+            'name' => 'edit institution type',
+            'slug' => 'app.institution_types.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitutionType->id,
+            'name' => 'delete institution type',
+            'slug' => 'app.institution_types.delete',
+        ]);
+
+
+        // Institution Management Module
+        $moduleInstitution = Module::updateOrCreate(['name' => 'Institution Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitution->id,
+            'name' => 'access institutions',
+            'slug' => 'app.institutions.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitution->id,
+            'name' => 'create institution',
+            'slug' => 'app.institutions.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitution->id,
+            'name' => 'edit institution',
+            'slug' => 'app.institutions.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleInstitution->id,
+            'name' => 'delete institution',
+            'slug' => 'app.institutions.delete',
+        ]);
     }
 }
-

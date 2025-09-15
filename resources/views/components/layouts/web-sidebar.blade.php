@@ -5,7 +5,7 @@
     <!-- Sidebar Header -->
     <div class="flex items-center justify-between px-4">
         <h1 class="text-2xl font-bold text-primary">
-            Faridpur City<span class="font-normal text-gray-500 dark:text-gray-400">app</span>
+            {{ setup('name', 'Shariatpur City') }}
         </h1>
         <button class="lg:hidden" @click="isSidebarOpen = false">
             <i class='bx bx-x text-2xl'></i>
@@ -13,49 +13,72 @@
     </div>
 
     <!-- Sidebar Navigation -->
-    <nav class="space-y-1">
-        <a wire:navigate href="{{route('web.home')}}" class="{{Route::is('web.home')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary text-white">
-            <i class='bx bxs-home mr-2'></i> হোম
-        </a>
-        <a wire:navigate href="{{route('web.doctor')}}" class="{{Route::is('web.doctor.categories')||Route::is('web.doctor')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-user mr-2'></i> Doctors
-        </a>
-        <a wire:navigate href="{{route('web.hospitals')}}" class="{{Route::is('web.hospitals')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bx-building mr-2'></i> Hospitals
-        </a>
-        <!-- New: Bus Routes -->
-        <a wire:navigate href="{{route('web.bus.routes')}}" class="{{Route::is('web.bus.routes')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bx-bus mr-2'></i> Bus Routes
-        </a>
-        <!-- New: Train Routes -->
-        <a wire:navigate href="{{route('web.train.routes')}}" class="{{Route::is('web.train.routes')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bx-train mr-2'></i> Train Routes
-        </a>
-        <!-- New: Launch Routes -->
-        <a wire:navigate href="{{route('web.launch.routes')}}" class="{{Route::is('web.launch.routes')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-ship mr-2'></i> Launch Routes
-        </a>
-        <a wire:navigate href="{{route('web.places')}}" class="{{Route::is('web.places')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bx-map mr-2'></i> Places
-        </a>
-        <a wire:navigate href="{{route('web.fire_services')}}" class="{{Route::is('web.fire_services')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-hot mr-2'></i> Fire Services
-        </a>
-        <a href="#" class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-chat mr-2'></i> যোগাযোগ
-        </a>
-        <a href="#" class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-bell mr-2'></i> নোটিফিকেশন
-        </a>
-        <a href="#" class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-cog mr-2'></i> সেটিংস
-        </a>
-        <a href="#" class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-log-out mr-2'></i> লগ আউট
-        </a>
-        <!-- New: House Types (Houses/Rent) -->
-        <a wire:navigate href="{{route('web.house.types')}}" class="{{Route::is('web.house.types')||Route::is('web.houses')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
-            <i class='bx bxs-home-heart mr-2'></i> Houses
-        </a>
-    </nav>
+<nav class="space-y-1 overflow-y-scroll overflow-x-hidden h-[calc(100vh-80px)] custom-scrollbar pb-8">
+    <a wire:navigate href="{{route('web.home')}}" class="{{Route::is('web.home')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary text-white">
+        <i class='bx bxs-home mr-2'></i> @lang('Home')
+    </a>
+    <a wire:navigate href="{{route('web.notices')}}" class="{{Route::is('web.notices')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-bell mr-2'></i> @lang('Notices')
+    </a>
+    <a wire:navigate href="{{route('web.doctor')}}" class="{{Route::is('web.doctor.categories')||Route::is('web.doctor')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-user mr-2'></i> @lang('Doctors')
+    </a>
+    <a wire:navigate href="{{route('web.hospitals')}}" class="{{Route::is('web.hospitals')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-building mr-2'></i> @lang('Hospitals')
+    </a>
+    <a wire:navigate href="{{route('web.diagnostic_centers')}}" class="{{Route::is('web.diagnostic_centers')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-test-tube mr-2'></i> @lang('Diagnostic Centers')
+    </a>
+    <!-- New: Bus Routes -->
+    <a wire:navigate href="{{route('web.bus.routes')}}" class="{{Route::is('web.bus.routes')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-bus mr-2'></i> @lang('Bus Routes')
+    </a>
+    <!-- New: Train Routes -->
+    <a wire:navigate href="{{route('web.train.routes')}}" class="{{Route::is('web.train.routes')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-train mr-2'></i> @lang('Train Routes')
+    </a>
+    <!-- New: Launch Routes -->
+    <a wire:navigate href="{{route('web.launch.routes')}}" class="{{Route::is('web.launch.routes')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-ship mr-2'></i> @lang('Launch Routes')
+    </a>
+    <a wire:navigate href="{{route('web.places')}}" class="{{Route::is('web.places')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-map mr-2'></i> @lang('Places')
+    </a>
+    <a wire:navigate href="{{route('web.hotels')}}" class="{{Route::is('web.hotels')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-building-house mr-2'></i> @lang('Hotels')
+    </a>
+    <a wire:navigate href="{{route('web.blood_donors')}}" class="{{Route::is('web.blood_donors')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-heart mr-2'></i> @lang('Blood Donors')
+    </a>
+    <a wire:navigate href="{{route('web.fire_services')}}" class="{{Route::is('web.fire_services')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-hot mr-2'></i> @lang('Fire Services')
+    </a>
+    <a wire:navigate href="{{route('web.electricity_offices')}}" class="{{Route::is('web.electricity_offices')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-bolt mr-2'></i> @lang('Electricity Offices')
+    </a>
+    <a wire:navigate href="{{route('web.courier_services')}}" class="{{Route::is('web.courier_services')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-truck mr-2'></i> @lang('Courier Services')
+    </a>
+    <!-- New: House Types (Houses/Rent) -->
+    <a wire:navigate href="{{route('web.house.types')}}" class="{{Route::is('web.house.types')||Route::is('web.houses')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-home-heart mr-2'></i> @lang('Houses')
+    </a>
+    <!-- New: Car Types (Car Rent) -->
+    <a wire:navigate href="{{route('web.car.types')}}" class="{{Route::is('web.car.types')||Route::is('web.cars')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-car mr-2'></i> @lang('Car Rent')
+    </a>
+    <!-- New: Sell Categories (Classifieds) -->
+    <a wire:navigate href="{{route('web.sell.categories')}}" class="{{Route::is('web.sell.categories')||Route::is('web.sells')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-package mr-2'></i> @lang('Sell')
+    </a>
+    <!-- New: Police -->
+    <a wire:navigate href="{{route('web.police')}}" class="{{Route::is('web.police')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-shield-alt-2 mr-2'></i> @lang('Police')
+    </a>
+    <!-- New: Institutions -->
+    <a wire:navigate href="{{route('web.institution.types')}}" class="{{Route::is('web.institutions')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-library mr-2'></i> @lang('Institutions')
+    </a>
+
+</nav>
 </aside>

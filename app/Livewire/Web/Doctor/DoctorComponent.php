@@ -4,35 +4,49 @@ namespace App\Livewire\Web\Doctor;
 
 use App\Models\Doctor;
 use App\Models\DoctorCategory;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class DoctorComponent extends Component
 {
-    use WithFileUploads;
     use LivewireAlert;
+    use WithFileUploads;
 
     public ?int $selectedId = null;
 
     public ?int $doctor_category_id = null;
+
     public string $name = '';
+
     public string $qualification = '';
+
     public string $current_position = '';
+
     public string $chamber_one = '';
+
     public string $chamber_two = '';
+
     public string $chamber_three = '';
+
     public string $chamber_one_phone = '';
+
     public string $chamber_two_phone = '';
+
     public string $chamber_three_phone = '';
+
     public string $status = 'active';
 
     // Added properties
-    public $photo, $image_url; // temporary uploaded file
+    public $photo;
+
+    public $image_url; // temporary uploaded file
+
     public string $search = '';
 
     public ?int $detailsId = null;
+
     public array $details = [];
 
     protected function rules(): array
@@ -57,23 +71,25 @@ class DoctorComponent extends Component
     protected function isAdmin(): bool
     {
         $user = auth()->user();
+
         return (bool) ($user && optional($user->role)->slug === 'admin');
     }
 
     protected function authorizeOwnerOrAdmin(Doctor $doctor): void
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             redirect()->route('login')->send();
         }
-        if ($doctor->user_id !== auth()->id() && !$this->isAdmin()) {
+        if ($doctor->user_id !== auth()->id() && ! $this->isAdmin()) {
             abort(403, 'Unauthorized');
         }
     }
 
     public function createDoctor(): void
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             redirect()->route('login')->send();
+
             return;
         }
         $this->validate();
@@ -98,22 +114,23 @@ class DoctorComponent extends Component
             'status' => $this->status,
         ]);
 
-        if ($this->image_url!=null && checkImageUrl($this->image_url)) {
+        if ($this->image_url != null && checkImageUrl($this->image_url)) {
             $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
-            $media =  $doctor->addMediaFromUrl($this->image_url)->usingFileName($doctor->id. '.' . $extension)->toMediaCollection('doctor');
-            $path = storage_path("app/public/Doctor/".$media->id.'/'. $media->file_name);
+            $media = $doctor->addMediaFromUrl($this->image_url)->usingFileName($doctor->id.'.'.$extension)->toMediaCollection('doctor');
+            $path = storage_path('app/public/Doctor/'.$media->id.'/'.$media->file_name);
             if (file_exists($path)) {
                 unlink($path);
             }
 
-        }elseif($this->photo!=null){
-            $media = $doctor->addMedia($this->photo->getRealPath())->usingFileName($doctor->name. '.' . $this->photo->extension())->toMediaCollection('doctor');
-            $path = storage_path("app/public/Doctor/".$media->id.'/'. $media->file_name);
+        } elseif ($this->photo != null) {
+            $media = $doctor->addMedia($this->photo->getRealPath())->usingFileName($doctor->name.'.'.$this->photo->extension())->toMediaCollection('doctor');
+            $path = storage_path('app/public/Doctor/'.$media->id.'/'.$media->file_name);
             if (file_exists($path)) {
                 unlink($path);
             }
         }
-
+        $this->photo = null;
+        $this->image_url = '';
         $this->resetForm();
         $this->dispatch('close-modal', 'create-doctor');
     }
@@ -141,7 +158,9 @@ class DoctorComponent extends Component
 
     public function updateDoctor(): void
     {
-        if (!$this->selectedId) return;
+        if (! $this->selectedId) {
+            return;
+        }
         $this->validate();
 
         $doctor = Doctor::findOrFail($this->selectedId);
@@ -163,21 +182,23 @@ class DoctorComponent extends Component
 
         $doctor->update($update);
 
-        if ($this->image_url!=null && checkImageUrl($this->image_url)) {
+        if ($this->image_url != null && checkImageUrl($this->image_url)) {
             $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
-            $media =  $doctor->addMediaFromUrl($this->image_url)->usingFileName($doctor->id. '.' . $extension)->toMediaCollection('doctor');
-            $path = storage_path("app/public/Doctor/".$media->id.'/'. $media->file_name);
+            $media = $doctor->addMediaFromUrl($this->image_url)->usingFileName($doctor->id.'.'.$extension)->toMediaCollection('doctor');
+            $path = storage_path('app/public/Doctor/'.$media->id.'/'.$media->file_name);
             if (file_exists($path)) {
                 unlink($path);
             }
 
-        }elseif($this->photo!=null){
-            $media = $doctor->addMedia($this->photo->getRealPath())->usingFileName($doctor->name. '.' . $this->photo->extension())->toMediaCollection('doctor');
-            $path = storage_path("app/public/Doctor/".$media->id.'/'. $media->file_name);
+        } elseif ($this->photo != null) {
+            $media = $doctor->addMedia($this->photo->getRealPath())->usingFileName($doctor->name.'.'.$this->photo->extension())->toMediaCollection('doctor');
+            $path = storage_path('app/public/Doctor/'.$media->id.'/'.$media->file_name);
             if (file_exists($path)) {
                 unlink($path);
             }
         }
+        $this->photo = null;
+        $this->image_url = '';
         $this->alert('success', __('Doctor updated successfully.'));
         $this->dispatch('close-modal', 'edit-doctor');
     }
@@ -192,7 +213,9 @@ class DoctorComponent extends Component
 
     public function deleteSelectedDoctor(): void
     {
-        if (!$this->selectedId) return;
+        if (! $this->selectedId) {
+            return;
+        }
         $doctor = Doctor::findOrFail($this->selectedId);
         $this->authorizeOwnerOrAdmin($doctor);
         $doctor->delete();
@@ -209,7 +232,7 @@ class DoctorComponent extends Component
         if (method_exists($doctor, 'getFirstMediaUrl')) {
             $photoUrl = $doctor->getFirstMediaUrl('photo');
         }
-        if (!$photoUrl && !empty($doctor->photo)) {
+        if (! $photoUrl && ! empty($doctor->photo)) {
             $photoUrl = Storage::url($doctor->photo);
         }
 
@@ -236,7 +259,7 @@ class DoctorComponent extends Component
     {
         $this->reset([
             'selectedId', 'name', 'qualification', 'current_position', 'image_url', 'photo',
-            'chamber_one', 'chamber_two', 'chamber_three', 'chamber_one_phone', 'chamber_two_phone', 'chamber_three_phone', 'status'
+            'chamber_one', 'chamber_two', 'chamber_three', 'chamber_one_phone', 'chamber_two_phone', 'chamber_three_phone', 'status',
         ]);
         $this->status = 'active';
     }
@@ -253,16 +276,17 @@ class DoctorComponent extends Component
     {
         $query = Doctor::with('category', 'user')->where('doctor_category_id', $this->doctor_category_id)->where('status', 'active');
         if (filled($this->search)) {
-            $s = '%' . trim($this->search) . '%';
+            $s = '%'.trim($this->search).'%';
             $query->where(function ($q) use ($s) {
                 $q->where('name', 'like', $s)
-                  ->orWhere('chamber_one', 'like', $s)
-                  ->orWhere('chamber_two', 'like', $s)
-                  ->orWhere('chamber_three', 'like', $s);
+                    ->orWhere('chamber_one', 'like', $s)
+                    ->orWhere('chamber_two', 'like', $s)
+                    ->orWhere('chamber_three', 'like', $s);
             });
         }
         $doctors = $query->latest()->get();
         $categories = DoctorCategory::where('status', 'active')->orderBy('name')->get();
+
         return view('livewire.web.doctor.doctor-component', compact('doctors', 'categories'))
             ->layout('components.layouts.web');
     }

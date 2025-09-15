@@ -30,14 +30,14 @@
         <!-- Bottom Navigation (Mobile Only) -->
         <footer class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-[0_-2px_5px_rgba(0,0,0,0.05)] lg:hidden">
             <div class="flex justify-around items-center h-16">
-                <template x-for="nav in navigation" :key="nav.name">
-                    <a href="#" class="flex flex-col items-center justify-center w-full transition-colors duration-200"
-                       :class="activeTab === nav.name ? 'text-primary' : 'text-gray-500 dark:text-gray-400 hover:text-primary'"
-                       @click.prevent="activeTab = nav.name">
-                        <i class="text-2xl" :class="nav.icon"></i>
-                        <span class="text-xs font-medium" x-text="nav.name"></span>
+                    <a href="{{route('web.home')}}" class="{{Route::is('web.home')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                        <i class="text-2xl bx bxs-home"></i>
+                        <span class="text-xs font-medium">home</span>
                     </a>
-                </template>
+                    <a href="{{route('web.profile')}}" class="{{Route::is('web.profile')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                        <i class="text-2xl bx bxs-user"></i>
+                        <span class="text-xs font-medium">profile</span>
+                    </a>
             </div>
         </footer>
 
