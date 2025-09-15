@@ -58,25 +58,6 @@ class PoliceSeeder extends Seeder
                 'upazila_id' => rand(322, 327),
             ]));
         }
-
-        // Create some randomized entries
-        for ($i = 1; $i <= 8; $i++) {
-            Police::create([
-                'user_id' => rand(1, 2),
-                'upazila_id' => rand(322, 327),
-                'name' => 'Officer ' . fake()->lastName() . ' ' . $i,
-                'designation' => fake()->randomElement(['Inspector', 'SI', 'ASI']),
-                'thana' => fake()->city() . ' Thana',
-                'address' => fake()->address(),
-                'phone' => '017' . fake()->randomNumber(8, true),
-                'alt_phone' => null,
-                'map' => null,
-                'details' => fake()->sentence(10),
-                'status' => fake()->randomElement(['active', 'inactive']),
-            ]);
-        }
-
-        $this->command->info('Police entries seeded successfully.');
     }
 }
 
