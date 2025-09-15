@@ -18,9 +18,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->boolean('pinned')->default(false);
             $table->timestamps();
-
-            $table->index(['status', 'pinned']);
-            $table->index('published_at');
+            $table->index(['pinned']);
         });
     }
 
