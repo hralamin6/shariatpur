@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('phone')->nullable();
             $table->text('details')->nullable();
-            $table->string('map_one')->nullable();
-            $table->string('map_two')->nullable();
+            $table->text('map_one')->nullable();
+            $table->text('map_two')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
         });

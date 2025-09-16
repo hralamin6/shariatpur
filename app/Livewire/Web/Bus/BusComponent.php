@@ -30,6 +30,10 @@ class BusComponent extends Component
     public $photo; // uploaded file
     public string $image_url = '';
 
+    // Details modal state
+    public ?int $detailsId = null;
+    public array $busDetails = [];
+
     protected function rules(): array
     {
         return [
@@ -58,6 +62,32 @@ class BusComponent extends Component
         if ($bus->user_id !== auth()->id() && !$this->isAdmin()) {
             abort(403, 'Unauthorized');
         }
+    }
+
+    public function showDetails(int $id): void
+    {
+        $bus = Bus::with('route', 'user')->findOrFail($id);
+        $this->detailsId = $id;
+
+        $photoUrl = null;
+        if (method_exists($bus, 'getFirstMediaUrl')) {
+            $photoUrl = $bus->getFirstMediaUrl('bus', 'avatar') ?: $bus->getFirstMediaUrl('bus');
+        }
+
+        $this->busDetails = [
+            'name' => $bus->name,
+            'route' => $bus->route?->name,
+            'phone' => $bus->phone,
+            'details' => $bus->details,
+            'map_one' => $bus->map_one,
+            'map_two' => $bus->map_two,
+            'status' => $bus->status,
+            'photo_url' => $photoUrl,
+            'created_by' => $bus->user?->name,
+            'created_at' => optional($bus->created_at)->format('d M Y'),
+        ];
+
+        $this->dispatch('open-modal', 'bus-details');
     }
 
     public function createBus(): void
@@ -185,7 +215,7 @@ class BusComponent extends Component
 
     protected function resetForm(): void
     {
-        $this->reset(['selectedId', 'bus_route_id', 'name', 'phone', 'details', 'map_one', 'map_two', 'status', 'photo', 'image_url']);
+        $this->reset(['selectedId', 'bus_route_id', 'name', 'phone', 'details', 'map_one', 'map_two', 'status', 'photo', 'image_url', 'detailsId', 'busDetails']);
         $this->status = 'active';
         if ($this->filter_route_id) {
             $this->bus_route_id = $this->filter_route_id;
