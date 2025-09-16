@@ -1,5 +1,5 @@
 <div class="max-w-7xl mx-auto">
-    <!-- Top Bar: Search + Filters -->
+    <x-sponsor wire:ignore  title="house"/>
     <div class="mx-auto mb-6 px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
             <div class="relative w-full md:max-w-xl">
@@ -96,12 +96,12 @@
     </div>
 
     @auth
-        <button wire:click="openHouseForm" class="fixed bottom-6 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add House">
+        <button wire:click="openHouseForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add House">
             <i class='bx bx-plus text-3xl'></i>
         </button>
     @endauth
     @guest
-        <a href="{{ route('login') }}" class="fixed bottom-6 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Login to add house">
+        <a href="{{ route('login') }}" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Login to add house">
             <i class='bx bx-log-in text-3xl'></i>
         </a>
     @endguest

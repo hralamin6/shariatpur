@@ -1,4 +1,6 @@
 <div class="max-w-7xl mx-auto">
+    <x-sponsor wire:ignore  title="doctor"/>
+
     <!-- Header -->
     <div class="mx-auto mb-6 px-4 sm:px-6 lg:px-8" role="search">
         <div class="flex justify-center">
@@ -87,7 +89,7 @@
 
     <!-- Floating Add Doctor Button -->
     @auth
-        <div x-data class="fixed bottom-6 right-6 z-40">
+        <div x-data class="fixed bottom-20 right-6 z-40">
             <button type="button"
                     class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 transition"
                     @click="$dispatch('open-modal', 'create-doctor')"
@@ -97,7 +99,7 @@
         </div>
     @endauth
     @guest
-        <a href="{{ route('login') }}" class="fixed bottom-6 right-6 z-40 inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 transition" aria-label="Login to add doctor">
+        <a href="{{ route('login') }}" class="fixed bottom-20 right-6 z-40 inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 transition" aria-label="Login to add doctor">
             <i class="bx bx-log-in text-3xl"></i>
         </a>
     @endguest

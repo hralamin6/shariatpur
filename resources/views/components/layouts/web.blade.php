@@ -32,11 +32,19 @@
             <div class="flex justify-around items-center h-16">
                     <a href="{{route('web.home')}}" class="{{Route::is('web.home')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                         <i class="text-2xl bx bxs-home"></i>
-                        <span class="text-xs font-medium">home</span>
+                        <span class="text-xs font-medium">@lang('Home')</span>
                     </a>
-                    <a href="{{route('web.profile')}}" class="{{Route::is('web.profile')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                    <a href="{{route('web.news.categories')}}" class="{{Route::is('web.news.categories')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                        <i class="text-2xl bx bxs-news"></i>
+                        <span class="text-xs font-medium">@lang('News')</span>
+                    </a>
+                <a href="{{route('web.notices')}}" class="{{Route::is('web.notices')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                    <i class="text-2xl bx bx-bell"></i>
+                    <span class="text-xs font-medium">@lang('Notice')</span>
+                </a>
+                <a href="{{route('web.profile')}}" class="{{Route::is('web.profile')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                         <i class="text-2xl bx bxs-user"></i>
-                        <span class="text-xs font-medium">profile</span>
+                        <span class="text-xs font-medium">@lang('Profile')</span>
                     </a>
             </div>
         </footer>

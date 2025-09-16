@@ -25,7 +25,7 @@
                    placeholder="Search">
             <a href=""
                class="border  dark:bg-gray-600 border-gray-300 dark:border-gray-500 bg-gray-100 rounded-l-none p-2 h-9 rounded-md">
-                <svg xmlns="http'https://ui-avatars.com/api/?name={{auth()->user()->name}}'://www.w3.org/2000/svg"
+                <svg xmlns="http://www.w3.org/2000/svg"
                      class="w-5 text-gray-600 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -128,7 +128,7 @@
                     </a>
                 </div>
             </div>
-            <div x-data="{ post: @json(Route::is('app.posts') || Route::is('app.categories')) }">
+            <div x-data="{ post: @json(Route::is('app.posts') || Route::is('app.categories') || Route::is('app.sponsors')) }">
                 <div @click="post= !post" class="navMenuLink dark:text-gray-300 cursor-pointer  {{Route::is('app.posts')|Route::is('app.categories')?'navActive':'navInactive'}}">
                     <i  class="bx bx-file text-xl"></i>
                     <span class="">@lang("post manager")</span>
@@ -145,6 +145,11 @@
                        class="subNavMenuLink items-center {{Route::is('app.posts')?'subNavActive':'subNavInactive'}}">
                         <i class='bx bxs-pencil text-xl {{Route::is('app.posts')?'bx-tada':''}}'></i><span
                             class="">@lang('posts')</span>
+                    </a>
+                    <a href="{{route('app.sponsors')}}" wire:navigate
+                       class="subNavMenuLink items-center {{Route::is('app.sponsors')?'subNavActive':'subNavInactive'}}">
+                        <i class='bx bxs-megaphone text-xl {{Route::is('app.sponsors')?'bx-tada':''}}'></i><span
+                            class="">@lang('sponsors')</span>
                     </a>
                 </div>
             </div>

@@ -1,8 +1,5 @@
 <div class="max-w-7xl mx-auto">
-    <!-- Header Banner Placeholder -->
-    <div class="relative rounded-xl overflow-hidden mb-6 shadow-md">
-        <img src="https://placehold.co/1200x300/93c5fd/fff?text=Bus+Routes" alt="Bus Routes" class="w-full h-auto object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1200x300/cccccc/ffffff?text=Image+Not+Found'">
-    </div>
+    <x-sponsor wire:ignore  title="bus-route"/>
 
     <!-- Grid of Bus Routes -->
     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -15,7 +12,6 @@
                         <i class='bx bxs-bus'></i>
                     </div>
                     <div class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{{ $route->name }}</div>
-                    <span class="mt-1 text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{{ ucfirst($route->status) }}</span>
                 </a>
 
                 @if($canManage)

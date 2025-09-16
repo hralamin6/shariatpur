@@ -1,5 +1,7 @@
 <div>
     <div class="mx-auto">
+        <x-sponsor wire:ignore  title="blood-donor"/>
+
         <!-- Search Bar + Filters -->
         <div class="flex flex-wrap gap-4 justify-between mb-4 bg-gray-100 dark:bg-gray-900 z-20 py-4">
             <div class="relative max-w-2xl mx-auto">
@@ -28,19 +30,6 @@
                 </select>
             </div>
         </div>
-
-        <!-- Banner -->
-        <div class="mb-6">
-            <div class="relative rounded-lg overflow-hidden shadow-lg max-w-fit mx-auto">
-                <img src="https://placehold.co/1200x400/DC2626/FFFFFF?text=Blood+Donors" alt="Blood Donors banner" class="w-full h-auto object-cover">
-                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
-                    <span class="block w-2.5 h-2.5 bg-white rounded-full"></span>
-                    <span class="block w-2.5 h-2.5 bg-white/60 rounded-full"></span>
-                    <span class="block w-2.5 h-2.5 bg-white/60 rounded-full"></span>
-                </div>
-            </div>
-        </div>
-
         <!-- Blood Donors List -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             @forelse($donors as $donor)
@@ -152,12 +141,12 @@
 
     <!-- Floating Action Button -->
     @auth
-        <button wire:click="openCreateModal" class="fixed bottom-6 right-6 h-14 w-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition z-30" aria-label="Register as Blood Donor">
+        <button wire:click="openCreateModal" class="fixed bottom-20 right-6 h-14 w-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition z-30" aria-label="Register as Blood Donor">
             <i class='bx bx-plus text-3xl'></i>
         </button>
     @endauth
     @guest
-        <a href="{{ route('login') }}" class="fixed bottom-6 right-6 h-14 w-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition z-30" aria-label="Login to register as donor">
+        <a href="{{ route('login') }}" class="fixed bottom-20 right-6 h-14 w-14 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition z-30" aria-label="Login to register as donor">
             <i class='bx bx-log-in text-3xl'></i>
         </a>
     @endguest

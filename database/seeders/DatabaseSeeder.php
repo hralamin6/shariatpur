@@ -66,7 +66,9 @@ class DatabaseSeeder extends Seeder
         $this->call(BloodDonorSeeder::class);
 
         $this->call(BlogCategorySeeder::class);
-        $this->call(BlogSeeder::class);
+        $this->call(BlogCategorySeeder::class);
+        $this->call(NewsCategorySeeder::class);
+        $this->call(NewsSeeder::class);
 
         // Create 5 parent categories
         //        $parentCategories = Category::factory()->count(5)->create();

@@ -76,18 +76,8 @@ items: @js(collect($headlines ?? [])->map(fn ($h) => ['title' => $h['title'], 'u
         </div>
     </div>
     <!-- Image Banner/Slider -->
-    <!-- Image Banner/Slider -->
-    <div class="relative rounded-xl overflow-hidden mb-6 shadow-md">
-        <img src="https://placehold.co/1200x400/a0c4ff/ffffff?text=Welcome+to+Shariatpur+City"
-             alt="Faridpur City Banner"
-             class="w-full h-auto object-cover"
-             onerror="this.onerror=null;this.src='https://placehold.co/1200x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-            <span class="block w-3 h-3 bg-white rounded-full"></span>
-            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
-            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
-        </div>
-    </div>
+
+    <x-news-banner title="home" title="test"/>
 
     <!-- Services Grid -->
     <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
@@ -204,6 +194,58 @@ items: @js(collect($headlines ?? [])->map(fn ($h) => ['title' => $h['title'], 'u
             </div>
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Institutions')</span>
         </a>
-        <!-- Add more services as needed -->
+        <!-- New: Blogs -->
+        <a wire:navigate href="{{route('web.blog.categories')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-blue-500">
+                <i class="bx bxs-book"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Blogs')</span>
+        </a>
+        <!-- News -->
+        <a wire:navigate href="{{route('web.news.categories')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-sky-500">
+                <i class="bx bxs-news"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('News')</span>
+        </a>
     </div>
+
+    <!-- Recent Blogs Section -->
+    @if(($latestBlogs ?? null) && $latestBlogs->count())
+        <div class="mt-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">@lang('Recent Blogs')</h3>
+                <a wire:navigate href="{{ route('web.blogs') }}" class="text-sm text-primary hover:underline">@lang('View All')</a>
+            </div>
+            <div class="space-y-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                @foreach($latestBlogs as $blog)
+                    <div class="flex items-center bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <a wire:navigate href="{{ route('web.blog.details', $blog->slug) }}" class="block flex-shrink-0 w-24 h-24 bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center overflow-hidden">
+                            @php $img = method_exists($blog,'getFirstMediaUrl') ? $blog->getFirstMediaUrl('blog','avatar') : null; @endphp
+                            @if($img)
+                                <img src="{{ $img }}" onerror="{{ getErrorImage() }}" alt="Blog image" class="h-full w-full object-cover">
+                            @else
+                                <i class='bx bxs-book text-4xl text-blue-500'></i>
+                            @endif
+                        </a>
+                        <div class="flex-1 p-4">
+                            <h4 class="text-base font-semibold text-gray-900 dark:text-white line-clamp-2">
+                                <a wire:navigate href="{{ route('web.blog.details', $blog->slug) }}">{{ $blog->title }}</a>
+                            </h4>
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                {{ optional($blog->blogCategory)->name }} • {{ optional($blog->created_at)->format('d M Y') }}
+                            </p>
+
+                            <div class="mt-2 flex items-center justify-between">
+                                <a wire:navigate href="{{ route('web.blog.details', $blog->slug) }}" class="text-sm text-primary hover:underline">@lang('Read')</a>
+                                @if($blog->user)
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ $blog->user->name }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>

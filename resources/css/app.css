@@ -1,5 +1,6 @@
 @import url('https://unpkg.com/boxicons@latest/css/boxicons.min.css');
 @import 'trix/dist/trix.css';
+@import 'swiper/swiper-bundle.css';
 
 :root {
     --light: #edf2f9;

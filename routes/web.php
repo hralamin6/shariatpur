@@ -46,6 +46,16 @@ Route::get('/cars/{type_id?}', \App\Livewire\Web\Car\CarComponent::class)->name(
 Route::get('/sell-categories', \App\Livewire\Web\Sell\SellCategoryComponent::class)->name('web.sell.categories');
 Route::get('/sells/{cat_id?}', \App\Livewire\Web\Sell\SellComponent::class)->name('web.sells');
 
+// Blogs
+Route::get('/blog-categories', \App\Livewire\Web\Blog\BlogCategoryComponent::class)->name('web.blog.categories');
+Route::get('/blogs/{cat_id?}', \App\Livewire\Web\Blog\BlogComponent::class)->name('web.blogs');
+Route::get('/blog/{slug}', \App\Livewire\Web\Blog\BlogDetailsComponent::class)->name('web.blog.details');
+
+// News
+Route::get('/news-categories', \App\Livewire\Web\News\NewsCategoryComponent::class)->name('web.news.categories');
+Route::get('/news/{cat_id?}', \App\Livewire\Web\News\NewsComponent::class)->name('web.news');
+Route::get('/news-item/{slug}', \App\Livewire\Web\News\NewsDetailsComponent::class)->name('web.news.details');
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('profile', \App\Livewire\Web\ProfileComponent::class)->name('web.profile');
 
@@ -62,10 +72,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('app/posts', \App\Livewire\App\PostComponent::class)->name('app.posts');
     Route::get('app/notifications', \App\Livewire\App\NotificationComponent::class)->name('app.notifications');
     Route::get('app/translate', \App\Livewire\App\TranslateComponent::class)->name('app.translate');
+    // Sponsors (backend)
+    Route::get('app/sponsors', \App\Livewire\App\SponsorComponent::class)->name('app.sponsors');
 });
 
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/auth.php';
 
 // Secure Web Push subscription endpoint
 Route::post('/subscribe', function (Request $request) {
@@ -76,7 +87,7 @@ Route::post('/subscribe', function (Request $request) {
     ]);
 
     $user = $request->user();
-    if (!$user) {
+    if (! $user) {
         abort(401);
     }
 
@@ -102,16 +113,16 @@ if (app()->environment('local')) {
     Route::get('cmd/{slug}', function ($slug = null) {
         $allowed = [
             'cache:clear', 'config:cache', 'config:clear', 'route:clear', 'route:cache', 'view:clear',
-            'queue:restart', 'migrate', 'migrate:fresh', 'migrate:refresh', 'optimize', 'optimize:clear'
+            'queue:restart', 'migrate', 'migrate:fresh', 'migrate:refresh', 'optimize', 'optimize:clear',
         ];
-        if (!$slug || !in_array($slug, $allowed, true)) {
+        if (! $slug || ! in_array($slug, $allowed, true)) {
             abort(403, 'Command not allowed.');
         }
         Artisan::call($slug);
         $output = Artisan::output();
-        return "<pre>" . htmlspecialchars($output) . "</pre>";
+
+        return '<pre>'.htmlspecialchars($output).'</pre>';
     })->where('slug', '[A-Za-z0-9:\\-]+')->middleware('auth');
 }
-
 
 Route::get('{slug}', \App\Livewire\Web\PageComponent::class)->name('web.page');

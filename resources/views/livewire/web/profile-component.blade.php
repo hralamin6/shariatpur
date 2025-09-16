@@ -8,37 +8,66 @@
 {{--        </div>--}}
 {{--    </div>--}}
     <main class="h-full capitalize">
+        {{--
+    Option 1: Modern Underline Tabs
+    - Clean, minimalist style with an active indicator line.
+    - Icons added for better user experience.
+    - Uses dark classes as per user preference.
+--}}
+        {{--
+    Option 1: Modern Underline Tabs
+    - Full code, mobile-friendly and horizontally scrollable.
+    - Uses dark classes as per user preference.
+--}}
         <div class="max-w-4xl mx-auto mb-6">
-            <!-- Tabs Container -->
-            <div class="flex justify-center space-x-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden overflow-x-auto">
-                <!-- Profile Tab -->
-                <button
-                    @click="activeTab = 'profile'"
-                    :class="{'bg-primary text-white': activeTab === 'profile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'profile'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Profile')
-                </button>
-                <!-- Update Profile Tab -->
-                <button
-                    @click="activeTab = 'updateProfile'"
-                    :class="{'bg-primary text-white': activeTab === 'updateProfile', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updateProfile'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Update Profile')
-                </button>
-                <!-- Change Password Tab -->
-                <button
-                    @click="activeTab = 'changePassword'"
-                    :class="{'bg-primary text-white': activeTab === 'changePassword', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'changePassword'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Change Password')
-                </button>
-                <!-- Update Photo Tab -->
-                <button
-                    @click="activeTab = 'updatePhoto'"
-                    :class="{'bg-primary text-white': activeTab === 'updatePhoto', 'text-gray-500 hover:text-blue-500 dark:text-gray-300': activeTab !== 'updatePhoto'}"
-                    class="px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary">
-                    @lang('Update Photo')
-                </button>
+            <div class="border-b border-gray-200 dark:border-gray-700">
+                {{-- The `overflow-x-auto` makes it scrollable, and `justify-start` aligns tabs to the left --}}
+                <nav class="-mb-px flex justify-start space-x-2 sm:space-x-6 overflow-x-auto">
+                    <button
+                        @click="activeTab = 'profile'"
+                        :class="activeTab === 'profile'
+                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600'"
+                        {{-- `whitespace-nowrap` prevents text from breaking into a new line --}}
+                        class="whitespace-nowrap inline-flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-t-lg"
+                    >
+                        <i class='bx bx-user-circle text-base'></i>
+                        <span>@lang('Profile')</span>
+                    </button>
+
+                    <button
+                        @click="activeTab = 'updateProfile'"
+                        :class="activeTab === 'updateProfile'
+                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600'"
+                        class="whitespace-nowrap inline-flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-t-lg"
+                    >
+                        <i class='bx bx-edit-alt text-base'></i>
+                        <span>@lang('Update Profile')</span>
+                    </button>
+
+                    <button
+                        @click="activeTab = 'changePassword'"
+                        :class="activeTab === 'changePassword'
+                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600'"
+                        class="whitespace-nowrap inline-flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-t-lg"
+                    >
+                        <i class='bx bx-lock-alt text-base'></i>
+                        <span>@lang('Change Password')</span>
+                    </button>
+
+                    <button
+                        @click="activeTab = 'updatePhoto'"
+                        :class="activeTab === 'updatePhoto'
+                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600'"
+                        class="whitespace-nowrap inline-flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-t-lg"
+                    >
+                        <i class='bx bx-image-add text-base'></i>
+                        <span>@lang('Update Photo')</span>
+                    </button>
+                </nav>
             </div>
         </div>
 

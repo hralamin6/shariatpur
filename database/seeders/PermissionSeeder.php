@@ -259,6 +259,29 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.posts.delete',
         ]);
 
+        // Sponsor Management Module
+        $moduleSponsor = Module::updateOrCreate(['name' => 'Sponsor Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSponsor->id,
+            'name' => 'access sponsor',
+            'slug' => 'app.sponsors.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSponsor->id,
+            'name' => 'create sponsor',
+            'slug' => 'app.sponsors.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSponsor->id,
+            'name' => 'edit sponsor',
+            'slug' => 'app.sponsors.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleSponsor->id,
+            'name' => 'delete sponsor',
+            'slug' => 'app.sponsors.delete',
+        ]);
+
         // Backup Management Module
         $moduleAppBackup = Module::updateOrCreate(['name' => 'Backup Management']);
         Permission::updateOrCreate([
@@ -763,6 +786,98 @@ class PermissionSeeder extends Seeder
             'module_id' => $moduleSell->id,
             'name' => 'delete sell',
             'slug' => 'app.sells.delete',
+        ]);
+
+        // Blog Category Management Module
+        $moduleBlogCategory = Module::updateOrCreate(['name' => 'Blog Category Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlogCategory->id,
+            'name' => 'access blog category',
+            'slug' => 'app.blog_categories.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlogCategory->id,
+            'name' => 'create blog category',
+            'slug' => 'app.blog_categories.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlogCategory->id,
+            'name' => 'edit blog category',
+            'slug' => 'app.blog_categories.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlogCategory->id,
+            'name' => 'delete blog category',
+            'slug' => 'app.blog_categories.delete',
+        ]);
+
+        // Blog Management Module
+        $moduleBlog = Module::updateOrCreate(['name' => 'Blog Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlog->id,
+            'name' => 'access blog',
+            'slug' => 'app.blogs.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlog->id,
+            'name' => 'create blog',
+            'slug' => 'app.blogs.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlog->id,
+            'name' => 'edit blog',
+            'slug' => 'app.blogs.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBlog->id,
+            'name' => 'delete blog',
+            'slug' => 'app.blogs.delete',
+        ]);
+
+        // News Category Management Module
+        $moduleNewsCategory = Module::updateOrCreate(['name' => 'News Category Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNewsCategory->id,
+            'name' => 'access news category',
+            'slug' => 'app.news_categories.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNewsCategory->id,
+            'name' => 'create news category',
+            'slug' => 'app.news_categories.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNewsCategory->id,
+            'name' => 'edit news category',
+            'slug' => 'app.news_categories.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNewsCategory->id,
+            'name' => 'delete news category',
+            'slug' => 'app.news_categories.delete',
+        ]);
+
+        // News Management Module
+        $moduleNews = Module::updateOrCreate(['name' => 'News Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNews->id,
+            'name' => 'access news',
+            'slug' => 'app.news.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNews->id,
+            'name' => 'create news',
+            'slug' => 'app.news.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNews->id,
+            'name' => 'edit news',
+            'slug' => 'app.news.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleNews->id,
+            'name' => 'delete news',
+            'slug' => 'app.news.delete',
         ]);
 
         // Blood Donor Management Module

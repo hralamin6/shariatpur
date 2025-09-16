@@ -1,6 +1,6 @@
 <div>
     <div class="mx-auto">
-        <!-- Search Bar + Upazila Filter -->
+        <x-sponsor wire:ignore  title="diagnostic-center"/>
         <div class="flex gap-4 justify-between mb-4 bg-gray-100 dark:bg-gray-900 z-20 py-4">
             <div class="relative max-w-2xl mx-auto">
                 <i class='bx bx-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl'></i>
@@ -15,19 +15,6 @@
                 </select>
             </div>
         </div>
-
-        <!-- Banner -->
-        <div class="mb-6">
-            <div class="relative rounded-lg overflow-hidden shadow-lg max-w-fit mx-auto">
-                <img src="https://placehold.co/1200x400/14B8A6/FFFFFF?text=Diagnostic+Center" alt="Diagnostic banner" class="w-full h-auto object-cover">
-                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
-                    <span class="block w-2.5 h-2.5 bg-white rounded-full"></span>
-                    <span class="block w-2.5 h-2.5 bg-white/60 rounded-full"></span>
-                    <span class="block w-2.5 h-2.5 bg-white/60 rounded-full"></span>
-                </div>
-            </div>
-        </div>
-
         <!-- Diagnostic List -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             @forelse($diagnostics as $dc)
@@ -96,12 +83,12 @@
 
     <!-- FAB -->
     @auth
-        <button wire:click="openDiagnosticForm" class="fixed bottom-6 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Add Diagnostic Center">
+        <button wire:click="openDiagnosticForm" class="fixed bottom-20 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Add Diagnostic Center">
             <i class='bx bx-plus text-3xl'></i>
         </button>
     @endauth
     @guest
-        <a href="{{ route('login') }}" class="fixed bottom-6 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Login to add diagnostic center">
+        <a href="{{ route('login') }}" class="fixed bottom-20 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Login to add diagnostic center">
             <i class='bx bx-log-in text-3xl'></i>
         </a>
     @endguest

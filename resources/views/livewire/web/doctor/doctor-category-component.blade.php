@@ -1,17 +1,7 @@
 <div class="max-w-7xl mx-auto">
-    <!-- Image Banner/Slider -->
-    <div class="relative rounded-xl overflow-hidden mb-6 shadow-md">
-        <img src="https://placehold.co/1200x400/a0c4ff/ffffff?text=Welcome+to+Faridpur+City"
-             alt="Faridpur City Banner"
-             class="w-full h-auto object-cover"
-             onerror="this.onerror=null;this.src='https://placehold.co/1200x400/cccccc/ffffff?text=Image+Not+Found';">
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-            <span class="block w-3 h-3 bg-white rounded-full"></span>
-            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
-            <span class="block w-3 h-3 bg-white/50 rounded-full"></span>
-        </div>
-    </div>
-        @php
+    <x-sponsor wire:ignore  title="doctor-category"/>
+
+    @php
             $colors = [
                 'text-red-500','text-orange-500','text-amber-500','text-yellow-500',
                 'text-lime-500','text-green-500','text-emerald-500','text-teal-500',

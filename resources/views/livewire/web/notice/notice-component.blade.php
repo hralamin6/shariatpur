@@ -1,31 +1,16 @@
 <div>
     <div class="mx-auto">
+        <x-sponsor wire:ignore  title="notice"/>
+
         <!-- Search + Filter Bar -->
-        <div class="flex flex-wrap gap-4 items-center justify-between mb-4 bg-gray-100 dark:bg-gray-900 z-20 py-4 px-3 rounded-lg">
+        <div class="flex flex-wrap gap-4 items-center justify-between bg-gray-100 dark:bg-gray-900 z-20 py-4 px-3 rounded-lg">
             <div class="relative max-w-2xl grow">
                 <i class='bx bx-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl'></i>
                 <input type="text" wire:model.live.debounce.500ms="search" placeholder="Search notices..." class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
             </div>
-            <div class="flex gap-3">
-                <select wire:model.live="filter_pinned" class="min-w-[140px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg pl-4 pr-8 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
-                    <option value="">Pinned: Any</option>
-                    <option value="1">Pinned</option>
-                    <option value="0">Not pinned</option>
-                </select>
-            </div>
         </div>
 
         <!-- Banner -->
-        <div class="mb-6">
-            <div class="relative rounded-lg overflow-hidden shadow-lg max-w-fit mx-auto">
-                <img src="https://placehold.co/1200x400/6366f1/ffffff?text=Notices" alt="Notices" class="w-full h-auto object-cover">
-                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
-                    <span class="block w-2.5 h-2.5 bg-white rounded-full"></span>
-                    <span class="block w-2.5 h-2.5 bg-white/60 rounded-full"></span>
-                    <span class="block w-2.5 h-2.5 bg-white/60 rounded-full"></span>
-                </div>
-            </div>
-        </div>
 
         <!-- Notices List -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -36,7 +21,7 @@
                     <div class="absolute top-0 left-0 flex items-center gap-2">
                         @if($notice->pinned)
                             <span class="inline-flex items-center gap-1 text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 px-2 py-1 rounded-full">
-                                <i class='bx bxs-pin'></i> Pinned
+                                <i class='bx bxs-pin'></i>
                             </span>
                         @endif
                     </div>
@@ -84,18 +69,7 @@
         <div class="mt-8"></div>
     </div>
 
-    <!-- Floating Action Button -->
-    @auth
-        <button wire:click="openNoticeForm" class="fixed bottom-6 right-6 h-14 w-14 bg-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-600 transition z-30" aria-label="Add Notice">
-            <i class='bx bx-plus text-3xl'></i>
-        </button>
-    @endauth
-    @guest
-        <a href="{{ route('login') }}" class="fixed bottom-6 right-6 h-14 w-14 bg-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-600 transition z-30" aria-label="Login to add notice">
-            <i class='bx bx-log-in text-3xl'></i>
-        </a>
-    @endguest
-
+    <x-plus wireClick="openNoticeForm"/>
     <!-- Notice Form Modal -->
     <x-modal name="notice-form" :show="false" maxWidth="xl" focusable>
         <div class="p-6">
@@ -148,47 +122,6 @@
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-notice')">Cancel</button>
                 <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedNotice">Delete</button>
-            </div>
-        </div>
-    </x-modal>
-
-    <!-- Notice Details Modal -->
-    <x-modal name="notice-details" :show="false" maxWidth="xl" focusable>
-        <div class="relative flex flex-col bg-white dark:bg-gray-900">
-            <div class="p-6 sm:p-8 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700/50">
-                <div class="relative text-center">
-                    <button type="button" class="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 z-10 p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 transition-colors" @click="$dispatch('close-modal', 'notice-details')" aria-label="Close">
-                        <i class='bx bx-x text-2xl'></i>
-                    </button>
-                    <div class="relative h-24 w-24 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg mx-auto mb-4">
-                        @php $photo = $noticeDetails['photo_url'] ?? null; @endphp
-                        @if(!empty($photo))
-                            <img src="{{ $photo }}" alt="Notice photo" class="h-full w-full object-cover" onerror="this.src='{{ asset('images/placeholder.png') }}'" />
-                        @else
-                            <div class="h-full w-full bg-indigo-100 dark:bg-gray-700 flex items-center justify-center">
-                                <i class='bx bx-bell text-4xl text-indigo-600 dark:text-indigo-300'></i>
-                            </div>
-                        @endif
-                    </div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-3">{{ $noticeDetails['title'] ?? '' }}</h2>
-
-                    <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                </div>
-            </div>
-
-            <div class="p-6 sm:p-8 space-y-6 max-h-[60vh] overflow-y-auto">
-                @if(($noticeDetails['content'] ?? null))
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Details</h3>
-                        <div class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
-                            <p>{{ $noticeDetails['content'] }}</p>
-                        </div>
-                    </div>
-                @endif
-
-                @if(($noticeDetails['created_by'] ?? null))
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Added by: {{ $noticeDetails['created_by'] }}</p>
-                @endif
             </div>
         </div>
     </x-modal>

@@ -1,7 +1,6 @@
 <div class="max-w-7xl mx-auto">
-    <div class="relative rounded-xl overflow-hidden mb-6 shadow-md">
-        <img src="https://placehold.co/1200x300/0ea5e9/ffffff?text=Institution+Types" alt="Institution Types" class="w-full h-auto object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1200x300/cccccc/ffffff?text=Image+Not+Found'">
-    </div>
+    <x-sponsor wire:ignore  title="institution-type"/>
+
 
     <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         @forelse($types as $type)
@@ -13,7 +12,6 @@
                         <i class='bx bxs-building-house'></i>
                     </div>
                     <div class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{{ $type->name }}</div>
-                    <span class="mt-1 text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{{ ucfirst($type->status) }}</span>
                 </a>
 
                 @if($canManage)

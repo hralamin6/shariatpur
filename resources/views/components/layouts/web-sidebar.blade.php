@@ -14,7 +14,7 @@
 
     <!-- Sidebar Navigation -->
 <nav class="space-y-1 overflow-y-scroll overflow-x-hidden h-[calc(100vh-80px)] custom-scrollbar pb-8">
-    <a wire:navigate href="{{route('web.home')}}" class="{{Route::is('web.home')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary text-white">
+    <a wire:navigate href="{{route('web.home')}}" class="{{Route::is('web.home')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
         <i class='bx bxs-home mr-2'></i> @lang('Home')
     </a>
     <a wire:navigate href="{{route('web.notices')}}" class="{{Route::is('web.notices')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
@@ -70,6 +70,14 @@
     <!-- New: Sell Categories (Classifieds) -->
     <a wire:navigate href="{{route('web.sell.categories')}}" class="{{Route::is('web.sell.categories')||Route::is('web.sells')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
         <i class='bx bxs-package mr-2'></i> @lang('Sell')
+    </a>
+    <!-- New: Blogs -->
+    <a wire:navigate href="{{route('web.blog.categories')}}" class="{{Route::is('web.blog.categories')||Route::is('web.blogs')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-book mr-2'></i> @lang('Blogs')
+    </a>
+    <!-- New: News -->
+    <a wire:navigate href="{{route('web.news.categories')}}" class="{{Route::is('web.news.categories')||Route::is('web.news')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-news mr-2'></i> @lang('News')
     </a>
     <!-- New: Police -->
     <a wire:navigate href="{{route('web.police')}}" class="{{Route::is('web.police')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
