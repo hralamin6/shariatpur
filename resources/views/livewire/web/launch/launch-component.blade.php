@@ -59,16 +59,19 @@
                         @endif
                     </div>
 
-                    @if(auth()->check() && ($launch->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
-                        <div class="flex items-center gap-1">
+                    <div class="flex items-center gap-1">
+                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600" title="Details" wire:click="showDetails({{ $launch->id }})">
+                            @lang('Details')
+                        </button>
+                        @if(auth()->check() && ($launch->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
                             <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectLaunchForEdit({{ $launch->id }})">
                                 <i class='bx bxs-edit text-lg'></i>
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $launch->id }})">
                                 <i class='bx bxs-trash text-lg'></i>
                             </button>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         @empty
@@ -84,7 +87,7 @@
         </button>
     @endauth
     @guest
-        <a href="{{ route('login') }}" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify_center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Login to add launch">
+        <a href="{{ route('login') }}" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Login to add launch">
             <i class='bx bx-log-in text-3xl'></i>
         </a>
     @endguest
@@ -174,5 +177,76 @@
             </div>
         </div>
     </x-modal>
-</div>
 
+    <!-- Launch Details Modal -->
+    <x-modal name="launch-details" :show="false" maxWidth="xl" focusable>
+        <div class="p-0">
+            <div class="relative bg-primary/10 dark:bg-gray-800 p-6 sm:p-8">
+                <div class="flex items-center gap-5">
+                    <div class="relative h-20 w-28 sm:h-28 sm:w-40 rounded-lg overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg flex-shrink-0">
+                        @php $photo = $launchDetails['photo_url'] ?? null; @endphp
+                        @if(!empty($photo))
+                            <img src="{{ $photo }}" onerror="{{getErrorImage()}}" alt="Launch photo" class="h-full w-full object-cover" />
+                        @else
+                            <div class="h-full w-full bg-primary/20 flex items-center justify-center">
+                                <i class='bx bxs-ship text-4xl text-primary'></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="min-w-0">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ $launchDetails['name'] ?? '' }}</h2>
+                        <p class="text-sm text-primary font-semibold">{{ $launchDetails['route'] ?? '' }}</p>
+                        @if(($launchDetails['created_by'] ?? null))
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@lang('Added by'): {{ $launchDetails['created_by'] }}</p>
+                        @endif
+                        @if(($launchDetails['created_at'] ?? null))
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $launchDetails['created_at'] }}</p>
+                        @endif
+                    </div>
+                    <button type="button" class="absolute top-4 right-4 p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 transition-colors" @click="$dispatch('close-modal', 'launch-details')">
+                        <i class='bx bx-x text-2xl'></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6 bg-white dark:bg-gray-900">
+                @if(($launchDetails['details'] ?? null))
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">@lang('Details')</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $launchDetails['details'] }}</p>
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <i class='bx bxs-phone-call text-primary'></i>
+                            <span class="font-medium">@lang('Phone')</span>
+                        </div>
+                        <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">{{ $launchDetails['phone'] ?? '' }}</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <i class='bx bx-navigation text-primary'></i>
+                            <span class="font-medium">@lang('Maps')</span>
+                        </div>
+                        <div class="mt-2 flex gap-2">
+                            @if(($launchDetails['map_one'] ?? null))
+                                <a href="{{ $launchDetails['map_one'] }}" target="_blank" rel="noopener" class="px-3 py-1 border border-primary text-primary rounded-full text-xs font-semibold hover:bg-primary/10 transition">@lang('Map 1')</a>
+                            @endif
+                            @if(($launchDetails['map_two'] ?? null))
+                                <a href="{{ $launchDetails['map_two'] }}" target="_blank" rel="noopener" class="px-3 py-1 border border-primary text-primary rounded-full text-xs font-semibold hover:bg-primary/10 transition">@lang('Map 2')</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    @if(($launchDetails['phone'] ?? null))
+                        <a href="tel:{{ $launchDetails['phone'] }}" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition">@lang('Call Now')</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </x-modal>
+</div>

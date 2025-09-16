@@ -61,16 +61,19 @@
                         @endif
                     </div>
 
-                    @if(auth()->check() && ($train->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
-                        <div class="flex items-center gap-1">
+                    <div class="flex items-center gap-1">
+                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600" title="Details" wire:click="showDetails({{ $train->id }})">
+                            @lang('Details')
+                        </button>
+                        @if(auth()->check() && ($train->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
                             <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectTrainForEdit({{ $train->id }})">
                                 <i class='bx bxs-edit text-lg'></i>
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $train->id }})">
                                 <i class='bx bxs-trash text-lg'></i>
                             </button>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         @empty
@@ -173,6 +176,78 @@
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-train')">Cancel</button>
                 <button type="button" wire:click="deleteSelectedTrain" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">Delete</button>
+            </div>
+        </div>
+    </x-modal>
+
+    <!-- Train Details Modal -->
+    <x-modal name="train-details" :show="false" maxWidth="xl" focusable>
+        <div class="p-0">
+            <div class="relative bg-primary/10 dark:bg-gray-800 p-6 sm:p-8">
+                <div class="flex items-center gap-5">
+                    <div class="relative h-20 w-28 sm:h-28 sm:w-40 rounded-lg overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg flex-shrink-0">
+                        @php $photo = $trainDetails['photo_url'] ?? null; @endphp
+                        @if(!empty($photo))
+                            <img src="{{ $photo }}" onerror="{{getErrorImage()}}" alt="Train photo" class="h-full w-full object-cover" />
+                        @else
+                            <div class="h-full w-full bg-primary/20 flex items-center justify-center">
+                                <i class='bx bx-train text-4xl text-primary'></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="min-w-0">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ $trainDetails['name'] ?? '' }}</h2>
+                        <p class="text-sm text-primary font-semibold">{{ $trainDetails['route'] ?? '' }}</p>
+                        @if(($trainDetails['created_by'] ?? null))
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">@lang('Added by'): {{ $trainDetails['created_by'] }}</p>
+                        @endif
+                        @if(($trainDetails['created_at'] ?? null))
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $trainDetails['created_at'] }}</p>
+                        @endif
+                    </div>
+                    <button type="button" class="absolute top-4 right-4 p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 transition-colors" @click="$dispatch('close-modal', 'train-details')">
+                        <i class='bx bx-x text-2xl'></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6 bg-white dark:bg-gray-900">
+                @if(($trainDetails['details'] ?? null))
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">@lang('Details')</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $trainDetails['details'] }}</p>
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <i class='bx bxs-phone-call text-primary'></i>
+                            <span class="font-medium">@lang('Phone')</span>
+                        </div>
+                        <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">{{ $trainDetails['phone'] ?? '' }}</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <i class='bx bx-navigation text-primary'></i>
+                            <span class="font-medium">@lang('Maps')</span>
+                        </div>
+                        <div class="mt-2 flex gap-2">
+                            @if(($trainDetails['map_one'] ?? null))
+                                <a href="{{ $trainDetails['map_one'] }}" target="_blank" rel="noopener" class="px-3 py-1 border border-primary text-primary rounded-full text-xs font-semibold hover:bg-primary/10 transition">@lang('Map 1')</a>
+                            @endif
+                            @if(($trainDetails['map_two'] ?? null))
+                                <a href="{{ $trainDetails['map_two'] }}" target="_blank" rel="noopener" class="px-3 py-1 border border-primary text-primary rounded-full text-xs font-semibold hover:bg-primary/10 transition">@lang('Map 2')</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    @if(($trainDetails['phone'] ?? null))
+                        <a href="tel:{{ $trainDetails['phone'] }}" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition">@lang('Call Now')</a>
+                    @endif
+                </div>
             </div>
         </div>
     </x-modal>

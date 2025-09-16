@@ -30,6 +30,10 @@ class LaunchComponent extends Component
     public $photo; // uploaded file
     public string $image_url = '';
 
+    // Details modal state
+    public ?int $detailsId = null;
+    public array $launchDetails = [];
+
     protected function rules(): array
     {
         return [
@@ -58,6 +62,32 @@ class LaunchComponent extends Component
         if ($launch->user_id !== auth()->id() && !$this->isAdmin()) {
             abort(403, 'Unauthorized');
         }
+    }
+
+    public function showDetails(int $id): void
+    {
+        $launch = Launch::with('route', 'user')->findOrFail($id);
+        $this->detailsId = $id;
+
+        $photoUrl = null;
+        if (method_exists($launch, 'getFirstMediaUrl')) {
+            $photoUrl = $launch->getFirstMediaUrl('launch', 'avatar') ?: $launch->getFirstMediaUrl('launch');
+        }
+
+        $this->launchDetails = [
+            'name' => $launch->name,
+            'route' => $launch->route?->name,
+            'phone' => $launch->phone,
+            'details' => $launch->details,
+            'map_one' => $launch->map_one,
+            'map_two' => $launch->map_two,
+            'status' => $launch->status,
+            'photo_url' => $photoUrl,
+            'created_by' => $launch->user?->name,
+            'created_at' => optional($launch->created_at)->format('d M Y'),
+        ];
+
+        $this->dispatch('open-modal', 'launch-details');
     }
 
     public function createLaunch(): void
@@ -185,7 +215,7 @@ class LaunchComponent extends Component
 
     protected function resetForm(): void
     {
-        $this->reset(['selectedId', 'launch_route_id', 'name', 'phone', 'details', 'map_one', 'map_two', 'status', 'photo', 'image_url']);
+        $this->reset(['selectedId', 'launch_route_id', 'name', 'phone', 'details', 'map_one', 'map_two', 'status', 'photo', 'image_url', 'detailsId', 'launchDetails']);
         $this->status = 'active';
         if ($this->filter_route_id) {
             $this->launch_route_id = $this->filter_route_id;

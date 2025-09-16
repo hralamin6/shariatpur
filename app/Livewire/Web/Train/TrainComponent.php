@@ -30,6 +30,10 @@ class TrainComponent extends Component
     public $photo; // uploaded file
     public string $image_url = '';
 
+    // Details modal state
+    public ?int $detailsId = null;
+    public array $trainDetails = [];
+
     protected function rules(): array
     {
         return [
@@ -58,6 +62,32 @@ class TrainComponent extends Component
         if ($train->user_id !== auth()->id() && !$this->isAdmin()) {
             abort(403, 'Unauthorized');
         }
+    }
+
+    public function showDetails(int $id): void
+    {
+        $train = Train::with('route', 'user')->findOrFail($id);
+        $this->detailsId = $id;
+
+        $photoUrl = null;
+        if (method_exists($train, 'getFirstMediaUrl')) {
+            $photoUrl = $train->getFirstMediaUrl('train', 'avatar') ?: $train->getFirstMediaUrl('train');
+        }
+
+        $this->trainDetails = [
+            'name' => $train->name,
+            'route' => $train->route?->name,
+            'phone' => $train->phone,
+            'details' => $train->details,
+            'map_one' => $train->map_one,
+            'map_two' => $train->map_two,
+            'status' => $train->status,
+            'photo_url' => $photoUrl,
+            'created_by' => $train->user?->name,
+            'created_at' => optional($train->created_at)->format('d M Y'),
+        ];
+
+        $this->dispatch('open-modal', 'train-details');
     }
 
     public function createTrain(): void
@@ -180,7 +210,7 @@ class TrainComponent extends Component
 
     protected function resetForm(): void
     {
-        $this->reset(['selectedId', 'train_route_id', 'name', 'phone', 'details', 'map_one', 'map_two', 'status', 'photo', 'image_url']);
+        $this->reset(['selectedId', 'train_route_id', 'name', 'phone', 'details', 'map_one', 'map_two', 'status', 'photo', 'image_url', 'detailsId', 'trainDetails']);
         $this->status = 'active';
         if ($this->filter_route_id) {
             $this->train_route_id = $this->filter_route_id;
