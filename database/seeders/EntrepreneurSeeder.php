@@ -24,8 +24,7 @@ class EntrepreneurSeeder extends Seeder
                 [
                     'user_id' => 1,
                     'upazila_id' => rand(322, 327),
-                    'service' => fake()->randomElement(['IT Support', 'Boutique', 'Consulting', 'Agro Products', 'Trading', 'Design Studio']),
-                    'facebook_page' => 'https://facebook.com/'.str_replace(' ', '', strtolower($name)),
+                    'service' => \Illuminate\Support\Arr::random(['IT Support', 'Boutique', 'Consulting', 'Agro Products', 'Trading', 'Design Studio']),                    'facebook_page' => 'https://facebook.com/'.str_replace(' ', '', strtolower($name)),
                     'phone' => '01'.rand(3, 9).rand(10000000, 99999999),
                     'address' => $name.' এলাকায়, শরীয়তপুর',
                     'details' => 'স্থানীয় উদ্যোক্তা, সেবা প্রদান করে থাকেন।',

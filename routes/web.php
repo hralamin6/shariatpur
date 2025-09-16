@@ -20,6 +20,7 @@ Route::get('/launches/{route_id?}', \App\Livewire\Web\Launch\LaunchComponent::cl
 Route::get('/places', \App\Livewire\Web\Place\PlaceComponent::class)->name('web.places');
 Route::get('/hotels', \App\Livewire\Web\Hotel\HotelComponent::class)->name('web.hotels');
 Route::get('/restaurants', \App\Livewire\Web\Restaurant\RestaurantComponent::class)->name('web.restaurants');
+Route::get('/beauty-parlors', \App\Livewire\Web\BeautyParlor\BeautyParlorComponent::class)->name('web.beauty_parlors');
 Route::get('/hotlines', \App\Livewire\Web\Hotline\HotlineComponent::class)->name('web.hotlines');
 Route::get('/works', \App\Livewire\Web\Work\WorkComponent::class)->name('web.works');
 Route::get('/blood-donors', \App\Livewire\Web\BloodDonor\BloodDonorComponent::class)->name('web.blood_donors');
