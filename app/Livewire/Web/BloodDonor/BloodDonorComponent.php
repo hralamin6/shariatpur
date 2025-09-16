@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Web\BloodDonor;
 
-use App\Models\User;
 use App\Models\Upazila;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -16,28 +16,42 @@ class BloodDonorComponent extends Component
 
     // Donor registration fields
     public ?int $upazila_id = null;
+
     public string $name = '';
+
     public string $phone = '';
+
     public string $email = '';
+
     public string $address = '';
+
     public string $blood_group = '';
+
     public ?string $last_donate_date = null;
+
     public string $donor_details = '';
+
     public string $donor_status = 'available';
+
     public int $total_donations = 0;
 
     // Search and filter
     public string $search = '';
+
     public ?int $filter_upazila_id = null;
+
     public string $filter_blood_group = '';
+
     public string $filter_status = '';
 
     // Photo upload (URL or File)
     public $photo; // uploaded file
+
     public string $image_url = '';
 
     // Details modal
     public ?int $detailsId = null;
+
     public array $donorDetails = [];
 
     // Delete confirmation
@@ -49,7 +63,7 @@ class BloodDonorComponent extends Component
             'upazila_id' => 'required|exists:upazilas,id',
             'name' => 'required|string|max:150',
             'phone' => 'required|string|max:30',
-            'email' => 'required|email|max:150|unique:users,email,' . ($this->selectedId ?? 'NULL') . ',id',
+            'email' => 'required|email|max:150|unique:users,email,'.($this->selectedId ?? 'NULL').',id',
             'address' => 'nullable|string|max:500',
             'blood_group' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
             'last_donate_date' => 'nullable|date|before_or_equal:today',
@@ -64,15 +78,16 @@ class BloodDonorComponent extends Component
     protected function isAdmin(): bool
     {
         $user = auth()->user();
+
         return (bool) ($user && optional($user->role)->slug === 'admin');
     }
 
     protected function authorizeOwnerOrAdmin(User $user): void
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             redirect()->route('login')->send();
         }
-        if ($user->id !== auth()->id() && !$this->isAdmin()) {
+        if ($user->id !== auth()->id() && ! $this->isAdmin()) {
             abort(403, 'Unauthorized');
         }
     }
@@ -86,18 +101,17 @@ class BloodDonorComponent extends Component
     {
         $upazilas = Upazila::whereBetween('id', [322, 327])->orderBy('name')->get();
 
-        $donors = User::bloodDonors()
-            ->with('upazila')
+        $donors = User::with('upazila')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('phone', 'like', '%' . $this->search . '%')
-                      ->orWhere('email', 'like', '%' . $this->search . '%');
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('phone', 'like', '%'.$this->search.'%')
+                        ->orWhere('email', 'like', '%'.$this->search.'%');
                 });
             })
-            ->when($this->filter_upazila_id, fn($q) => $q->where('upazila_id', $this->filter_upazila_id))
-            ->when($this->filter_blood_group, fn($q) => $q->where('blood_group', $this->filter_blood_group))
-            ->when($this->filter_status, fn($q) => $q->where('donor_status', $this->filter_status))
+            ->when($this->filter_upazila_id, fn ($q) => $q->where('upazila_id', $this->filter_upazila_id))
+            ->when($this->filter_blood_group, fn ($q) => $q->where('blood_group', $this->filter_blood_group))
+            ->when($this->filter_status, fn ($q) => $q->where('donor_status', $this->filter_status))
             ->latest()
             ->paginate(12);
 
@@ -152,7 +166,7 @@ class BloodDonorComponent extends Component
             $message = 'Blood donor updated successfully.';
         } else {
             // If normal user is registering, use their account
-            if (auth()->check() && !$this->isAdmin()) {
+            if (auth()->check() && ! $this->isAdmin()) {
                 $donor = auth()->user();
                 $this->authorizeOwnerOrAdmin($donor);
                 $donor->update($donorData);
@@ -166,20 +180,20 @@ class BloodDonorComponent extends Component
         }
 
         // Handle media upload (URL first, then file)
-        if (!empty($this->image_url) && function_exists('checkImageUrl') && checkImageUrl($this->image_url)) {
+        if (! empty($this->image_url) && function_exists('checkImageUrl') && checkImageUrl($this->image_url)) {
             $extension = pathinfo(parse_url($this->image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
             $media = $donor->addMediaFromUrl($this->image_url)
-                ->usingFileName($donor->id . '.' . $extension)
+                ->usingFileName($donor->id.'.'.$extension)
                 ->toMediaCollection('profile');
-            $path = storage_path('app/public/User/' . $media->id . '/' . $media->file_name);
+            $path = storage_path('app/public/User/'.$media->id.'/'.$media->file_name);
             if (file_exists($path)) {
                 unlink($path);
             }
         } elseif ($this->photo) {
             $media = $donor->addMedia($this->photo->getRealPath())
-                ->usingFileName(($donor->name ?: 'donor') . '.' . $this->photo->extension())
+                ->usingFileName(($donor->name ?: 'donor').'.'.$this->photo->extension())
                 ->toMediaCollection('profile');
-            $path = storage_path('app/public/User/' . $media->id . '/' . $media->file_name);
+            $path = storage_path('app/public/User/'.$media->id.'/'.$media->file_name);
             if (file_exists($path)) {
                 unlink($path);
             }
@@ -200,7 +214,7 @@ class BloodDonorComponent extends Component
 
     public function deleteDonor(): void
     {
-        if (!$this->deleteId) {
+        if (! $this->deleteId) {
             return;
         }
         $donor = User::findOrFail($this->deleteId);
@@ -247,7 +261,7 @@ class BloodDonorComponent extends Component
 
     public function resetForm(): void
     {
-        $this->reset(['selectedId','upazila_id','name','phone','email','address','blood_group','last_donate_date','donor_details','donor_status','total_donations','photo','image_url']);
+        $this->reset(['selectedId', 'upazila_id', 'name', 'phone', 'email', 'address', 'blood_group', 'last_donate_date', 'donor_details', 'donor_status', 'total_donations', 'photo', 'image_url']);
         $this->donor_status = 'available';
         $this->total_donations = 0;
         $this->resetValidation();
@@ -257,7 +271,7 @@ class BloodDonorComponent extends Component
     {
         $this->resetForm();
         // Prefill for authenticated non-admin users to update their own account
-        if (auth()->check() && !$this->isAdmin()) {
+        if (auth()->check() && ! $this->isAdmin()) {
             $user = auth()->user();
             $this->selectedId = $user->id;
             $this->name = $user->name ?? '';

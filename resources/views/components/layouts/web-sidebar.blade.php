@@ -47,6 +47,22 @@
     <a wire:navigate href="{{route('web.hotels')}}" class="{{Route::is('web.hotels')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
         <i class='bx bx-building-house mr-2'></i> @lang('Hotels')
     </a>
+    <!-- New: Restaurants -->
+    <a wire:navigate href="{{route('web.restaurants')}}" class="{{Route::is('web.restaurants')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-restaurant mr-2'></i> @lang('Restaurants')
+    </a>
+    <!-- New: Hotlines -->
+    <a wire:navigate href="{{route('web.hotlines')}}" class="{{Route::is('web.hotlines')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-phone-call mr-2'></i> @lang('Hotlines')
+    </a>
+    <!-- New: Works -->
+    <a wire:navigate href="{{route('web.works')}}" class="{{Route::is('web.works')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bxs-briefcase-alt-2 mr-2'></i> @lang('Works')
+    </a>
+    <!-- New: Servicemen -->
+    <a wire:navigate href="{{route('web.serviceman.types')}}" class="{{Route::is('web.serviceman.types')||Route::is('web.servicemen')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
+        <i class='bx bx-wrench mr-2'></i> @lang('Servicemen')
+    </a>
     <a wire:navigate href="{{route('web.blood_donors')}}" class="{{Route::is('web.blood_donors')?' bg-primary ':''}}flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-primary hover:text-white">
         <i class='bx bxs-heart mr-2'></i> @lang('Blood Donors')
     </a>

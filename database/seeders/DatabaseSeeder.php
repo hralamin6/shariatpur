@@ -49,10 +49,15 @@ class DatabaseSeeder extends Seeder
         $this->call(LaunchSeeder::class);
         $this->call(PlaceSeeder::class);
         $this->call(HotelSeeder::class);
+        $this->call(RestaurantSeeder::class);
+        $this->call(EntrepreneurSeeder::class);
+        $this->call(WorkSeeder::class);
         $this->call(FireServiceSeeder::class);
         $this->call(ElectricityOfficeSeeder::class);
         $this->call(HouseTypeSeeder::class);
         $this->call(HouseSeeder::class);
+        $this->call(ServicemanTypeSeeder::class);
+        $this->call(ServicemanSeeder::class);
         $this->call(CarTypeSeeder::class);
         $this->call(CarSeeder::class);
         $this->call(SellCategorySeeder::class);
@@ -64,6 +69,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InstitutionSeeder::class);
         $this->call(NoticeSeeder::class);
         $this->call(BloodDonorSeeder::class);
+        $this->call(HotlineSeeder::class);
 
         $this->call(BlogCategorySeeder::class);
         $this->call(BlogCategorySeeder::class);

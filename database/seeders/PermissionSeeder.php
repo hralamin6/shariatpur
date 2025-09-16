@@ -581,6 +581,121 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.hotels.delete',
         ]);
 
+        // Restaurant Management Module
+        $moduleRestaurant = Module::updateOrCreate(['name' => 'Restaurant Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleRestaurant->id,
+            'name' => 'access restaurant',
+            'slug' => 'app.restaurants.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleRestaurant->id,
+            'name' => 'create restaurant',
+            'slug' => 'app.restaurants.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleRestaurant->id,
+            'name' => 'edit restaurant',
+            'slug' => 'app.restaurants.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleRestaurant->id,
+            'name' => 'delete restaurant',
+            'slug' => 'app.restaurants.delete',
+        ]);
+
+        // Hotline Management Module
+        $moduleHotline = Module::updateOrCreate(['name' => 'Hotline Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotline->id,
+            'name' => 'access hotline',
+            'slug' => 'app.hotlines.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotline->id,
+            'name' => 'create hotline',
+            'slug' => 'app.hotlines.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotline->id,
+            'name' => 'edit hotline',
+            'slug' => 'app.hotlines.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleHotline->id,
+            'name' => 'delete hotline',
+            'slug' => 'app.hotlines.delete',
+        ]);
+
+        // Entrepreneur Management Module
+        $moduleEntrepreneur = Module::updateOrCreate(['name' => 'Entrepreneur Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleEntrepreneur->id,
+            'name' => 'access entrepreneur',
+            'slug' => 'app.entrepreneurs.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleEntrepreneur->id,
+            'name' => 'create entrepreneur',
+            'slug' => 'app.entrepreneurs.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleEntrepreneur->id,
+            'name' => 'edit entrepreneur',
+            'slug' => 'app.entrepreneurs.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleEntrepreneur->id,
+            'name' => 'delete entrepreneur',
+            'slug' => 'app.entrepreneurs.delete',
+        ]);
+
+        // Serviceman Type Management Module
+        $moduleServicemanType = Module::updateOrCreate(['name' => 'Serviceman Type Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServicemanType->id,
+            'name' => 'access serviceman types',
+            'slug' => 'app.serviceman_types.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServicemanType->id,
+            'name' => 'create serviceman type',
+            'slug' => 'app.serviceman_types.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServicemanType->id,
+            'name' => 'edit serviceman type',
+            'slug' => 'app.serviceman_types.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServicemanType->id,
+            'name' => 'delete serviceman type',
+            'slug' => 'app.serviceman_types.delete',
+        ]);
+
+        // Serviceman Management Module
+        $moduleServiceman = Module::updateOrCreate(['name' => 'Serviceman Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServiceman->id,
+            'name' => 'access serviceman',
+            'slug' => 'app.servicemen.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServiceman->id,
+            'name' => 'create serviceman',
+            'slug' => 'app.servicemen.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServiceman->id,
+            'name' => 'edit serviceman',
+            'slug' => 'app.servicemen.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleServiceman->id,
+            'name' => 'delete serviceman',
+            'slug' => 'app.servicemen.delete',
+        ]);
+
         // Fire Service Management Module
         $moduleFire = Module::updateOrCreate(['name' => 'Fire Service Management']);
         Permission::updateOrCreate([
@@ -948,7 +1063,6 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.institution_types.delete',
         ]);
 
-
         // Institution Management Module
         $moduleInstitution = Module::updateOrCreate(['name' => 'Institution Management']);
         Permission::updateOrCreate([
@@ -970,6 +1084,29 @@ class PermissionSeeder extends Seeder
             'module_id' => $moduleInstitution->id,
             'name' => 'delete institution',
             'slug' => 'app.institutions.delete',
+        ]);
+
+        // Work Management Module
+        $moduleWork = Module::updateOrCreate(['name' => 'Work Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleWork->id,
+            'name' => 'access work',
+            'slug' => 'app.works.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleWork->id,
+            'name' => 'create work',
+            'slug' => 'app.works.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleWork->id,
+            'name' => 'edit work',
+            'slug' => 'app.works.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleWork->id,
+            'name' => 'delete work',
+            'slug' => 'app.works.delete',
         ]);
     }
 }

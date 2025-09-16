@@ -129,6 +129,34 @@ items: @js(collect($headlines ?? [])->map(fn ($h) => ['title' => $h['title'], 'u
             </div>
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Hotels')</span>
         </a>
+        <!-- New: Restaurants -->
+        <a wire:navigate href="{{route('web.restaurants')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-orange-500">
+                <i class="bx bx-restaurant"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Restaurants')</span>
+        </a>
+        <!-- New: Hotlines -->
+        <a wire:navigate href="{{route('web.hotlines')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-rose-500">
+                <i class="bx bxs-phone-call"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Hotlines')</span>
+        </a>
+        <!-- New: Works -->
+        <a wire:navigate href="{{route('web.works')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-emerald-500">
+                <i class="bx bxs-briefcase-alt-2"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Works')</span>
+        </a>
+        <!-- New: Entrepreneurs -->
+        <a wire:navigate href="{{route('web.entrepreneurs')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-sky-500">
+                <i class="bx bx-user-pin"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Entrepreneurs')</span>
+        </a>
         <a wire:navigate href="{{route('web.fire_services')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div class="text-4xl mb-2 text-red-500">
                 <i class="bx bxs-hot"></i>
@@ -146,6 +174,13 @@ items: @js(collect($headlines ?? [])->map(fn ($h) => ['title' => $h['title'], 'u
                 <i class="bx bxs-home-heart"></i>
             </div>
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Houses')</span>
+        </a>
+        <!-- New: Servicemen -->
+        <a wire:navigate href="{{route('web.serviceman.types')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+            <div class="text-4xl mb-2 text-sky-500">
+                <i class="bx bx-wrench"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Servicemen')</span>
         </a>
         <a wire:navigate href="{{route('web.car.types')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div class="text-4xl mb-2 text-amber-500">

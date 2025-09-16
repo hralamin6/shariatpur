@@ -19,6 +19,9 @@ Route::get('/launches/{route_id?}', \App\Livewire\Web\Launch\LaunchComponent::cl
 // Places & Hotels
 Route::get('/places', \App\Livewire\Web\Place\PlaceComponent::class)->name('web.places');
 Route::get('/hotels', \App\Livewire\Web\Hotel\HotelComponent::class)->name('web.hotels');
+Route::get('/restaurants', \App\Livewire\Web\Restaurant\RestaurantComponent::class)->name('web.restaurants');
+Route::get('/hotlines', \App\Livewire\Web\Hotline\HotlineComponent::class)->name('web.hotlines');
+Route::get('/works', \App\Livewire\Web\Work\WorkComponent::class)->name('web.works');
 Route::get('/blood-donors', \App\Livewire\Web\BloodDonor\BloodDonorComponent::class)->name('web.blood_donors');
 Route::get('/polices', \App\Livewire\Web\Police\PoliceComponent::class)->name('web.police');
 Route::get('/institution-types', \App\Livewire\Web\Institution\InstitutionTypeComponent::class)->name('web.institution.types');
@@ -42,6 +45,10 @@ Route::get('/houses/{type_id?}', \App\Livewire\Web\House\HouseComponent::class)-
 Route::get('/car-types', \App\Livewire\Web\Car\CarTypeComponent::class)->name('web.car.types');
 Route::get('/cars/{type_id?}', \App\Livewire\Web\Car\CarComponent::class)->name('web.cars');
 
+// Servicemen (like House)
+Route::get('/serviceman-types', \App\Livewire\Web\Serviceman\ServicemanTypeComponent::class)->name('web.serviceman.types');
+Route::get('/servicemen/{type_id?}', \App\Livewire\Web\Serviceman\ServicemanComponent::class)->name('web.servicemen');
+
 // Sell (classifieds)
 Route::get('/sell-categories', \App\Livewire\Web\Sell\SellCategoryComponent::class)->name('web.sell.categories');
 Route::get('/sells/{cat_id?}', \App\Livewire\Web\Sell\SellComponent::class)->name('web.sells');
@@ -50,6 +57,9 @@ Route::get('/sells/{cat_id?}', \App\Livewire\Web\Sell\SellComponent::class)->nam
 Route::get('/blog-categories', \App\Livewire\Web\Blog\BlogCategoryComponent::class)->name('web.blog.categories');
 Route::get('/blogs/{cat_id?}', \App\Livewire\Web\Blog\BlogComponent::class)->name('web.blogs');
 Route::get('/blog/{slug}', \App\Livewire\Web\Blog\BlogDetailsComponent::class)->name('web.blog.details');
+
+// Entrepreneurs (like Hotels)
+Route::get('/entrepreneurs', \App\Livewire\Web\Entrepreneur\EntrepreneurComponent::class)->name('web.entrepreneurs');
 
 // News
 Route::get('/news-categories', \App\Livewire\Web\News\NewsCategoryComponent::class)->name('web.news.categories');
