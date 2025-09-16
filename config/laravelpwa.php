@@ -60,18 +60,14 @@ return [
         'shortcuts' => [
             [
                 'name' => 'Profile',
-                'description' => 'Shortcut Link 1 Description',
+                'description' => 'View profile page',
                 'url' => '/profile',
                 'icons' => [
-                    "src" => "/images/icons/icon-72x72.png",
+                    "src" => "/images/icons/icon.png",
                     "purpose" => "any"
                 ]
             ],
-            [
-                'name' => 'Shortcut Link 2',
-                'description' => 'Shortcut Link 2 Description',
-                'url' => '/shortcutlink2'
-            ]
+
         ],
         'custom' => []
     ]

@@ -56,35 +56,47 @@
 
     <div class="relative max-w-fit mx-auto">
         <div class="swiper mySwiper">
+            {{--
+                Redesigned Swiper slide with a "news site" style caption.
+                - Title is moved to the bottom for better readability and aesthetics.
+                - A gradient overlay ensures text is always legible.
+                - Uses dark classes as per user preference.
+            --}}
             <div class="swiper-wrapper">
                 @foreach ($slides as $slide)
                     <div class="swiper-slide">
                         @php $caption = $slide['title'] ?? $slide['alt'] ?? 'News'; @endphp
+
+                        {{-- The link now wraps the entire card for a larger click area --}}
                         @if(!empty($slide['slug']))
-                            <a wire:navigate href="{{ route('web.news.details', $slide['slug']) }}" aria-label="{{ $caption }}" class="block">
+                            <a wire:navigate href="{{ route('web.news.details', $slide['slug']) }}" aria-label="{{ $caption }}" class="block group">
                                 <div class="relative rounded-lg overflow-hidden shadow-lg">
-                                    <img src="{{ $slide['src'] }}" alt="{{ $caption }}" class="w-full lg:h-96 md:h-72 h-40 object-cover">
-                                    <div class="absolute inset-0 flex items-center justify-center p-3 sm:p-4 md:p-5">
-                                        <div class="bg-black/50 dark:bg-black/60 px-3 sm:px-4 py-2 sm:py-3 rounded-md shadow-lg backdrop-blur-sm">
-                                            <h3 class="text-white font-semibold text-center drop-shadow-md text-sm sm:text-base md:text-lg leading-snug line-clamp-3">{{ $caption }}</h3>
-                                        </div>
+                                    <img src="{{ $slide['src'] }}" alt="{{ $caption }}" class="w-full lg:h-96 md:h-72 h-40 object-cover transition-transform duration-300 group-hover:scale-105">
+
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent"></div>
+
+                                    <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6">
+                                        <h3 class="text-white font-bold md:text-lg lg:text-2xl leading-tight drop-shadow-lg line-clamp-3">
+                                            {{ $caption }}
+                                        </h3>
                                     </div>
                                 </div>
                             </a>
                         @else
+                            {{-- Non-clickable version --}}
                             <div class="relative rounded-lg overflow-hidden shadow-lg">
                                 <img src="{{ $slide['src'] }}" alt="{{ $caption }}" class="w-full lg:h-96 md:h-72 h-40 object-cover">
-                                <div class="absolute inset-0 flex items-center justify-center p-3 sm:p-4 md:p-5">
-                                    <div class="bg-black/50 dark:bg-black/60 px-3 sm:px-4 py-2 sm:py-3 rounded-md shadow-lg backdrop-blur-sm">
-                                        <h3 class="text-white font-semibold text-center drop-shadow-md text-sm sm:text-base md:text-lg leading-snug line-clamp-3">{{ $caption }}</h3>
-                                    </div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6">
+                                    <h3 class="text-white font-bold md:text-lg lg:text-2xl leading-tight drop-shadow-lg line-clamp-3">
+                                        {{ $caption }}
+                                    </h3>
                                 </div>
                             </div>
                         @endif
                     </div>
                 @endforeach
             </div>
-
             <!-- Pagination -->
             <div class="swiper-pagination"></div>
 

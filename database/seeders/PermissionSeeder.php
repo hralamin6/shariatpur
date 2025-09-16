@@ -604,6 +604,52 @@ class PermissionSeeder extends Seeder
             'slug' => 'app.restaurants.delete',
         ]);
 
+        // Tutor Management Module
+        $moduleTutor = Module::updateOrCreate(['name' => 'Tutor Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTutor->id,
+            'name' => 'access tutor',
+            'slug' => 'app.tutors.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTutor->id,
+            'name' => 'create tutor',
+            'slug' => 'app.tutors.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTutor->id,
+            'name' => 'edit tutor',
+            'slug' => 'app.tutors.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleTutor->id,
+            'name' => 'delete tutor',
+            'slug' => 'app.tutors.delete',
+        ]);
+
+        // Beauty Parlor Management Module
+        $moduleBeautyParlor = Module::updateOrCreate(['name' => 'Beauty Parlor Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBeautyParlor->id,
+            'name' => 'access beauty parlor',
+            'slug' => 'app.beauty_parlors.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBeautyParlor->id,
+            'name' => 'create beauty parlor',
+            'slug' => 'app.beauty_parlors.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBeautyParlor->id,
+            'name' => 'edit beauty parlor',
+            'slug' => 'app.beauty_parlors.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleBeautyParlor->id,
+            'name' => 'delete beauty parlor',
+            'slug' => 'app.beauty_parlors.delete',
+        ]);
+
         // Hotline Management Module
         $moduleHotline = Module::updateOrCreate(['name' => 'Hotline Management']);
         Permission::updateOrCreate([
@@ -1040,6 +1086,53 @@ class PermissionSeeder extends Seeder
             'name' => 'delete police',
             'slug' => 'app.police.delete',
         ]);
+
+        // Lawyer Management Module
+        $moduleLawyer = Module::updateOrCreate(['name' => 'Lawyer Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLawyer->id,
+            'name' => 'access lawyer',
+            'slug' => 'app.lawyers.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLawyer->id,
+            'name' => 'create lawyer',
+            'slug' => 'app.lawyers.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLawyer->id,
+            'name' => 'edit lawyer',
+            'slug' => 'app.lawyers.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLawyer->id,
+            'name' => 'delete lawyer',
+            'slug' => 'app.lawyers.delete',
+        ]);
+
+        // Lost & Found Management Module
+        $moduleLostFound = Module::updateOrCreate(['name' => 'Lost & Found Management']);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLostFound->id,
+            'name' => 'access lost & found',
+            'slug' => 'app.lost_founds.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLostFound->id,
+            'name' => 'create lost & found',
+            'slug' => 'app.lost_founds.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLostFound->id,
+            'name' => 'edit lost & found',
+            'slug' => 'app.lost_founds.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $moduleLostFound->id,
+            'name' => 'delete lost & found',
+            'slug' => 'app.lost_founds.delete',
+        ]);
+
         // Institution Type Management Module
         $moduleInstitutionType = Module::updateOrCreate(['name' => 'Institution Type Management']);
         Permission::updateOrCreate([

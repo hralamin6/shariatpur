@@ -21,10 +21,15 @@ Route::get('/places', \App\Livewire\Web\Place\PlaceComponent::class)->name('web.
 Route::get('/hotels', \App\Livewire\Web\Hotel\HotelComponent::class)->name('web.hotels');
 Route::get('/restaurants', \App\Livewire\Web\Restaurant\RestaurantComponent::class)->name('web.restaurants');
 Route::get('/beauty-parlors', \App\Livewire\Web\BeautyParlor\BeautyParlorComponent::class)->name('web.beauty_parlors');
+Route::get('/tutors', \App\Livewire\Web\Tutor\TutorComponent::class)->name('web.tutors');
 Route::get('/hotlines', \App\Livewire\Web\Hotline\HotlineComponent::class)->name('web.hotlines');
+// Lost & Found
+Route::get('/lost-found', \App\Livewire\Web\LostFound\LostFoundComponent::class)->name('web.lost_found');
+Route::get('/lands', \App\Livewire\Web\Land\LandComponent::class)->name('web.lands');
 Route::get('/works', \App\Livewire\Web\Work\WorkComponent::class)->name('web.works');
 Route::get('/blood-donors', \App\Livewire\Web\BloodDonor\BloodDonorComponent::class)->name('web.blood_donors');
 Route::get('/polices', \App\Livewire\Web\Police\PoliceComponent::class)->name('web.police');
+Route::get('/lawyers', \App\Livewire\Web\Lawyer\LawyerComponent::class)->name('web.lawyers');
 Route::get('/institution-types', \App\Livewire\Web\Institution\InstitutionTypeComponent::class)->name('web.institution.types');
 Route::get('/institutions/{type_id?}', \App\Livewire\Web\Institution\InstitutionComponent::class)->name('web.institutions');
 Route::get('/notices', \App\Livewire\Web\Notice\NoticeComponent::class)->name('web.notices');

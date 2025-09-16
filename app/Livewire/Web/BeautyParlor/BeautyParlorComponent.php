@@ -227,8 +227,7 @@ class BeautyParlorComponent extends Component
         $parlors = $query->latest()->get();
         $upazilas = Upazila::whereBetween('id', [322,327])->orderBy('name')->get();
 
-        return view('livewire.web.beauty-parlor.beauty-parlor-component', compact('parlors', 'upazilas'))
+        return view('livewire.web.beauty_parlor.beauty-parlor-component', compact('parlors', 'upazilas'))
             ->layout('components.layouts.web');
     }
 }
-

@@ -14,7 +14,8 @@
             <!-- Main Content -->
             <div class="flex-1 flex flex-col h-full overflow-hidden">
                 <!-- Header -->
-            @include('components.layouts.navbar')
+{{--            @include('components.layouts.navbar')--}}
+                <livewire:web.navbar-component/>
                 <!-- Main Content Area -->
                 <main class="p-4 sm:p-6 lg:p-8 flex-1 min-h-0 overflow-y-auto overflow-x-auto pb-20">
                     @yield('content')
@@ -34,7 +35,7 @@
                         <i class="text-2xl bx bxs-home"></i>
                         <span class="text-xs font-medium">@lang('Home')</span>
                     </a>
-                    <a href="{{route('web.news.categories')}}" class="{{Route::is('web.news.categories')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                    <a href="{{route('web.news')}}" class="{{Route::is('web.news')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                         <i class="text-2xl bx bxs-news"></i>
                         <span class="text-xs font-medium">@lang('News')</span>
                     </a>
@@ -42,9 +43,9 @@
                     <i class="text-2xl bx bx-bell"></i>
                     <span class="text-xs font-medium">@lang('Notice')</span>
                 </a>
-                <a href="{{route('web.profile')}}" class="{{Route::is('web.profile')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
-                        <i class="text-2xl bx bxs-user"></i>
-                        <span class="text-xs font-medium">@lang('Profile')</span>
+                <a href="{{route('web.blogs')}}" class="{{Route::is('web.blogs')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                        <i class="text-2xl bx bx-book"></i>
+                        <span class="text-xs font-medium">@lang('Blogs')</span>
                     </a>
             </div>
         </footer>
