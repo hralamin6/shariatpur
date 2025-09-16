@@ -31,19 +31,19 @@
         <!-- Bottom Navigation (Mobile Only) -->
         <footer class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-[0_-2px_5px_rgba(0,0,0,0.05)] lg:hidden">
             <div class="flex justify-around items-center h-16">
-                    <a href="{{route('web.home')}}" class="{{Route::is('web.home')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                    <a wire:navigate href="{{route('web.home')}}" class="{{Route::is('web.home')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                         <i class="text-2xl bx bxs-home"></i>
                         <span class="text-xs font-medium">@lang('Home')</span>
                     </a>
-                    <a href="{{route('web.news')}}" class="{{Route::is('web.news')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                    <a wire:navigate href="{{route('web.news')}}" class="{{Route::is('web.news')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                         <i class="text-2xl bx bxs-news"></i>
                         <span class="text-xs font-medium">@lang('News')</span>
                     </a>
-                <a href="{{route('web.notices')}}" class="{{Route::is('web.notices')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                <a wire:navigate href="{{route('web.notices')}}" class="{{Route::is('web.notices')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                     <i class="text-2xl bx bx-bell"></i>
                     <span class="text-xs font-medium">@lang('Notice')</span>
                 </a>
-                <a href="{{route('web.blogs')}}" class="{{Route::is('web.blogs')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
+                <a wire:navigate href="{{route('web.blogs')}}" class="{{Route::is('web.blogs')?' text-primary ':' text-gray-500 dark:text-gray-400 hover:text-primary '}} flex flex-col items-center justify-center w-full transition-colors duration-200">
                         <i class="text-2xl bx bx-book"></i>
                         <span class="text-xs font-medium">@lang('Blogs')</span>
                     </a>

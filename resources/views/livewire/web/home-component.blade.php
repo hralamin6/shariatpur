@@ -103,19 +103,19 @@ items: @js(collect($headlines ?? [])->map(fn ($h) => ['title' => $h['title'], 'u
             <div class="text-4xl mb-2 text-green-500">
                 <i class="bx bx-bus"></i>
             </div>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Buses Schedule')</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Bus Schedule')</span>
         </a>
         <a wire:navigate href="{{route('web.train.routes')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div class="text-4xl mb-2 text-indigo-500">
                 <i class="bx bx-train"></i>
             </div>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Trains Schedule')</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Train Schedule')</span>
         </a>
         <a wire:navigate href="{{route('web.launch.routes')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div class="text-4xl mb-2 text-cyan-500">
                 <i class="bx bxs-ship"></i>
             </div>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Launches Schedule')</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">@lang('Launch Schedule')</span>
         </a>
         <a wire:navigate href="{{route('web.places')}}" class="flex flex-col items-center justify-center text-center p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div class="text-4xl mb-2 text-emerald-500">

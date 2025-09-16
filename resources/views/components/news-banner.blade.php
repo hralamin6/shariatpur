@@ -64,18 +64,18 @@
             --}}
             <div class="swiper-wrapper">
                 @foreach ($slides as $slide)
-                    <div class="swiper-slide">
+                    <div class="swiper-slide pointer-events-auto">
                         @php $caption = $slide['title'] ?? $slide['alt'] ?? 'News'; @endphp
 
-                        {{-- The link now wraps the entire card for a larger click area --}}
+                        {{-- Clickable link, allow drag on slide --}}
                         @if(!empty($slide['slug']))
-                            <a wire:navigate href="{{ route('web.news.details', $slide['slug']) }}" aria-label="{{ $caption }}" class="block group">
+                            <a wire:navigate href="{{ route('web.news.details', $slide['slug']) }}" aria-label="{{ $caption }}" class="block group pointer-events-auto cursor-pointer select-none">
                                 <div class="relative rounded-lg overflow-hidden shadow-lg">
                                     <img src="{{ $slide['src'] }}" alt="{{ $caption }}" class="w-full lg:h-96 md:h-72 h-40 object-cover transition-transform duration-300 group-hover:scale-105">
 
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent pointer-events-none"></div>
 
-                                    <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6">
+                                    <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 pointer-events-none">
                                         <h3 class="text-white font-bold md:text-lg lg:text-2xl leading-tight drop-shadow-lg line-clamp-3">
                                             {{ $caption }}
                                         </h3>
@@ -86,8 +86,8 @@
                             {{-- Non-clickable version --}}
                             <div class="relative rounded-lg overflow-hidden shadow-lg">
                                 <img src="{{ $slide['src'] }}" alt="{{ $caption }}" class="w-full lg:h-96 md:h-72 h-40 object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent"></div>
-                                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent pointer-events-none"></div>
+                                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 pointer-events-none">
                                     <h3 class="text-white font-bold md:text-lg lg:text-2xl leading-tight drop-shadow-lg line-clamp-3">
                                         {{ $caption }}
                                     </h3>
@@ -134,6 +134,12 @@
                 slidesPerView: 1,
                 spaceBetween: 20,
                 grabCursor: true,
+                preventClicks: false,
+                preventClicksPropagation: false,
+                // Fine-tune drag vs click sensitivity
+                threshold: 5,
+                touchStartPreventDefault: false,
+                touchMoveStopPropagation: true,
             });
         }
 
