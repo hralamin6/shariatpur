@@ -16,7 +16,9 @@ state([
     'name' => '',
     'email' => '',
     'password' => '',
-    'password_confirmation' => ''
+    'password_confirmation' => '',
+    'role_id' => \App\Models\Role::where('slug', 'user')->first()->id,
+
 ]);
 
 rules([
@@ -34,7 +36,7 @@ $register = function () {
 
     Auth::login($user);
 
-    $this->redirect(route('app.dashboard', absolute: false), navigate: true);
+    $this->redirect(route('web.home', absolute: false), navigate: true);
 };
 
 ?>
