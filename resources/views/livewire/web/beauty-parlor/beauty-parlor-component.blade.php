@@ -26,9 +26,13 @@
                         @if($canManage)
                             <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow" title="Edit" wire:click="selectParlorForEdit({{ $parlor->id }})">
                                 <i class='bx bxs-edit text-base'></i>
+                                <x-loader target="selectParlorForEdit({{ $parlor->id }})" />
+
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow" title="Delete" wire:click="confirmDelete({{ $parlor->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <x-loader target="confirmDelete({{ $parlor->id }})" />
+
                             </button>
                         @endif
                     </div>
@@ -60,7 +64,9 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ $parlor->address }}</p>
                                 @endif
                                 @if($parlor->details)
-                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $parlor->details }}</p>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1 truncate max-w-full sm:max-w-[200px] md:max-w-[300px] lg:max-w-[400px]">
+                                            {{ Str::limit(strip_tags($parlor->details), 100) }}
+                                    </div>
                                 @endif
                             </div>
                             <div class="mt-4 flex items-center gap-3">
@@ -76,6 +82,7 @@
                                 @endif
                                 <button type="button" class="w-full text-center px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition" wire:click="showDetails({{ $parlor->id }})">
                                     @lang('Details')
+                                    <x-loader target="showDetails({{ $parlor->id }})" />
                                 </button>
                             </div>
                         </div>
@@ -93,6 +100,7 @@
     @auth
         <button wire:click="openParlorForm" class="fixed bottom-20 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Add Beauty Parlor">
             <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openParlorForm" />
         </button>
     @endauth
     @guest
@@ -148,9 +156,11 @@
                     <textarea wire:model.defer="address" rows="3" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-teal-500 focus:ring-teal-500" placeholder="Street, area, etc."></textarea>
                     @error('address')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="md:col-span-2" wire:ignore>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Details</label>
-                    <textarea wire:model.defer="details" rows="3" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-teal-500 focus:ring-teal-500" placeholder="Short description..."></textarea>
+                    <trix-editor class="formatted-content  border border-gray-500" x-data x-on:trix-change="$dispatch('input', event.target.value)"
+                                 wire:model.debounce.1000ms="details" wire:key="uniqueKey2"></trix-editor>
+{{--                    <textarea wire:model.defer="details" rows="3" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-teal-500 focus:ring-teal-500" placeholder="Short description..."></textarea>--}}
                     @error('details')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div class="md:col-span-2">
@@ -170,6 +180,7 @@
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'parlor-form')">Cancel</button>
                     <button type="submit" class="px-4 py-2 rounded-md bg-teal-500 text-white hover:bg-teal-600 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <x-loader target="{{ $selectedId ? 'updateParlor' : 'createParlor' }}" />
                 </div>
             </form>
         </div>
@@ -182,7 +193,8 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this beauty parlor?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-parlor')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedParlor">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedParlor">Delete
+                    <x-loader target="deleteSelectedParlor" /></button>
             </div>
         </div>
     </x-modal>
@@ -222,7 +234,9 @@
                 @if(($parlorDetails['details'] ?? null))
                     <div>
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">@lang('Details')</h4>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $parlorDetails['details'] }}</p>
+                        <div class="prose prose-sm dark:prose-invert max-w-none">
+                            {!! $parlorDetails['details'] !!}
+                        </div>
                     </div>
                 @endif
 
