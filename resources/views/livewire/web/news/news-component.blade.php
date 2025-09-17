@@ -45,8 +45,7 @@
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg font-bold text-gray-900 dark:text-white truncate">{{ $item->title }}</h3>
                             <p class="text-xs text-primary font-semibold truncate">{{ $item->category?->name }}</p>
-                            @php $summary = str($item->content)->limit(100); @endphp
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">{{ $summary }}</p>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 truncate">{{ Str::limit(strip_tags($item->content), 100) }}</p>
                         </div>
                     </div>
                 </a>
@@ -131,9 +130,10 @@
                     <input type="text" wire:model.defer="title" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="News title">
                     @error('title')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="md:col-span-2" wire:ignore>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Content</label>
-                    <textarea rows="6" wire:model.defer="content" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="Write content..."></textarea>
+                    <trix-editor class="formatted-content  border border-gray-500" x-data x-on:trix-change="$dispatch('input', event.target.value)"
+                                 wire:model.debounce.1000ms="content" wire:key="uniqueKey2"></trix-editor>
                     @error('content')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div>

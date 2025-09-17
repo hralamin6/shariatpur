@@ -177,7 +177,8 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this courier service?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-courier-service')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCourierService">Delete
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCourierService">
+                    Delete
                     <x-loader target="deleteSelectedCourierService" />
                 </button>
             </div>

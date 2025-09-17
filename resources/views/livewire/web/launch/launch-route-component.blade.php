@@ -20,12 +20,14 @@
                             <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 shadow-sm" title="Edit"
                                     wire:click.stop="selectRouteForEdit({{ $route->id }})" @click.stop>
                                 <i class='bx bxs-edit text-base'></i>
+                                <x-loader target="selectRouteForEdit({{ $route->id }})" />
                             </button>
                         @endcan
                         @can('app.launch_routes.delete')
                             <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 shadow-sm" title="Delete"
                                     wire:click="confirmDelete({{ $route->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <x-loader target="confirmDelete({{ $route->id }})" />
                             </button>
                         @endcan
                     </div>
@@ -45,6 +47,7 @@
                     @click="$dispatch('open-modal', 'create-launch-route')" wire:click="resetForm"
                     aria-label="Add Launch Route">
                 <i class="bx bx-plus text-3xl bx-tada"></i>
+                <x-loader target="resetForm" />
             </button>
         </div>
     @endauth
@@ -73,7 +76,10 @@
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'create-launch-route')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Save</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        Save
+                        <x-loader target="createRoute" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -98,7 +104,10 @@
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'edit-launch-route')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Update</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        Update
+                        <x-loader target="updateRoute" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -110,7 +119,10 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this route?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-launch-route')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedRoute">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedRoute">
+                    Delete
+                    <x-loader target="deleteSelectedRoute" />
+                </button>
             </div>
         </div>
     </x-modal>

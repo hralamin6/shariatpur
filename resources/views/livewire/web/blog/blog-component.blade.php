@@ -1,5 +1,5 @@
 <div class="max-w-7xl mx-auto">
-    <x-sponsor wire:ignore  title="blog"/>
+    <x-sponsor wire:ignore title="blog"/>
 
     <!-- Top Bar: Search + Filters -->
     <div class="mx-auto mb-6 px-4 sm:px-6 lg:px-8">
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Blog Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         @forelse($blogs as $blog)
             <div wire:key="blog-{{ $blog->id }}" class="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:border-primary">
                 <a wire:navigate href="{{ route('web.blog.details', $blog->slug) }}" class="p-5 flex-grow block">
@@ -52,8 +52,7 @@
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg font-bold text-gray-900 dark:text-white truncate">{{ $blog->title }}</h3>
                             <p class="text-xs text-primary font-semibold truncate">{{ $blog->blogCategory?->name }}</p>
-                            @php $summary = str($blog->content)->limit(100); @endphp
-                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">{{ $summary }}</p>
+                            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 truncate">{{ Str::limit(strip_tags($blog->content), 100) }}</p>
                         </div>
                     </div>
                 </a>
@@ -65,11 +64,13 @@
 
                     @if(auth()->check() && ($blog->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
                         <div class="flex items-center gap-1">
-                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectBlogForEdit({{ $blog->id }})">
+                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors flex items-center gap-1" title="Edit" wire:click="selectBlogForEdit({{ $blog->id }})">
                                 <i class='bx bxs-edit text-lg'></i>
+                                <x-loader target="selectBlogForEdit" />
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $blog->id }})">
+                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $blog->id }})">
                                 <i class='bx bxs-trash text-lg'></i>
+                                <x-loader target="confirmDelete" />
                             </button>
                         </div>
                     @endif
@@ -85,6 +86,7 @@
     @auth
         <button wire:click="openBlogForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add Blog">
             <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openBlogForm" />
         </button>
     @endauth
     @guest
@@ -140,9 +142,10 @@
                     <input type="text" wire:model.defer="title" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="Blog title">
                     @error('title')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="md:col-span-2" wire:ignore>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Content</label>
-                    <textarea rows="6" wire:model.defer="content" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="Write your blog content..."></textarea>
+                    <trix-editor class="formatted-content  border border-gray-500" x-data x-on:trix-change="$dispatch('input', event.target.value)"
+                                 wire:model.debounce.1000ms="content" wire:key="uniqueKey2"></trix-editor>
                     @error('content')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div class="md:col-span-2">
@@ -156,7 +159,10 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'blog-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow flex items-center gap-2">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateBlog' : 'createBlog' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -169,7 +175,10 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this blog?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-blog')">Cancel</button>
-                <button type="button" wire:click="deleteSelectedBlog" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">Delete</button>
+                <button type="button" wire:click="deleteSelectedBlog" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow flex items-center gap-2">
+                    Delete
+                    <x-loader target="deleteSelectedBlog" />
+                </button>
             </div>
         </div>
     </x-modal>
@@ -210,4 +219,3 @@
         </div>
     </x-modal>
 </div>
-

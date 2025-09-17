@@ -40,9 +40,11 @@
                         @if($canManage)
                             <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow" title="Edit" wire:click="selectDonorForEdit({{ $donor->id }})">
                                 <i class='bx bxs-edit text-base'></i>
+                                <x-loader target="selectDonorForEdit({{ $donor->id }})" />
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow" title="Deactivate" wire:click="confirmDelete({{ $donor->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <x-loader target="confirmDelete({{ $donor->id }})" />
                             </button>
                         @endif
                     </div>
@@ -123,6 +125,7 @@
                         @endif
                         <button type="button" class="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition" wire:click="showDetails({{ $donor->id }})">
                             Details
+                            <x-loader target="showDetails({{ $donor->id }})" />
                         </button>
                     </div>
                 </div>
@@ -239,15 +242,19 @@
                     @error('donor_status')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
 
-                <div class="md:col-span-2">
+                <div class="md:col-span-2" wire:ignore>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Additional Details</label>
-                    <textarea wire:model.defer="donor_details" rows="3" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-red-500 focus:ring-red-500" placeholder="Short description..."></textarea>
+                    <trix-editor class="formatted-content  border border-gray-500" x-data x-on:trix-change="$dispatch('input', event.target.value)"
+                                 wire:model.debounce.1000ms="donor_details" wire:key="uniqueKey2"></trix-editor>
                     @error('donor_details')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'donor-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateDonor' : 'saveDonor' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -260,7 +267,10 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to deactivate this blood donor profile? This action will remove them from the active donors list.</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-donor')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteDonor">Deactivate</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteDonor">
+                    Deactivate
+                    <x-loader target="deleteDonor" />
+                </button>
             </div>
         </div>
     </x-modal>
@@ -309,7 +319,9 @@
                 @if(($donorDetails['donor_details'] ?? null))
                     <div>
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">@lang('Details')</h4>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $donorDetails['donor_details'] }}</p>
+                        <div class="prose dark:prose-invert max-w-none">
+                            {!! $donorDetails['donor_details'] !!}
+                        </div>
                     </div>
                 @endif
 

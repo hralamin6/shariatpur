@@ -42,7 +42,7 @@
                             <h3 class="text-lg font-bold text-gray-900 dark:text-white truncate">{{ $bus->name }}</h3>
                             <p class="text-xs text-primary font-semibold truncate">{{ $bus->route?->name }}</p>
                             @if($bus->details)
-                                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ $bus->details }}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ Str::limit(strip_tags($bus->details), 100) }}</p>
                             @endif
                         </div>
                     </div>
@@ -62,24 +62,18 @@
                     </div>
 
                     <div class="flex items-center gap-1">
-                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center gap-2" title="Details" wire:click="showDetails({{ $bus->id }})" wire:loading.attr="disabled" wire:target="showDetails({{ $bus->id }})">
-                            <span wire:loading.remove wire:target="showDetails({{ $bus->id }})">@lang('Details')</span>
-                            <span class="inline-flex items-center" wire:loading.delay wire:target="showDetails({{ $bus->id }})">
-                                <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                            </span>
+                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center gap-2" title="Details" wire:click="showDetails({{ $bus->id }})">
+                            @lang('Details')
+                            <x-loader target="showDetails({{ $bus->id }})" />
                         </button>
                         @if(auth()->check() && ($bus->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
-                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors inline-flex items-center gap-1" title="Edit" wire:click="selectBusForEdit({{ $bus->id }})" wire:loading.attr="disabled" wire:target="selectBusForEdit({{ $bus->id }})">
-                                <i class='bx bxs-edit text-lg' wire:loading.remove wire:target="selectBusForEdit({{ $bus->id }})"></i>
-                                <span class="inline-flex items-center" wire:loading.delay wire:target="selectBusForEdit({{ $bus->id }})">
-                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                                </span>
+                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors inline-flex items-center gap-1" title="Edit" wire:click="selectBusForEdit({{ $bus->id }})">
+                                <i class='bx bxs-edit text-lg'></i>
+                                <x-loader target="selectBusForEdit({{ $bus->id }})" />
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $bus->id }})" wire:loading.attr="disabled" wire:target="confirmDelete({{ $bus->id }})">
-                                <i class='bx bxs-trash text-lg' wire:loading.remove wire:target="confirmDelete({{ $bus->id }})"></i>
-                                <span class="inline-flex items-center" wire:loading.delay wire:target="confirmDelete({{ $bus->id }})">
-                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                                </span>
+                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $bus->id }})">
+                                <i class='bx bxs-trash text-lg'></i>
+                                <x-loader target="confirmDelete({{ $bus->id }})" />
                             </button>
                         @endif
                     </div>
@@ -93,7 +87,7 @@
     </div>
 
     @auth
-        <button wire:click="openBusForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30 relative" aria-label="Add Bus" wire:loading.attr="disabled" wire:target="openBusForm">
+        <button wire:click="openBusForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add Bus" wire:loading.attr="disabled" wire:target="openBusForm">
             <i class='bx bx-plus text-3xl' wire:loading.remove wire:target="openBusForm"></i>
             <span class="absolute inset-0 flex items-center justify-center" wire:loading.delay wire:target="openBusForm">
                 <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
@@ -122,9 +116,10 @@
                     <input type="text" wire:model.defer="phone" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="e.g., 0123456789">
                     @error('phone')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="md:col-span-2" wire:ignore>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Details</label>
-                    <textarea rows="3" wire:model.defer="details" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="Bus schedule, stops, etc."></textarea>
+                    <trix-editor class="formatted-content  border border-gray-500" x-data x-on:trix-change="$dispatch('input', event.target.value)"
+                                 wire:model.debounce.1000ms="details" wire:key="uniqueKey2"></trix-editor>
                     @error('details')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div>
@@ -162,12 +157,9 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'bus-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="createBus,updateBus">
-                        <span wire:loading.remove wire:target="createBus,updateBus">{{ $selectedId ? 'Update' : 'Save' }}</span>
-                        <span class="inline-flex items-center" wire:loading.delay wire:target="createBus,updateBus">
-                            <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                            <span class="sr-only">Saving</span>
-                        </span>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateBus' : 'createBus' }}" />
                     </button>
                 </div>
             </form>
@@ -181,12 +173,9 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this bus?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-bus')">Cancel</button>
-                <button type="button" wire:click="deleteSelectedBus" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="deleteSelectedBus">
-                    <span wire:loading.remove wire:target="deleteSelectedBus">Delete</span>
-                    <span class="inline-flex items-center" wire:loading.delay wire:target="deleteSelectedBus">
-                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                        <span class="sr-only">Deleting</span>
-                    </span>
+                <button type="button" wire:click="deleteSelectedBus" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">
+                    Delete
+                    <x-loader target="deleteSelectedBus" />
                 </button>
             </div>
         </div>
@@ -227,7 +216,9 @@
                 @if(($busDetails['details'] ?? null))
                     <div>
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">@lang('Details')</h4>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $busDetails['details'] }}</p>
+                        <div class="prose dark:prose-invert max-w-none">
+                            {!! $busDetails['details'] !!}
+                        </div>
                     </div>
                 @endif
 

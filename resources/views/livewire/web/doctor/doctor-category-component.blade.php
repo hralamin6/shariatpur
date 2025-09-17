@@ -38,7 +38,7 @@
                             <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 shadow-sm" title="Delete"
                                     wire:click="confirmDelete({{ $category->id }})">
                                 <i class='bx bxs-trash text-base'></i>
-                        <x-loader target="confirmDelete({{ $category->id }})" />
+                                <x-loader target="confirmDelete({{ $category->id }})" />
                             </button>
                         @endcan
                     </div>
@@ -112,7 +112,8 @@
 
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'create-doctor-category')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Save
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        Save
                         <x-loader target="createCategory" />
                     </button>
                 </div>
@@ -151,7 +152,8 @@
 
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'edit-doctor-category')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Update
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        Update
                         <x-loader target="updateCategory" />
                     </button>
                 </div>
@@ -166,7 +168,8 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this category?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-doctor-category')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCategory">Delete
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCategory">
+                    Delete
                     <x-loader target="deleteSelectedCategory" />
                 </button>
             </div>

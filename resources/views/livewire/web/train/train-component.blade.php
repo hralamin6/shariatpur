@@ -42,7 +42,7 @@
                             <h3 class="text-lg font-bold text-gray-900 dark:text-white truncate">{{ $train->name }}</h3>
                             <p class="text-xs text-primary font-semibold truncate">{{ $train->route?->name }}</p>
                             @if($train->details)
-                                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ $train->details }}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{{ Str::limit(strip_tags($train->details), 100) }}</p>
                             @endif
                         </div>
                     </div>
@@ -62,24 +62,18 @@
                     </div>
 
                     <div class="flex items-center gap-1">
-                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center gap-2" title="Details" wire:click="showDetails({{ $train->id }})" wire:loading.attr="disabled" wire:target="showDetails({{ $train->id }})">
-                            <span wire:loading.remove wire:target="showDetails({{ $train->id }})">@lang('Details')</span>
-                            <span class="inline-flex items-center" wire:loading.delay wire:target="showDetails({{ $train->id }})">
-                                <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                            </span>
+                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center gap-2" title="Details" wire:click="showDetails({{ $train->id }})">
+                            @lang('Details')
+                            <x-loader target="showDetails({{ $train->id }})" />
                         </button>
                         @if(auth()->check() && ($train->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
-                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors inline-flex items-center gap-1" title="Edit" wire:click="selectTrainForEdit({{ $train->id }})" wire:loading.attr="disabled" wire:target="selectTrainForEdit({{ $train->id }})">
-                                <i class='bx bxs-edit text-lg' wire:loading.remove wire:target="selectTrainForEdit({{ $train->id }})"></i>
-                                <span class="inline-flex items-center" wire:loading.delay wire:target="selectTrainForEdit({{ $train->id }})">
-                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                                </span>
+                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors inline-flex items-center gap-1" title="Edit" wire:click="selectTrainForEdit({{ $train->id }})">
+                                <i class='bx bxs-edit text-lg'></i>
+                                <x-loader target="selectTrainForEdit({{ $train->id }})" />
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $train->id }})" wire:loading.attr="disabled" wire:target="confirmDelete({{ $train->id }})">
-                                <i class='bx bxs-trash text-lg' wire:loading.remove wire:target="confirmDelete({{ $train->id }})"></i>
-                                <span class="inline-flex items-center" wire:loading.delay wire:target="confirmDelete({{ $train->id }})">
-                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                                </span>
+                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $train->id }})">
+                                <i class='bx bxs-trash text-lg'></i>
+                                <x-loader target="confirmDelete({{ $train->id }})" />
                             </button>
                         @endif
                     </div>
@@ -93,11 +87,9 @@
     </div>
 
     @auth
-        <button wire:click="openTrainForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30 relative" aria-label="Add Train" wire:loading.attr="disabled" wire:target="openTrainForm">
-            <i class='bx bx-plus text-3xl' wire:loading.remove wire:target="openTrainForm"></i>
-            <span class="absolute inset-0 flex items-center justify-center" wire:loading.delay wire:target="openTrainForm">
-                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-            </span>
+        <button wire:click="openTrainForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add Train">
+            <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openTrainForm" />
         </button>
     @endauth
     @guest
@@ -132,9 +124,10 @@
                     <input type="text" wire:model.defer="phone" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="e.g., 0123456789">
                     @error('phone')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
-                <div class="md:col-span-2">
+                <div class="md:col-span-2" wire:ignore>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Details</label>
-                    <textarea rows="3" wire:model.defer="details" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="Train schedule, stops, etc."></textarea>
+                    <trix-editor class="formatted-content  border border-gray-500" x-data x-on:trix-change="$dispatch('input', event.target.value)"
+                                 wire:model.debounce.1000ms="details" wire:key="uniqueKey2"></trix-editor>
                     @error('details')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div>
@@ -174,12 +167,9 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'train-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="createTrain,updateTrain">
-                        <span wire:loading.remove wire:target="createTrain,updateTrain">{{ $selectedId ? 'Update' : 'Save' }}</span>
-                        <span class="inline-flex items-center" wire:loading.delay wire:target="createTrain,updateTrain">
-                            <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                            <span class="sr-only">Saving</span>
-                        </span>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow inline-flex items-center gap-2">
+                        <span>{{ $selectedId ? 'Update' : 'Save' }}</span>
+                        <x-loader target="{{ $selectedId ? 'updateTrain' : 'createTrain' }}" />
                     </button>
                 </div>
             </form>
@@ -193,12 +183,9 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this train?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-train')">Cancel</button>
-                <button type="button" wire:click="deleteSelectedTrain" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="deleteSelectedTrain">
-                    <span wire:loading.remove wire:target="deleteSelectedTrain">Delete</span>
-                    <span class="inline-flex items-center" wire:loading.delay wire:target="deleteSelectedTrain">
-                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
-                        <span class="sr-only">Deleting</span>
-                    </span>
+                <button type="button" wire:click="deleteSelectedTrain" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">
+                    Delete
+                    <x-loader target="deleteSelectedTrain" />
                 </button>
             </div>
         </div>
@@ -239,7 +226,9 @@
                 @if(($trainDetails['details'] ?? null))
                     <div>
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">@lang('Details')</h4>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ $trainDetails['details'] }}</p>
+                        <div class="prose dark:prose-invert max-w-none">
+                            {!! $trainDetails['details'] !!}
+                        </div>
                     </div>
                 @endif
 

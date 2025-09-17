@@ -18,11 +18,13 @@
                         @can('app.car_types.edit')
                             <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 shadow-sm" title="Edit" wire:click.stop="selectTypeForEdit({{ $type->id }})" @click.stop>
                                 <i class='bx bxs-edit text-base'></i>
+                                <x-loader target="selectTypeForEdit({{ $type->id }})" />
                             </button>
                         @endcan
                         @can('app.car_types.delete')
                             <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 shadow-sm" title="Delete" wire:click="confirmDelete({{ $type->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <x-loader target="confirmDelete({{ $type->id }})" />
                             </button>
                         @endcan
                     </div>
@@ -68,7 +70,10 @@
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'create-car-type')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Save</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        Save
+                        <x-loader target="createType" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -94,7 +99,10 @@
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'edit-car-type')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Update</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        Update
+                        <x-loader target="updateType" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -107,9 +115,11 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this type?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-car-type')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedType">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedType">
+                    Delete
+                    <x-loader target="deleteSelectedType" />
+                </button>
             </div>
         </div>
     </x-modal>
 </div>
-

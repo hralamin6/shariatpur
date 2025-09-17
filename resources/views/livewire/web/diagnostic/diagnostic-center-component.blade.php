@@ -24,9 +24,11 @@
                         @if($canManage)
                             <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow" title="Edit" wire:click="selectDiagnosticForEdit({{ $dc->id }})">
                                 <i class='bx bxs-edit text-base'></i>
+                                <x-loader target="selectDiagnosticForEdit({{ $dc->id }})" />
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow" title="Delete" wire:click="confirmDelete({{ $dc->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <x-loader target="confirmDelete({{ $dc->id }})" />
                             </button>
                         @endif
                     </div>
@@ -85,6 +87,7 @@
     @auth
         <button wire:click="openDiagnosticForm" class="fixed bottom-20 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Add Diagnostic Center">
             <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openDiagnosticForm" />
         </button>
     @endauth
     @guest
@@ -156,7 +159,10 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'diagnostic-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-teal-500 text-white hover:bg-teal-600 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-teal-500 text-white hover:bg-teal-600 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateDiagnostic' : 'createDiagnostic' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -169,7 +175,10 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this diagnostic center?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-diagnostic')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedDiagnostic">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedDiagnostic">
+                    Delete
+                    <x-loader target="deleteSelectedDiagnostic" />
+                </button>
             </div>
         </div>
     </x-modal>

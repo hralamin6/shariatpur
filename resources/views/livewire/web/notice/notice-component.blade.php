@@ -43,9 +43,11 @@
                             <div class="flex items-center gap-2">
                                 <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 shadow-sm" title="Edit" wire:click="selectNoticeForEdit({{ $notice->id }})">
                                     <i class='bx bxs-edit text-base'></i>
+                                    <x-loader target="selectNoticeForEdit({{ $notice->id }})" />
                                 </button>
                                 <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 shadow-sm" title="Delete" wire:click="confirmDelete({{ $notice->id }})">
                                     <i class='bx bxs-trash text-base'></i>
+                                    <x-loader target="confirmDelete({{ $notice->id }})" />
                                 </button>
                             </div>
                         @endif
@@ -108,7 +110,10 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'notice-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-indigo-500 text-white hover:bg-indigo-600 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-indigo-500 text-white hover:bg-indigo-600 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateNotice' : 'createNotice' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -121,9 +126,11 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this notice?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-notice')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedNotice">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedNotice">
+                    Delete
+                    <x-loader target="deleteSelectedNotice" />
+                </button>
             </div>
         </div>
     </x-modal>
 </div>
-

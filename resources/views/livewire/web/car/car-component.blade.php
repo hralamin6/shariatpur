@@ -76,16 +76,21 @@
                         @if($car->phone)
                             <a class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 text-xs font-bold hover:bg-amber-200 dark:hover:bg-amber-800" href="tel:{{ $car->phone }}">Call</a>
                         @endif
-                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600" wire:click="showDetails({{ $car->id }})">@lang('Details')</button>
+                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600" wire:click="showDetails({{ $car->id }})">
+                            @lang('Details')
+                            <x-loader target="showDetails({{ $car->id }})" />
+                        </button>
                     </div>
 
                     @if(auth()->check() && ($car->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
                         <div class="flex items-center gap-1">
-                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectCarForEdit({{ $car->id }})">
+                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900" title="Edit" wire:click="selectCarForEdit({{ $car->id }})">
                                 <i class='bx bxs-edit text-lg'></i>
+                                <x-loader target="selectCarForEdit({{ $car->id }})" />
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $car->id }})">
+                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900" title="Delete" wire:click="confirmDelete({{ $car->id }})">
                                 <i class='bx bxs-trash text-lg'></i>
+                                <x-loader target="confirmDelete({{ $car->id }})" />
                             </button>
                         </div>
                     @endif
@@ -101,6 +106,7 @@
     @auth
         <button wire:click="openCarForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add Car">
             <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openCarForm" />
         </button>
     @endauth
     @guest
@@ -212,7 +218,10 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'car-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateCar' : 'createCar' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -225,7 +234,10 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this car?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-car')">Cancel</button>
-                <button type="button" wire:click="deleteSelectedCar" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">Delete</button>
+                <button type="button" wire:click="deleteSelectedCar" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">
+                    Delete
+                    <x-loader target="deleteSelectedCar" />
+                </button>
             </div>
         </div>
     </x-modal>

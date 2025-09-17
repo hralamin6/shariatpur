@@ -42,6 +42,7 @@
         <div x-data class="fixed bottom-20 right-6 z-40">
             <button type="button" class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 transition" @click="$dispatch('open-modal', 'create-news-category')" wire:click="resetForm" aria-label="Add News Category">
                 <i class="bx bx-plus text-3xl bx-tada"></i>
+                <x-loader target="resetForm" />
             </button>
         </div>
     @endauth
@@ -70,7 +71,9 @@
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'create-news-category')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Save<x-loader target="createCategory" /></button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Save
+                        <x-loader target="createCategory" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -95,7 +98,9 @@
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'edit-news-category')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Update<x-loader target="updateCategory" /></button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">Update
+                        <x-loader target="updateCategory" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -107,7 +112,9 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this category?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-news-category')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCategory">Delete<x-loader target="deleteSelectedCategory" /></button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCategory">Delete
+                    <x-loader target="deleteSelectedCategory" />
+                </button>
             </div>
         </div>
     </x-modal>
