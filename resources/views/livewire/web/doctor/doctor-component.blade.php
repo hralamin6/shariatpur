@@ -68,13 +68,16 @@
                             @if(auth()->check() && ($doctor->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
                                 <button type="button" class="px-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectDoctorForEdit({{ $doctor->id }})">
                                     <i class='bx bxs-edit text-lg'></i>
+                                    <x-loader target="selectDoctorForEdit({{ $doctor->id }})" />
                                 </button>
                                 <button type="button" class="px-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $doctor->id }})">
                                     <i class='bx bxs-trash text-lg'></i>
+                                    <x-loader target="confirmDelete({{ $doctor->id }})" />
                                 </button>
                             @endif
                             <button type="button" class="px-3 py-1 mx-auto rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors text-sm" title="Details" wire:click="showDetails({{ $doctor->id }})">
                                 @lang('Show Details')
+                                <x-loader target="showDetails({{ $doctor->id }})" />
                             </button>
                     </div>
                 </div>

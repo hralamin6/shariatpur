@@ -56,9 +56,11 @@
                         <div class="flex items-center gap-1">
                             <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectNewsForEdit({{ $item->id }})">
                                 <i class='bx bxs-edit text-lg'></i>
+                                <x-loader target="selectNewsForEdit({{ $item->id }})" />
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $item->id }})">
                                 <i class='bx bxs-trash text-lg'></i>
+                                <x-loader target="confirmDelete({{ $item->id }})" />
                             </button>
                         </div>
                     @endif
@@ -74,6 +76,7 @@
     @auth
         <button wire:click="openNewsForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add News">
             <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openNewsForm" />
         </button>
     @endauth
     @guest
@@ -147,7 +150,10 @@
                 </div>
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'news-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateNews' : 'createNews' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -159,9 +165,11 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this news?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-news')">Cancel</button>
-                <button type="button" wire:click="deleteSelectedNews" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">Delete</button>
+                <button type="button" wire:click="deleteSelectedNews" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">
+                    Delete
+                    <x-loader target="deleteSelectedNews" />
+                </button>
             </div>
         </div>
     </x-modal>
 </div>
-

@@ -40,7 +40,7 @@ class SocialiteController extends Controller
         }
         $user->update($data);
             Auth::login($user, remember: true);
-        return redirect()->intended(route('app.dashboard', absolute: false));
+        return redirect()->intended(route('web.home', absolute: false));
     }
 
     protected function validateProvider(Request $request): array

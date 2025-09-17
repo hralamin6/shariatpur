@@ -26,9 +26,11 @@
                         @if($canManage)
                             <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow" title="Edit" wire:click="selectCourierServiceForEdit({{ $cs->id }})">
                                 <i class='bx bxs-edit text-base'></i>
+                                <x-loader target="selectCourierServiceForEdit({{ $cs->id }})" />
                             </button>
                             <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow" title="Delete" wire:click="confirmDelete({{ $cs->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <x-loader target="confirmDelete({{ $cs->id }})" />
                             </button>
                         @endif
                     </div>
@@ -87,6 +89,7 @@
     @auth
         <button wire:click="openCourierServiceForm" class="fixed bottom-20 right-6 h-14 w-14 bg-amber-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-amber-600 transition z-30" aria-label="Add Courier Service">
             <i class='bx bx-plus text-3xl'></i>
+            <x-loader target="openCourierServiceForm" />
         </button>
     @endauth
     @guest
@@ -158,7 +161,10 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'courier-service-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-amber-500 text-white hover:bg-amber-600 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-amber-500 text-white hover:bg-amber-600 shadow">
+                        {{ $selectedId ? 'Update' : 'Save' }}
+                        <x-loader target="{{ $selectedId ? 'updateCourierService' : 'createCourierService' }}" />
+                    </button>
                 </div>
             </form>
         </div>
@@ -171,9 +177,10 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this courier service?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-courier-service')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCourierService">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedCourierService">Delete
+                    <x-loader target="deleteSelectedCourierService" />
+                </button>
             </div>
         </div>
     </x-modal>
 </div>
-

@@ -7,7 +7,10 @@
     <center>
 
     </center>
-    <article class="mx-auto trix-content prose dark:prose-invert prose-h2:text-green-600 prose-h3:text-purple-500 prose-p:text-gray-700 dark:prose-p:text-gray-200 prose-a:text-blue-600 hover:prose-a:text-blue-400 prose-blockquote:bg-gray-100 dark:prose-blockquote:bg-gray-800 prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-img:rounded-lg prose-img:shadow-lg prose-ul:list-disc prose-ul:pl-5 prose-ol:list-decimal prose-ol:pl-5 prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-strong:text-red-600">
-        {!! $page->content !!}    </article>
+{{--    <article class="mx-auto trix-content prose dark:prose-invert prose-h2:text-green-600 prose-h3:text-purple-500 prose-p:text-gray-700 dark:prose-p:text-gray-200 prose-a:text-blue-600 hover:prose-a:text-blue-400 prose-blockquote:bg-gray-100 dark:prose-blockquote:bg-gray-800 prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-img:rounded-lg prose-img:shadow-lg prose-ul:list-disc prose-ul:pl-5 prose-ol:list-decimal prose-ol:pl-5 prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-strong:text-red-600">--}}
+{{--        {!! $page->content !!}    </article>--}}
+    <div class="prose prose-sm md:prose lg:prose-lg dark:prose-invert max-w-none">
+        {!! $page->content !!}
+    </div>
     <a href="{{route('app.pages')}}" wire:navigate class="m-8">adsf</a>
 </div>
