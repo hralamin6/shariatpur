@@ -26,11 +26,17 @@
                     @php $canManage = auth()->check() && ($fs->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'); @endphp
                     <div class="absolute top-2 right-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition">
                         @if($canManage)
-                            <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow" title="Edit" wire:click="selectFireServiceForEdit({{ $fs->id }})">
-                                <i class='bx bxs-edit text-base'></i>
+                            <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow inline-flex items-center gap-1" title="Edit" wire:click="selectFireServiceForEdit({{ $fs->id }})" wire:loading.attr="disabled" wire:target="selectFireServiceForEdit({{ $fs->id }})">
+                                <i class='bx bxs-edit text-base' wire:loading.remove wire:target="selectFireServiceForEdit({{ $fs->id }})"></i>
+                                <span class="inline-flex items-center" wire:loading.delay wire:target="selectFireServiceForEdit({{ $fs->id }})">
+                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                </span>
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow" title="Delete" wire:click="confirmDelete({{ $fs->id }})">
-                                <i class='bx bxs-trash text-base'></i>
+                            <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $fs->id }})" wire:loading.attr="disabled" wire:target="confirmDelete({{ $fs->id }})">
+                                <i class='bx bxs-trash text-base' wire:loading.remove wire:target="confirmDelete({{ $fs->id }})"></i>
+                                <span class="inline-flex items-center" wire:loading.delay wire:target="confirmDelete({{ $fs->id }})">
+                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                </span>
                             </button>
                         @endif
                     </div>
@@ -87,8 +93,11 @@
 
     <!-- Floating Action Button -->
     @auth
-        <button wire:click="openFireServiceForm" class="fixed bottom-20 right-6 h-14 w-14 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition z-30" aria-label="Add Fire Service">
-            <i class='bx bx-plus text-3xl'></i>
+        <button wire:click="openFireServiceForm" class="fixed bottom-20 right-6 h-14 w-14 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition z-30 relative" aria-label="Add Fire Service" wire:loading.attr="disabled" wire:target="openFireServiceForm">
+            <i class='bx bx-plus text-3xl' wire:loading.remove wire:target="openFireServiceForm"></i>
+            <span class="absolute inset-0 flex items-center justify-center" wire:loading.delay wire:target="openFireServiceForm">
+                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+            </span>
         </button>
     @endauth
     @guest
@@ -136,7 +145,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
-                    <input type="text" wire:model.defer="phone" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-red-500 focus:ring-red-500" placeholder="e.g., 0123456789">
+                    <input type="text" wire:model.defer="phone" class="mt-1 w-full rounded_md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-red-500 focus:ring-red-500" placeholder="e.g., 0123456789">
                     @error('phone')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div class="md:col-span-2">
@@ -147,7 +156,7 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Google Map URL</label>
                     <input type="url" wire:model.defer="map" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-red-500 focus:ring-red-500" placeholder="https://maps.google.com/...">
-                    @error('map')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                    @error('map')<p class="mt-1 text_sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
@@ -160,7 +169,13 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'fire-service-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="createFireService,updateFireService">
+                        <span wire:loading.remove wire:target="createFireService,updateFireService">{{ $selectedId ? 'Update' : 'Save' }}</span>
+                        <span class="inline-flex items-center" wire:loading.delay wire:target="createFireService,updateFireService">
+                            <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                            <span class="sr-only">Saving</span>
+                        </span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -173,7 +188,13 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this fire service?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-fire-service')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedFireService">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-2" wire:click="deleteSelectedFireService" wire:loading.attr="disabled" wire:target="deleteSelectedFireService">
+                    <span wire:loading.remove wire:target="deleteSelectedFireService">Delete</span>
+                    <span class="inline-flex items-center" wire:loading.delay wire:target="deleteSelectedFireService">
+                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                        <span class="sr-only">Deleting</span>
+                    </span>
+                </button>
             </div>
         </div>
     </x-modal>

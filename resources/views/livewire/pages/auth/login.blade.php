@@ -66,14 +66,14 @@ $login = function () {
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <div class="flex justify-between space-x-2 mt-6">
-            <x-secondary-button @click="$wire.form.email='admin@mail.com', $wire.form.password='000000', $wire.login()" class="capitalize mx-auto my-2 text-base px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md shadow-md transition-all duration-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300">
-                @lang('admin')
-            </x-secondary-button>
-            <x-secondary-button @click="$wire.form.email='user@mail.com', $wire.form.password='000000', $wire.login()" class="capitalize mx-auto my-2 text-base px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md shadow-md transition-all duration-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300">
-                @lang('user')
-            </x-secondary-button>
-        </div>
+{{--        <div class="flex justify-between space-x-2 mt-6">--}}
+{{--            <x-secondary-button @click="$wire.form.email='admin@mail.com', $wire.form.password='000000', $wire.login()" class="capitalize mx-auto my-2 text-base px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md shadow-md transition-all duration-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300">--}}
+{{--                @lang('admin')--}}
+{{--            </x-secondary-button>--}}
+{{--            <x-secondary-button @click="$wire.form.email='user@mail.com', $wire.form.password='000000', $wire.login()" class="capitalize mx-auto my-2 text-base px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md shadow-md transition-all duration-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300">--}}
+{{--                @lang('user')--}}
+{{--            </x-secondary-button>--}}
+{{--        </div>--}}
 
         <!-- Social Login -->
         <div class="flex flex-col space-y-3 mt-6">

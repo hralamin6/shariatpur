@@ -24,11 +24,17 @@
 
                     <div class="absolute top-2 right-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition">
                         @if($canManage)
-                            <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow" title="Edit" wire:click="selectHotelForEdit({{ $hotel->id }})">
-                                <i class='bx bxs-edit text-base'></i>
+                            <button type="button" class="p-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow inline-flex items-center gap-1" title="Edit" wire:click="selectHotelForEdit({{ $hotel->id }})" wire:loading.attr="disabled" wire:target="selectHotelForEdit({{ $hotel->id }})">
+                                <i class='bx bxs-edit text-base' ></i>
+                                <span class="inline-flex items-center" wire:loading wire:target="selectHotelForEdit({{ $hotel->id }})">
+                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                </span>
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow" title="Delete" wire:click="confirmDelete({{ $hotel->id }})">
+                            <button type="button" class="p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $hotel->id }})" wire:loading.attr="disabled" wire:target="confirmDelete({{ $hotel->id }})">
                                 <i class='bx bxs-trash text-base'></i>
+                                <span class="inline-flex items-center" wire:loading.delay wire:target="confirmDelete({{ $hotel->id }})">
+                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                </span>
                             </button>
                         @endif
                     </div>
@@ -74,8 +80,12 @@
                                 @else
                                     <button type="button" disabled class="w-full text-center px-4 py-2 bg-gray-200 text-gray-500 rounded-lg text-sm font-semibold cursor-not-allowed">Call</button>
                                 @endif
-                                <button type="button" class="w-full text-center px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition" wire:click="showDetails({{ $hotel->id }})">
-                                    @lang('Details')
+                                <button type="button" class="w-full text-center px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition inline-flex items-center justify-center gap-2" wire:click="showDetails({{ $hotel->id }})" wire:loading.attr="disabled" wire:target="showDetails({{ $hotel->id }})">
+                                    <span>@lang('Details')</span>
+                                    <span class="inline-flex items-center" wire:loading wire:target="showDetails({{ $hotel->id }})">
+                                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                        <span class="sr-only">Loading</span>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -91,8 +101,11 @@
 
     <!-- Floating Action Button -->
     @auth
-        <button wire:click="openHotelForm" class="fixed bottom-20 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30" aria-label="Add Hotel">
-            <i class='bx bx-plus text-3xl'></i>
+        <button wire:click="openHotelForm" class="fixed bottom-20 right-6 h-14 w-14 bg-teal-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-600 transition z-30 relative" aria-label="Add Hotel" wire:loading.attr="disabled" wire:target="openHotelForm">
+            <i class='bx bx-plus text-3xl' wire:loading.remove wire:target="openHotelForm"></i>
+            <span class="absolute inset-0 flex items-center justify-center" wire:loading.delay wire:target="openHotelForm">
+                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+            </span>
         </button>
     @endauth
     @guest
@@ -169,7 +182,13 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'hotel-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-teal-500 text-white hover:bg-teal-600 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-teal-500 text-white hover:bg-teal-600 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="createHotel,updateHotel">
+                        <span wire:loading.remove wire:target="createHotel,updateHotel">{{ $selectedId ? 'Update' : 'Save' }}</span>
+                        <span class="inline-flex items-center" wire:loading.delay wire:target="createHotel,updateHotel">
+                            <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                            <span class="sr-only">Saving</span>
+                        </span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -182,7 +201,13 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this hotel?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-hotel')">Cancel</button>
-                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow" wire:click="deleteSelectedHotel">Delete</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-2" wire:click="deleteSelectedHotel" wire:loading.attr="disabled" wire:target="deleteSelectedHotel">
+                    <span wire:loading.remove wire:target="deleteSelectedHotel">Delete</span>
+                    <span class="inline-flex items-center" wire:loading.delay wire:target="deleteSelectedHotel">
+                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                        <span class="sr-only">Deleting</span>
+                    </span>
+                </button>
             </div>
         </div>
     </x-modal>

@@ -60,15 +60,24 @@
                     </div>
 
                     <div class="flex items-center gap-1">
-                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600" title="Details" wire:click="showDetails({{ $launch->id }})">
-                            @lang('Details')
+                        <button type="button" class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200 text-xs font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex items-center gap-2" title="Details" wire:click="showDetails({{ $launch->id }})" wire:loading.attr="disabled" wire:target="showDetails({{ $launch->id }})">
+                            <span wire:loading.remove wire:target="showDetails({{ $launch->id }})">@lang('Details')</span>
+                            <span class="inline-flex items-center" wire:loading.delay wire:target="showDetails({{ $launch->id }})">
+                                <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                            </span>
                         </button>
                         @if(auth()->check() && ($launch->user_id === auth()->id() || optional(auth()->user()->role)->slug === 'admin'))
-                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors" title="Edit" wire:click="selectLaunchForEdit({{ $launch->id }})">
-                                <i class='bx bxs-edit text-lg'></i>
+                            <button type="button" class="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors inline-flex items-center gap-1" title="Edit" wire:click="selectLaunchForEdit({{ $launch->id }})" wire:loading.attr="disabled" wire:target="selectLaunchForEdit({{ $launch->id }})">
+                                <i class='bx bxs-edit text-lg' wire:loading.remove wire:target="selectLaunchForEdit({{ $launch->id }})"></i>
+                                <span class="inline-flex items-center" wire:loading.delay wire:target="selectLaunchForEdit({{ $launch->id }})">
+                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                </span>
                             </button>
-                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors" title="Delete" wire:click="confirmDelete({{ $launch->id }})">
-                                <i class='bx bxs-trash text-lg'></i>
+                            <button type="button" class="p-1.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 transition-colors inline-flex items-center gap-1" title="Delete" wire:click="confirmDelete({{ $launch->id }})" wire:loading.attr="disabled" wire:target="confirmDelete({{ $launch->id }})">
+                                <i class='bx bxs-trash text-lg' wire:loading.remove wire:target="confirmDelete({{ $launch->id }})"></i>
+                                <span class="inline-flex items-center" wire:loading.delay wire:target="confirmDelete({{ $launch->id }})">
+                                    <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                </span>
                             </button>
                         @endif
                     </div>
@@ -82,8 +91,11 @@
     </div>
 
     @auth
-        <button wire:click="openLaunchForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30" aria-label="Add Launch">
-            <i class='bx bx-plus text-3xl'></i>
+        <button wire:click="openLaunchForm" class="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition z-30 relative" aria-label="Add Launch" wire:loading.attr="disabled" wire:target="openLaunchForm">
+            <i class='bx bx-plus text-3xl' wire:loading.remove wire:target="openLaunchForm"></i>
+            <span class="absolute inset-0 flex items-center justify-center" wire:loading.delay wire:target="openLaunchForm">
+                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+            </span>
         </button>
     @endauth
     @guest
@@ -129,7 +141,7 @@
                     @error('map_one')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Google Map URL 2</label>
+                    <label class="block text_sm font-medium text-gray-700 dark:text-gray-300">Google Map URL 2</label>
                     <input type="url" wire:model.defer="map_two" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-primary focus:ring-primary" placeholder="https://maps.google.com/...">
                     @error('map_two')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                 </div>
@@ -146,7 +158,7 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Photo</label>
                     <input placeholder="image link" id="image_url" wire:model.live="image_url" type="url" class="mb-3 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-teal-500 focus:ring-teal-500" />
-                    <input type="file" wire:model="photo" accept="image/*" class="mt-1 w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-teal-500 focus:ring-teal-500" />
+                    <input type="file" wire:model="photo" accept="image/*" class="mt-1 w-full rounded_md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:border-teal-500 focus:ring-teal-500" />
                     @error('photo')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                     @error('image_url')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                     <div class="mt-2" wire:loading.remove wire:target="photo">
@@ -160,7 +172,13 @@
 
                 <div class="md:col-span-2 mt-2 flex items-center justify-end gap-3">
                     <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'launch-form')">Cancel</button>
-                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow">{{ $selectedId ? 'Update' : 'Save' }}</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="createLaunch,updateLaunch">
+                        <span wire:loading.remove wire:target="createLaunch,updateLaunch">{{ $selectedId ? 'Update' : 'Save' }}</span>
+                        <span class="inline-flex items-center" wire:loading.delay wire:target="createLaunch,updateLaunch">
+                            <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                            <span class="sr-only">Saving</span>
+                        </span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -173,7 +191,13 @@
             <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this launch?</p>
             <div class="mt-6 flex items-center justify-end gap-3">
                 <button type="button" class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" @click="$dispatch('close-modal', 'delete-launch')">Cancel</button>
-                <button type="button" wire:click="deleteSelectedLaunch" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow">Delete</button>
+                <button type="button" wire:click="deleteSelectedLaunch" class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 shadow inline-flex items-center gap-2" wire:loading.attr="disabled" wire:target="deleteSelectedLaunch">
+                    <span wire:loading.remove wire:target="deleteSelectedLaunch">Delete</span>
+                    <span class="inline-flex items-center" wire:loading.delay wire:target="deleteSelectedLaunch">
+                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                        <span class="sr-only">Deleting</span>
+                    </span>
+                </button>
             </div>
         </div>
     </x-modal>
@@ -188,7 +212,7 @@
                         @if(!empty($photo))
                             <img src="{{ $photo }}" onerror="{{getErrorImage()}}" alt="Launch photo" class="h-full w-full object-cover" />
                         @else
-                            <div class="h-full w-full bg-primary/20 flex items-center justify-center">
+                            <div class="h-full w-full bg-primary/20 flex items-center justify_center">
                                 <i class='bx bxs-ship text-4xl text-primary'></i>
                             </div>
                         @endif
@@ -219,7 +243,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                        <div class="flex items_center gap-2 text-gray-600 dark:text-gray-300">
                             <i class='bx bxs-phone-call text-primary'></i>
                             <span class="font-medium">@lang('Phone')</span>
                         </div>
