@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\NotifiesAdminsOnDelete;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Image\Enums\Fit;
@@ -12,6 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Sponsor extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
+    use NotifiesAdminsOnDelete;
 
     protected $guarded = ['id'];
 

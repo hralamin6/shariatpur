@@ -49,10 +49,10 @@ self.addEventListener('push', event => {
     const title = data.title || 'Push Notification';
     const options = {
         body: data.body || 'You have a new notification!',
-        icon: data.icon || '/images/icons/icon-192x192.png',
-        badge: data.icon || '/images/icons/icon-72x72.png',
+        icon: data.icon || '/images/icons/icon.png',
+        badge: data.icon || '/images/icons/icon.png',
         data: {
-            url: data.badge || '/app'
+            url: data.url || '/app/notifications'
         }
     };
 

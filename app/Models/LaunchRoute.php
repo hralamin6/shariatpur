@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\NotifiesAdminsOnDelete;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LaunchRoute extends Model
 {
     use HasFactory;
+    use NotifiesAdminsOnDelete;
 
     protected $guarded = ['id'];
 

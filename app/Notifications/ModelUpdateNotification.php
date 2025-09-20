@@ -57,7 +57,7 @@ class ModelUpdateNotification extends Notification implements ShouldQueue
             ->title($this->type)
 //            ->icon('https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name))
             ->icon(getUserProfileImage($this->user))
-            ->badge($this->link)
+            ->badge(getUserProfileImage($this->user))
             ->body('A ' . class_basename($this->model) . ' was '. $this->type .' by ' . $this->user->name)
             ->action('View account', 'view_account')
             ->options(['TTL' => 1000])

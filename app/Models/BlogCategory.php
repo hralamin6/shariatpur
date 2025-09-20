@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\NotifiesAdminsOnDelete;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -9,6 +10,7 @@ use Illuminate\Support\Str;
 class BlogCategory extends Model
 {
     use HasFactory;
+    use NotifiesAdminsOnDelete;
 
     protected $guarded = ['id'];
 
